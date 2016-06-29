@@ -98,6 +98,12 @@ class wp_rest_api_controller_Admin {
 		wp_localize_script( $this->plugin_name, 'rest_api_controller_localized_admin_data', array(
 			'disabled_notice' => __( 'This post type is disabled. Enable it and save the settings, to access this link.', 'wp-rest-api-controller' ),
 		) );
+
+		$screen = get_current_screen();
+		$base = ( isset( $screen->base ) ) ? $screen->base : false;
+		if ( $base && 'tools_page_rest-api-exposed-settings' === $base ) {
+			wp_enqueue_script( 'tipso.js', plugin_dir_url( __FILE__ ) . 'js/min/tipso.min.js', array( 'jquery' ), $this->version, false );
+		}
 	}
 
 	// Register the menu

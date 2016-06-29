@@ -13,6 +13,10 @@ module.exports = function(grunt) {
           'admin/js/min/wp-rest-api-controller-admin.min.js': [ // all other admin scripts
             'admin/js/wp-rest-api-controller-admin.js',
           ],
+					// admin tooltip script (tipso.js)
+          'admin/js/min/tipso.min.js': [ // all other admin scripts
+            'admin/js/tipso.js',
+          ],
         }
       }
     },
@@ -44,6 +48,7 @@ module.exports = function(grunt) {
 						'admin/css/min/wp-rest-api-controller-admin.min.css':
 						[
 							'admin/css/wp-rest-api-controller-admin.css',
+							'admin/css/tipso.css',
 						],
           }
         ]

@@ -98,8 +98,8 @@ class wp_rest_api_controller_Settings {
 					<thead>
 						<tr>
 							<th id="cb" class="manage-column column-cb check-column" scope="col">&nbsp;</th>
-							<th id="columnname" class="manage-column column-columnname" scope="col"><?php esc_attr_e( 'Meta Key', 'wp-rest-api-controller' ); ?></th>
-							<th id="columnname" class="manage-column column-columnname" scope="col"><?php esc_attr_e( 'Custom Meta Key', 'wp-rest-api-controller' ); ?></th>
+							<th id="columnname" class="manage-column column-columnname" scope="col"><?php esc_attr_e( 'Meta Key', 'wp-rest-api-controller' ); ?> <span class="top-right tipso" data-tipso-title="<?php esc_attr_e( 'Meta Key', 'wp-rest-api-controller' ); ?>" data-tipso="<?php esc_attr_e( 'This is the default meta key stored by WordPress.', 'wp-rest-api-controller' ); ?>"><span class="dashicons dashicons-editor-help"></span></span></th>
+							<th id="columnname" class="manage-column column-columnname" scope="col"><?php esc_attr_e( 'Custom Meta Key', 'wp-rest-api-controller' ); ?> <span class="top-right tipso" data-tipso-title="<?php esc_attr_e( 'Custom Meta Key', 'wp-rest-api-controller' ); ?>" data-tipso="<?php esc_attr_e( 'Specify a custom meta key to use instead of the default.', 'wp-rest-api-controller' ); ?>"><span class="dashicons dashicons-editor-help"></span></span></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -108,7 +108,13 @@ class wp_rest_api_controller_Settings {
 							foreach( $post_type_meta as $meta_key ) {
 								?>
 									<tr class="<?php echo ( $x % 2 == 0 ) ? '' : 'alternate'; ?>">
-										<th class="check-column" scope="row"><input type="checkbox" value="1"></th>
+										<th class="check-column" scope="row">
+											<label class="switch small switch-green">
+												<input name="sample" type="checkbox" class="switch-input" onchange="toggleEndpointLink(this);" value="1" <?php checked( 1, get_option( $args['option_id'], false ) );?>>
+												<span class="switch-label" data-on="<?php esc_attr_e( 'On', 'wp-rest-api-controller' ); ?>" data-off="<?php esc_attr_e( 'Off', 'wp-rest-api-controller' ); ?>"></span>
+												<span class="switch-handle"></span>
+											</label>
+										</th>
 										<td><?php echo esc_attr( $meta_key ); ?></td>
 										<td><input type="text" value="" placeholder="<?php echo esc_attr( $meta_key ); ?>"></td>
 									</tr>

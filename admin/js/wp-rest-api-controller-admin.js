@@ -29,6 +29,21 @@
 	 * practising this, we should strive to set a better example in our own work.
 	 */
 	jQuery( document ).ready( function() {
+		// Check for tooltips, and initialize if they are present
+		if ( jQuery( '.tipso' ).length > 0 ) {
+			jQuery( '.tipso' ).each( function() {
+				var title = jQuery( this ).attr( 'tipso-title' );
+				jQuery( this ).tipso({
+					speed             : 400,
+					background        : '#222222',
+					titleBackground   : 'tomato',
+					color             : '#ffffff',
+					titleColor        : '#ffffff',
+					titleContent      : title
+				});
+			});
+		}
+		// Clicking a disabled link does nothing
 		jQuery( 'body' ).on( 'click', '.endpoint-link[disabled="disabled"]', function() {
 			alert( rest_api_controller_localized_admin_data.disabled_notice );
 			return false;
