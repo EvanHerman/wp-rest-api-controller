@@ -1,6 +1,6 @@
 {
   "name": "rest-api-exposed",
-	"title": "REST API Exposed by YIKES, Inc., Evan Herman",
+	"title": "WP REST API Controller by YIKES, Inc., Evan Herman",
   "version": "1.0.0",
   "description": "This plugin enables a UI to enable endpoints in the REST API.",
   "main": "index.js",

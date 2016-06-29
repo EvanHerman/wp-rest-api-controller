@@ -28,5 +28,23 @@
 	 * Although scripts in the WordPress core, Plugins and Themes may be
 	 * practising this, we should strive to set a better example in our own work.
 	 */
-
+	jQuery( document ).ready( function() {
+		jQuery( 'body' ).on( 'click', '.endpoint-link[disabled="disabled"]', function() {
+			alert( rest_api_controller_localized_admin_data.disabled_notice );
+			return false;
+		});
+	});
 })( jQuery );
+
+/**
+ * Toggle the end point link disabled attributes
+ * @param  mixed checkbox The HTML checkbox that was clicked (passed in using 'this')
+ * @return null
+ */
+function toggleEndpointLink( checkbox ) {
+	if ( jQuery( checkbox ).is( ':checked' ) ) {
+		jQuery( checkbox ).parents( 'td' ).find( '.endpoint-link' ).removeAttr( 'disabled' );
+	} else {
+		jQuery( checkbox ).parents( 'td' ).find( '.endpoint-link' ).attr( 'disabled', 'disabled' );
+	}
+}

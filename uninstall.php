@@ -22,7 +22,7 @@
  * @link       https://www.yikesinc.com
  * @since      1.0.0
  *
- * @package    rest_api_exposed
+ * @package    wp_rest_api_controller
  */
 
 // If uninstall not called from WordPress, then exit.

@@ -10,12 +10,8 @@ module.exports = function(grunt) {
       dist: {
         files: {
           // admin scripts
-          'admin/js/min/rest-api-exposed-admin.min.js': [ // all other admin scripts
-            'admin/js/rest-api-exposed-admin.js',
-          ],
-					// public scripts
-          'public/js/min/rest-api-exposed-public.min.js': [ // all other admin scripts
-            'public/js/rest-api-exposed-public.js',
+          'admin/js/min/wp-rest-api-controller-admin.min.js': [ // all other admin scripts
+            'admin/js/wp-rest-api-controller-admin.js',
           ],
         }
       }
@@ -32,7 +28,7 @@ module.exports = function(grunt) {
         ]
       },
       dist: {
-        src: ['admin/css/*.css', 'public/css/*.css']
+        src: ['admin/css/*.css']
       }
     },
     auto_install: {
@@ -45,16 +41,9 @@ module.exports = function(grunt) {
         files: [
           // admin css files
           {
-						'admin/css/min/rest-api-exposed-admin.min.css':
+						'admin/css/min/wp-rest-api-controller-admin.min.css':
 						[
-							'admin/css/rest-api-exposed-admin.css',
-						],
-          },
-					// public css files
-          {
-						'public/css/min/rest-api-exposed-public.min.css':
-						[
-							'public/css/rest-api-exposed-public.css',
+							'admin/css/wp-rest-api-controller-admin.css',
 						],
           }
         ]
@@ -78,10 +67,8 @@ module.exports = function(grunt) {
 	      },
 	      files: {
 	        src: [
-						'admin/css/min/rest-api-exposed-admin.min.css',
-						'admin/js/min/rest-api-exposed-admin.min.js',
-						'public/css/min/rest-api-exposed-public.min.css',
-						'public/js/min/rest-api-exposed-public.min.js',
+						'admin/css/min/wp-rest-api-controller-admin.min.css',
+						'admin/js/min/wp-rest-api-controller-admin.min.js',
 					]
 	      }
 	    }
@@ -89,14 +76,6 @@ module.exports = function(grunt) {
 
     // watch our project for changes
     watch: {
-      public_css: { // public css
-        files: 'public/css/*.css',
-        tasks: ['cssmin', 'usebanner'],
-        options: {
-          spawn: false,
-          event: ['all']
-        },
-      },
 			admin_css: { // admin css
         files: 'admin/css/*.css',
         tasks: ['cssmin', 'usebanner'],
@@ -105,14 +84,6 @@ module.exports = function(grunt) {
           event: ['all']
         },
       },
-			public_js: { // public js
-			 files: 'public/js/*.js',
-			 tasks: ['uglify', 'usebanner'],
-			 options: {
-				 spawn: false,
-				 event: ['all']
-			 },
-		 },
 		 admin_js: { // admin js
 			files: 'admin/js/*.js',
 			tasks: ['uglify', 'usebanner'],

@@ -1,6 +1,6 @@
-=== REST API Exposed === 
+=== WP REST API Controller ===
 Contributors: yikesinc, eherman24
-Tags: rest, api, endpoint, exposed, yikes, inc
+Tags: rest, api, endpoint, controller, toggle, endpoints, rest_base, rest_name, REST API, yikes, inc
 Requires at least: 4.4
 Tested up to: 4.5.3
 Stable tag: 1.0.0

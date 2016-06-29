@@ -21,7 +21,7 @@
  * @subpackage plugin-boilerplate/includes
  * @author     YIKES, Inc., Evan Herman
  */
-class rest_api_exposed_Loader {
+class wp_rest_api_controller_Loader {
 
 	/**
 	 * The array of actions registered with WordPress.

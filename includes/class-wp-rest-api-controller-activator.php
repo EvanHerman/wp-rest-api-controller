@@ -6,8 +6,8 @@
  * @link       https://www.yikesinc.com
  * @since      1.0.0
  *
- * @package    rest_api_exposed
- * @subpackage rest_api_exposed/includes
+ * @package    wp_rest_api_controller
+ * @subpackage wp_rest_api_controller/includes
  */
 
 /**
@@ -16,11 +16,11 @@
  * This class defines all code necessary to run during the plugin's activation.
  *
  * @since      1.0.0
- * @package    rest_api_exposed
- * @subpackage rest_api_exposed/includes
+ * @package    wp_rest_api_controller
+ * @subpackage wp_rest_api_controller/includes
  * @author     YIKES, Inc., Evan Herman
  */
-class rest_api_exposed_Activator {
+class wp_rest_api_controller_Activator {
 
 	/**
 	 * Short Description. (use period)

@@ -24,7 +24,7 @@
  * @subpackage plugin-boilerplate/includes
  * @author     YIKES, Inc., Evan Herman
  */
-class rest_api_exposed_i18n {
+class wp_rest_api_controller_i18n {
 
 
 	/**
@@ -35,7 +35,7 @@ class rest_api_exposed_i18n {
 	public function load_plugin_textdomain() {
 
 		load_plugin_textdomain(
-			'rest-api-exposed',
+			'wp-rest-api-controller',
 			false,
 			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
 		);

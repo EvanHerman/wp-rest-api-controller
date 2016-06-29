@@ -20,7 +20,7 @@
  * @subpackage plugin-boilerplate/includes
  * @author     YIKES, Inc., Evan Herman
  */
-class rest_api_exposed_Deactivator {
+class wp_rest_api_controller_Deactivator {
 
 	/**
 	 * Short Description. (use period)
