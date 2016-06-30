@@ -57,9 +57,12 @@
  * @return null
  */
 function toggleEndpointLink( checkbox ) {
+	// checked state
 	if ( jQuery( checkbox ).is( ':checked' ) ) {
 		jQuery( checkbox ).parents( 'td' ).find( '.endpoint-link' ).removeAttr( 'disabled' );
-	} else {
+	} else { // unchecked state
 		jQuery( checkbox ).parents( 'td' ).find( '.endpoint-link' ).attr( 'disabled', 'disabled' );
 	}
+	// Toggle the visibility of the metadata fields
+	jQuery( checkbox ).parents( 'td' ).find( '.post-type-meta-data' ).fadeToggle();
 }

@@ -82,41 +82,51 @@ class wp_rest_api_controller_Settings {
 		} else {
 			$singular_name = $args['post_type_name'];
 		}
-		$disabled_attr = ( 1 === absint( get_option( $args['option_id'], false ) ) ) ? '' : 'disabled=disabled';
+		$options = get_option( $args['option_id'], array(
+			'active' => 0,
+			'meta_data' => array(),
+		) );
+		$disabled_attr = ( isset( $options['active'] ) && 1 === absint( $options['active'] ) ) ? '' : 'disabled=disabled';
+		$active_state = ( isset( $options['active'] ) ) ? true : false;
 		$post_type_meta = $this->retreive_post_type_meta_keys( $args['post_type_slug'] );
 		?>
 		<!-- Display the checkboxes/descriptions -->
 		<label class="switch switch-green">
-			<input name="<?php echo esc_attr( $args['option_id'] ); ?>" type="checkbox" class="switch-input" onchange="toggleEndpointLink(this);" value="1" <?php checked( 1, get_option( $args['option_id'], false ) );?>>
+			<input name="<?php echo esc_attr( $args['option_id'] ); ?>[active]" type="checkbox" class="switch-input" onchange="toggleEndpointLink(this);" value="1" <?php checked( 1, $active_state );?>>
 			<span class="switch-label" data-on="<?php esc_attr_e( 'Enabled', 'wp-rest-api-controller' ); ?>" data-off="<?php esc_attr_e( 'Disabled', 'wp-rest-api-controller' ); ?>"></span>
 			<span class="switch-handle"></span>
 		</label>
 		<!-- Only if post type meta is assigned here -->
 		<?php if ( $post_type_meta && ! empty( $post_type_meta ) ) { ?>
-			<section class="post-type-meta-data">
+			<section class="post-type-meta-data<?php if ( 1 !== absint( get_option( $args['option_id'], false ) ) ) { echo ' hidden-container'; } ?>">
 				<table class="widefat fixed rest-api-controller-meta-data-table" cellspacing="0">
 					<thead>
 						<tr>
 							<th id="cb" class="manage-column column-cb check-column" scope="col">&nbsp;</th>
-							<th id="columnname" class="manage-column column-columnname" scope="col"><?php esc_attr_e( 'Meta Key', 'wp-rest-api-controller' ); ?> <span class="top-right tipso" data-tipso-title="<?php esc_attr_e( 'Meta Key', 'wp-rest-api-controller' ); ?>" data-tipso="<?php esc_attr_e( 'This is the default meta key stored by WordPress.', 'wp-rest-api-controller' ); ?>"><span class="dashicons dashicons-editor-help"></span></span></th>
-							<th id="columnname" class="manage-column column-columnname" scope="col"><?php esc_attr_e( 'Custom Meta Key', 'wp-rest-api-controller' ); ?> <span class="top-right tipso" data-tipso-title="<?php esc_attr_e( 'Custom Meta Key', 'wp-rest-api-controller' ); ?>" data-tipso="<?php esc_attr_e( 'Specify a custom meta key to use instead of the default.', 'wp-rest-api-controller' ); ?>"><span class="dashicons dashicons-editor-help"></span></span></th>
+							<th id="columnname" class="manage-column column-columnname" scope="col"><span class="top-right tipso" data-tipso-title="<?php esc_attr_e( 'Meta Key', 'wp-rest-api-controller' ); ?>" data-tipso="<?php esc_attr_e( 'This is the default meta key stored by WordPress.', 'wp-rest-api-controller' ); ?>"><?php esc_attr_e( 'Meta Key', 'wp-rest-api-controller' ); ?></span></th>
+							<th id="columnname" class="manage-column column-columnname" scope="col"><span class="top-right tipso" data-tipso-title="<?php esc_attr_e( 'Custom Meta Key', 'wp-rest-api-controller' ); ?>" data-tipso="<?php esc_attr_e( 'Specify a custom meta key to use instead of the default.', 'wp-rest-api-controller' ); ?>"><?php esc_attr_e( 'Custom Meta Key', 'wp-rest-api-controller' ); ?></span></th>
 						</tr>
 					</thead>
 					<tbody>
 						<?php
 							$x = 1;
 							foreach( $post_type_meta as $meta_key ) {
+								$meta_active_state = ( isset( $options['meta_data'][$meta_key]['active'] ) ) ? true : false;
+								$custom_meta_key = ( isset( $options['meta_data'][$meta_key]['custom_key'] ) ) ? $options['meta_data'][$meta_key]['custom_key'] : false;
 								?>
 									<tr class="<?php echo ( $x % 2 == 0 ) ? '' : 'alternate'; ?>">
 										<th class="check-column" scope="row">
 											<label class="switch small switch-green">
-												<input name="sample" type="checkbox" class="switch-input" onchange="toggleEndpointLink(this);" value="1" <?php checked( 1, get_option( $args['option_id'], false ) );?>>
+												<input name="<?php echo esc_attr( $args['option_id'] ); ?>[meta_data][<?php echo $meta_key; ?>][active]" type="checkbox" class="switch-input" onchange="console.log( 'Meta Data toggled' );" value="1" <?php checked( 1, $meta_active_state );?>>
 												<span class="switch-label" data-on="<?php esc_attr_e( 'On', 'wp-rest-api-controller' ); ?>" data-off="<?php esc_attr_e( 'Off', 'wp-rest-api-controller' ); ?>"></span>
 												<span class="switch-handle"></span>
 											</label>
 										</th>
 										<td><?php echo esc_attr( $meta_key ); ?></td>
-										<td><input type="text" value="" placeholder="<?php echo esc_attr( $meta_key ); ?>"></td>
+										<td>
+											<input name="<?php echo esc_attr( $args['option_id'] ); ?>[meta_data][<?php echo $meta_key; ?>][original_meta_key]" type="hidden" value="<?php echo esc_attr( $meta_key ); ?>">
+											<input name="<?php echo esc_attr( $args['option_id'] ); ?>[meta_data][<?php echo $meta_key; ?>][custom_key]" type="text" value="<?php echo esc_attr( $custom_meta_key ); ?>" placeholder="<?php echo esc_attr( $meta_key ); ?>">
+										</td>
 									</tr>
 								<?php
 								$x++;

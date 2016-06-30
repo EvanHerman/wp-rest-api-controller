@@ -79,6 +79,7 @@ class wp_rest_api_controller {
 
 		if ( $this->enabled_post_types && ! empty( $this->enabled_post_types ) ) {
 			add_action( 'init', array( $this, 'expose_api_endpoints' ), 30 );
+			add_action( 'rest_api_init', array( $this, 'append_meta_data_to_api_request' ) );
 		}
 		$this->load_dependencies();
 		$this->set_locale();
@@ -223,6 +224,27 @@ class wp_rest_api_controller {
 	}
 
 	/**
+	 * Based on the value of a custom meta key in the WP REST API array
+	 * we return the original key, so that get_post_meta() can be used properly
+	 *
+	 * @param  string $custom_meta_key_name The custom meta key defined in the options.
+	 * @return string												The original meta key to use in get_post_meta() function
+	 */
+	public function get_original_meta_key_name( $post_type_slug, $custom_meta_key_name ) {
+		$meta_options = get_option( 'wp_rest_api_controller_post_types_' . $post_type_slug, array(
+			'active' => 0,
+			'meta_data' => array(),
+		) );
+		if ( is_array( $meta_options['meta_data'] ) ) {
+			foreach ( $meta_options['meta_data'] as $key => $val ) {
+				if ( $val['custom_key'] === $custom_meta_key_name ) {
+					return $val['original_meta_key'];
+				}
+			}
+		}
+	}
+
+	/**
 	 * Expose (or disable) post types to the REST API
 	 *
 	 * @return null Expose the enabled API endpoints
@@ -247,12 +269,58 @@ class wp_rest_api_controller {
 		}
 	}
 
+	public function append_meta_data_to_api_request() {
+		$enabled_post_types = $this->enabled_post_types;
+		if ( $enabled_post_types && ! empty( $enabled_post_types ) ) {
+			foreach ( $enabled_post_types as $post_type_slug => $enabled ) {
+				if ( 'enabled' === $enabled ) {
+					$post_type_options = get_option( 'wp_rest_api_controller_post_types_' . $post_type_slug, array(
+						'active' => 0,
+						'meta_data' => array(),
+					) );
+					if ( $post_type_options['meta_data'] && ! empty( $post_type_options['meta_data'] ) ) {
+						foreach ( $post_type_options['meta_data'] as $meta_key => $meta_data ) {
+							if ( isset( $meta_data['active'] ) && 1 === absint( $meta_data['active'] ) ) {
+								$rest_api_meta_name = ( isset( $meta_data['custom_key'] ) && ! empty( $meta_data['custom_key'] ) ) ? $meta_data['custom_key'] : $meta_key;
+								register_rest_field( $post_type_slug,
+									str_replace( '-', '_', sanitize_title( $rest_api_meta_name ) ), // remove spaces, replace '-' with '_'
+									array(
+										'get_callback'    => array( $this, 'custom_meta_data_callback' ),
+										'update_callback' => null,
+										'schema'          => null,
+									)
+								);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Callback function to append our metadata value to the field
+	 * @param  array   $object      Post object
+	 * @param  string  $field_name  Field name.
+	 * @param  array   $request     API request.
+	 * @return string               The original meta key name to use in get_post_meta();
+	 */
+	function custom_meta_data_callback( $object, $field_name, $request ) {
+		$original_meta_key_name = $this->get_original_meta_key_name( $object['type'], $field_name );
+	 	return get_post_meta( $object['id'], $original_meta_key_name, true );
+	}
+
 	/**
 	 * Get the rest base for a given post type
 	 * @param  string $post_type_slug Slug of the post type to return.
 	 * @return string                 REST API base name.
 	 */
 	public function get_post_type_rest_base( $post_type_slug ) {
+		// Store options for custom REST base name
+		$post_type_options = $options = get_option( 'wp_rest_api_controller_post_types_' . $post_type_slug, array(
+			'active' => 0,
+			'meta_data' => array(),
+		) );
 		// Re-set the default 'post'/'page' rest base values
 		switch ( $post_type_slug ) {
 			case 'post':
@@ -265,6 +333,6 @@ class wp_rest_api_controller {
 				$rest_base = $post_type_slug;
 				break;
 		}
-		return apply_filters( 'wp_rest_api_controller_rest_base', $rest_base, $post_type_slugg );
+		return apply_filters( 'wp_rest_api_controller_rest_base', $rest_base, $post_type_slug );
 	}
 }
