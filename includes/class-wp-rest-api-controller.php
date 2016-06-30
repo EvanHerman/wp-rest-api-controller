@@ -84,6 +84,8 @@ class wp_rest_api_controller {
 		$this->load_dependencies();
 		$this->set_locale();
 		$this->define_admin_hooks();
+
+		add_filter( 'wp_rest_api_controller_rest_base', array( $this, 'wp_rest_api_controller_apply_custom_rest_base' ) );
 	}
 
 	/**
@@ -213,7 +215,8 @@ class wp_rest_api_controller {
 		$post_types_array = array();
 		// Loop over and check and push to our array
 		foreach ( $stored_post_types as $post_type_slug ) {
-			if ( 0 !== absint( get_option( 'wp_rest_api_controller_post_types_' . $post_type_slug, 0 ) ) ) {
+			$post_type_options = get_option( 'wp_rest_api_controller_post_types_' . $post_type_slug, 0 );
+			if ( $post_type_options && ( isset( $post_type_options['active'] ) && $post_type_options['active'] ) ) {
 				$post_types_array[ $post_type_slug ] = 'enabled';
 			} else {
 				$post_types_array[ $post_type_slug ] = 'disabled';
@@ -238,6 +241,8 @@ class wp_rest_api_controller {
 		if ( is_array( $meta_options['meta_data'] ) ) {
 			foreach ( $meta_options['meta_data'] as $key => $val ) {
 				if ( $val['custom_key'] === $custom_meta_key_name ) {
+					return $val['original_meta_key'];
+				} else {
 					return $val['original_meta_key'];
 				}
 			}
@@ -309,6 +314,17 @@ class wp_rest_api_controller {
 		$original_meta_key_name = $this->get_original_meta_key_name( $object['type'], $field_name );
 	 	return get_post_meta( $object['id'], $original_meta_key_name, true );
 	}
+
+	/**
+	 * Filter the rest bases for our custom post types (this is used to override defaults with our options)
+	 *
+	 * @return string New rest base to use for the custom post type, pulled from the settings page.
+	 * @since 1.0.0
+	 */
+	public function wp_rest_api_controller_apply_custom_rest_base() {
+
+	}
+
 
 	/**
 	 * Get the rest base for a given post type

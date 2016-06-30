@@ -101,7 +101,7 @@ class wp_rest_api_controller_Admin {
 
 		$screen = get_current_screen();
 		$base = ( isset( $screen->base ) ) ? $screen->base : false;
-		if ( $base && 'tools_page_rest-api-exposed-settings' === $base ) {
+		if ( $base && 'tools_page_wp-rest-api-controller-settings' === $base ) {
 			wp_enqueue_script( 'tipso.js', plugin_dir_url( __FILE__ ) . 'js/min/tipso.min.js', array( 'jquery' ), $this->version, false );
 		}
 	}
@@ -113,7 +113,7 @@ class wp_rest_api_controller_Admin {
 			__( 'WP REST API Controller', 'wp-rest-api-controller' ),
 			__( 'REST API Controller', 'wp-rest-api-controller' ),
 			'manage_options',
-			'rest-api-exposed-settings',
+			'wp-rest-api-controller-settings',
 			array( $this, 'wp_rest_api_controller_submenu_page_callback' )
 		);
 	}

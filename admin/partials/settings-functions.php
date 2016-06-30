@@ -86,8 +86,8 @@ class wp_rest_api_controller_Settings {
 			'active' => 0,
 			'meta_data' => array(),
 		) );
-		$disabled_attr = ( isset( $options['active'] ) && 1 === absint( $options['active'] ) ) ? '' : 'disabled=disabled';
-		$active_state = ( isset( $options['active'] ) ) ? true : false;
+		$active_state = ( isset( $options['active'] ) && 1 === absint( $options['active'] ) ) ? true : false;
+		$disabled_attr = ( $active_state ) ? '' : 'disabled=disabled';
 		$post_type_meta = $this->retreive_post_type_meta_keys( $args['post_type_slug'] );
 		?>
 		<!-- Display the checkboxes/descriptions -->
@@ -96,9 +96,14 @@ class wp_rest_api_controller_Settings {
 			<span class="switch-label" data-on="<?php esc_attr_e( 'Enabled', 'wp-rest-api-controller' ); ?>" data-off="<?php esc_attr_e( 'Disabled', 'wp-rest-api-controller' ); ?>"></span>
 			<span class="switch-handle"></span>
 		</label>
+		<!-- Custom Post Type Override Slug (eg: posts -> blog_posts) -->
+		<label>
+			<?php esc_attr_e( '', 'wp-rest-api-controller' ); ?>
+			<input type="text">
+		</label>
 		<!-- Only if post type meta is assigned here -->
 		<?php if ( $post_type_meta && ! empty( $post_type_meta ) ) { ?>
-			<section class="post-type-meta-data<?php if ( 1 !== absint( get_option( $args['option_id'], false ) ) ) { echo ' hidden-container'; } ?>">
+			<section class="post-type-meta-data<?php if ( ! $active_state ) { echo ' hidden-container'; } ?>">
 				<table class="widefat fixed rest-api-controller-meta-data-table" cellspacing="0">
 					<thead>
 						<tr>
@@ -154,24 +159,28 @@ class wp_rest_api_controller_Settings {
 	 * @return array 						 The array of meta data for the given post type.
 	 */
 	public function retreive_post_type_meta_keys( $post_type ) {
-		delete_transient( $post_type . '_meta_keys' );
 		// if transient is already set, abort
-		if ( get_transient( $post_type . '_meta_keys' ) ) {
-			return get_transient( $post_type . '_meta_keys' );
+		if ( WP_DEBUG ) {
+			if ( get_transient( $post_type . '_meta_keys' ) ) {
+				return get_transient( $post_type . '_meta_keys' );
+			}
 		}
-		global $wpdb;
-		$query = "
-			SELECT DISTINCT($wpdb->postmeta.meta_key)
-			FROM $wpdb->posts
-			LEFT JOIN $wpdb->postmeta
-			ON $wpdb->posts.ID = $wpdb->postmeta.post_id
-			WHERE $wpdb->posts.post_type = '%s'
-			AND $wpdb->postmeta.meta_key != ''
-			AND $wpdb->postmeta.meta_key NOT RegExp '(^[_0-9].+$)'
-			AND $wpdb->postmeta.meta_key NOT RegExp '(^[0-9]+$)'
-		";
-		$meta_keys = $wpdb->get_col( $wpdb->prepare( $query, $post_type ) );
-		set_transient( $post_type . '_meta_keys', $meta_keys, 60*60*24 ); # create 1 Day Expiration
+		if ( WP_DEBUG || false === ( $meta_keys = get_transient( $post_type . '_meta_keys' ) ) ) {
+			// It wasn't there, so regenerate the data and save the transient
+			global $wpdb;
+			$query = "
+				SELECT DISTINCT($wpdb->postmeta.meta_key)
+				FROM $wpdb->posts
+				LEFT JOIN $wpdb->postmeta
+				ON $wpdb->posts.ID = $wpdb->postmeta.post_id
+				WHERE $wpdb->posts.post_type = '%s'
+				AND $wpdb->postmeta.meta_key != ''
+				AND $wpdb->postmeta.meta_key NOT RegExp '(^[_0-9].+$)'
+				AND $wpdb->postmeta.meta_key NOT RegExp '(^[0-9]+$)'
+			";
+			$meta_keys = $wpdb->get_col( $wpdb->prepare( $query, $post_type ) );
+			set_transient( $post_type . '_meta_keys', $meta_keys, 60 * 60 * 24 ); # create 1 Day Expiration
+		}
 		return $meta_keys;
 	}
 }
