@@ -154,6 +154,7 @@ class wp_rest_api_controller_Settings {
 	 * @return array 						 The array of meta data for the given post type.
 	 */
 	public function retreive_post_type_meta_keys( $post_type ) {
+		delete_transient( $post_type . '_meta_keys' );
 		// if transient is already set, abort
 		if ( get_transient( $post_type . '_meta_keys' ) ) {
 			return get_transient( $post_type . '_meta_keys' );
