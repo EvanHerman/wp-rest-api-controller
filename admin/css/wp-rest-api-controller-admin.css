@@ -15,11 +15,27 @@
 	padding: 18px 0 0 3px !important;
 }
 
+.edit-endpoint-secondary-btn {
+	height: 25px !important;
+	font-size: x-small !important;
+	margin-left: 5px !important;
+}
+
 .post-type-meta-data {
 	margin-bottom: 1em;
 }
 
-.post-type-meta-data.hidden-container {
+.rest-api-endpoint-container {
+	display: block;
+	margin-bottom: 20px;
+}
+
+.edit-rest-permalink-icon {
+	margin-right: 8px;
+}
+
+.post-type-meta-data.hidden-container,
+.rest-api-endpoint-container.hidden-container {
 	display: none;
 }
 

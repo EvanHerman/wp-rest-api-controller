@@ -96,11 +96,24 @@ class wp_rest_api_controller_Settings {
 			<span class="switch-label" data-on="<?php esc_attr_e( 'Enabled', 'wp-rest-api-controller' ); ?>" data-off="<?php esc_attr_e( 'Disabled', 'wp-rest-api-controller' ); ?>"></span>
 			<span class="switch-handle"></span>
 		</label>
-		<!-- Custom Post Type Override Slug (eg: posts -> blog_posts) -->
-		<label>
-			<?php esc_attr_e( '', 'wp-rest-api-controller' ); ?>
-			<input type="text">
-		</label>
+
+		<section class="rest-api-endpoint-container<?php if ( ! $active_state ) { echo ' hidden-container'; } ?>">
+			<!-- API Endpoint Example -->
+			<p class="description">
+				<small class="edit-post-type-rest-base-disabled">
+					<?php printf( esc_attr__( '%s', 'wp-rest-api-controller' ), '<span class="top-right tipso edit-rest-permalink-icon" data-tipso-title="' . __( 'Meta Key', 'wp-rest-api-controller' ) . '" data-tipso="' . sprintf( __( 'Access the %s post type via the REST API at the following URL.', 'wp-rest-api-controller' ), $singular_name ) . '"><span class="dashicons dashicons-editor-help"></span></span><a class="endpoint-link" ' . esc_attr( $disabled_attr ) . ' href="' . esc_url( $this->rest_endpoint_base . $rest_base ) . '" target="_blank">' . esc_url( $this->rest_endpoint_base . $rest_base ) ); ?></a>
+					<a href="#" onclick="toggleRestBaseVisbility(this);" class="button-secondary edit-endpoint edit-endpoint-secondary-btn" class=""><?php _e( 'Edit Endpoint', 'wp-rest-api-controller' ); ?></a>
+				</small>
+				<small class="edit-post-type-rest-base-active" style="display:none;">
+					<?php echo esc_url( $this->rest_endpoint_base ); ?>
+					<input type="text" onchange="toggleRestBaseInput(this);" data-rest-base="<?php echo esc_url( $this->rest_endpoint_base ); ?>" name="<?php echo esc_attr( $args['option_id'] ); ?>[rest_base]" value="<?php echo esc_attr( $rest_base ); ?>">
+					<a href="#" onclick="toggleRestBaseVisbility(this);" class="button-secondary save-endpoint edit-endpoint-secondary-btn" class=""><?php _e( 'Save New Endpoint', 'wp-rest-api-controller' ); ?></a>
+				</small>
+				<input type="hidden" name="<?php echo esc_attr( $args['option_id'] ); ?>[rest_base]" value="<?php echo esc_attr( $rest_base ); ?>">
+			</p>
+			<!-- End API Endpoint Example -->
+		</section>
+
 		<!-- Only if post type meta is assigned here -->
 		<?php if ( $post_type_meta && ! empty( $post_type_meta ) ) { ?>
 			<section class="post-type-meta-data<?php if ( ! $active_state ) { echo ' hidden-container'; } ?>">
@@ -143,10 +156,6 @@ class wp_rest_api_controller_Settings {
 		<?php } ?>
 		<!-- Description -->
 		<p class="description"><?php printf( esc_attr__( 'Expose the %s post type to the REST API.', 'wp-rest-api-controller' ), '<code>' . esc_attr( $singular_name ) . '</code>' ); ?></p>
-		<!-- API Endpoint Example -->
-		<p class="description"><small>
-			<?php printf( esc_attr__( '%s', 'wp-rest-api-controller' ), '<a class="endpoint-link" ' . esc_attr( $disabled_attr ) . ' href="' . esc_url( $this->rest_endpoint_base . $rest_base ) . '" target="_blank">' . esc_attr__( 'View Endpoint', 'wp-rest-api-controller' ) . '</code>' ); ?>
-		</small></p>
 		<?php
 	}
 

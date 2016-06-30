@@ -85,7 +85,7 @@ class wp_rest_api_controller {
 		$this->set_locale();
 		$this->define_admin_hooks();
 
-		add_filter( 'wp_rest_api_controller_rest_base', array( $this, 'wp_rest_api_controller_apply_custom_rest_base' ) );
+		add_filter( 'wp_rest_api_controller_rest_base', array( $this, 'wp_rest_api_controller_apply_custom_rest_base' ), 10, 2 );
 	}
 
 	/**
@@ -321,8 +321,8 @@ class wp_rest_api_controller {
 	 * @return string New rest base to use for the custom post type, pulled from the settings page.
 	 * @since 1.0.0
 	 */
-	public function wp_rest_api_controller_apply_custom_rest_base() {
-
+	public function wp_rest_api_controller_apply_custom_rest_base( $rest_base, $post_type_slug ) {
+		return $post_type_slug;
 	}
 
 

@@ -53,6 +53,7 @@
 
 /**
  * Toggle the end point link disabled attributes
+ *
  * @param  mixed checkbox The HTML checkbox that was clicked (passed in using 'this')
  * @return null
  */
@@ -65,4 +66,39 @@ function toggleEndpointLink( checkbox ) {
 	}
 	// Toggle the visibility of the metadata fields
 	jQuery( checkbox ).parents( 'td' ).find( '.post-type-meta-data' ).fadeToggle();
+	jQuery( checkbox ).parents( 'td' ).find( '.rest-api-endpoint-container' ).fadeToggle();
+}
+
+/**
+ * Toggle the visibility of the rest base input field and associated 'permalink'
+ *
+ * @param  mixed HTML element of the clicked button
+ * @return null
+ */
+function toggleRestBaseVisbility( clicked_button ) {
+	if ( jQuery( clicked_button ).hasClass( 'save-endpoint' ) ) {
+		jQuery( '.edit-post-type-rest-base-active' ).fadeTo( 'fast', 0, function() {
+			jQuery( this ).hide();
+			jQuery( '.edit-post-type-rest-base-disabled' ).fadeTo( 'fast', 1 );
+		});
+	} else {
+		jQuery( '.edit-post-type-rest-base-disabled' ).fadeTo( 'fast', 0, function() {
+			jQuery( this ).hide();
+			jQuery( '.edit-post-type-rest-base-active' ).fadeTo( 'fast', 1 );
+		});
+	}
+}
+
+/**
+ * Populate the new reset base with the slug for this post type
+ *
+ * @param  mixed HTML value input for the new rest base
+ * @return null
+ * @since 1.0.0
+ */
+function toggleRestBaseInput( input_field ) {
+	var new_text = jQuery( input_field ).val();
+	var rest_base = jQuery( input_field ).data( 'rest-base' );
+	// re-populate the permalink style link -- not working
+	// jQuery( '.endpoint-link' ).attr( 'href', rest_base ).text( rest_base );
 }
