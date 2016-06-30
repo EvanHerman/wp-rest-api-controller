@@ -4,7 +4,7 @@ Control post type exposure to the REST API. Say goodbye to manually enabling/dis
 
 <strong>Settings Page:</strong>
 
-![WP REST API Controller Settings Page](https://cldup.com/gz6Ljvv22z.png)
+![WP REST API Controller Settings Page](https://cldup.com/1afiYzXUwC.png)
 
 <strong>Important: This plugin requires the [WP REST API (Version 2)](https://wordpress.org/plugins/rest-api/) to be installed. Previous versions will not work properly as the API endpoints differ.</strong>
 
