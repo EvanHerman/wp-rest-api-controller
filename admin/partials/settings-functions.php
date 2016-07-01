@@ -109,7 +109,8 @@ class wp_rest_api_controller_Settings {
 					<input type="text" onchange="toggleRestBaseInput(this);" data-rest-base="<?php echo esc_url( $this->rest_endpoint_base ); ?>" name="<?php echo esc_attr( $args['option_id'] ); ?>[rest_base]" value="<?php echo esc_attr( $rest_base ); ?>">
 					<a href="#" onclick="toggleRestBaseVisbility(this);" class="button-secondary save-endpoint edit-endpoint-secondary-btn" class=""><?php _e( 'Save New Endpoint', 'wp-rest-api-controller' ); ?></a>
 				</small>
-				<input type="hidden" name="<?php echo esc_attr( $args['option_id'] ); ?>[rest_base]" value="<?php echo esc_attr( $rest_base ); ?>">
+				<!-- New rest base -->
+				<input type="hidden" class="rest-base-hidden-input" name="<?php echo esc_attr( $args['option_id'] ); ?>[rest_base]" value="<?php echo esc_attr( $rest_base ); ?>">
 			</p>
 			<!-- End API Endpoint Example -->
 		</section>

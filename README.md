@@ -1,10 +1,17 @@
 ## WP REST API Controller by YIKES, Inc., Evan Herman
 
-Control post type exposure to the REST API. Say goodbye to manually enabling/disabling rest API endpoints by code, now you can use our dashboard interface to control exposure of your post types to the WP REST API.
+Control post type and associated meta data exposure to the REST API. Say goodbye to manually enabling/disabling rest API endpoints via code, now you can use our dashboard interface to control exposure of your post types to the WP REST API.
 
-<strong>Settings Page:</strong>
+**Features:**
+* Enable/Disable custom post type REST API endpoints
+* Enable/Disable custom post type meta data (add or remove meta fields from API requests)
+* Rename custom post type base endpoints (eg: change the posts API endpoints to `/announcements/`, and access it at `/wp-json/wp/v2/announcements`)
+* Rename meta data models in API requests, so they are more user friendly.
+* Manipulate and control post types and data created by third party plugins and themes.
 
-![WP REST API Controller Settings Page](https://cldup.com/1afiYzXUwC.png)
+<strong>WP REST API Controller Settings:</strong>
+
+![WP REST API Controller Settings Page](https://cldup.com/DVYcj6g3RO.png)
 
 <strong>Important: This plugin requires the [WP REST API (Version 2)](https://wordpress.org/plugins/rest-api/) to be installed. Previous versions will not work properly as the API endpoints differ.</strong>
 
@@ -18,4 +25,5 @@ The child theme is not required for this plugin to function properly, and can (<
 
 ##### Filters
 
-`wp_rest_api_controller_rest_base`
+* `wp_rest_api_controller_rest_base`
+* `wp_rest_api_controller_post_types` (***Note: Revisions and nav menu items are not currently controllable with this plugin***)

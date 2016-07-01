@@ -76,15 +76,16 @@ function toggleEndpointLink( checkbox ) {
  * @return null
  */
 function toggleRestBaseVisbility( clicked_button ) {
+	var parent_container = jQuery( clicked_button ).parents( 'td' );
 	if ( jQuery( clicked_button ).hasClass( 'save-endpoint' ) ) {
-		jQuery( '.edit-post-type-rest-base-active' ).fadeTo( 'fast', 0, function() {
+		parent_container.find( '.edit-post-type-rest-base-active' ).fadeTo( 'fast', 0, function() {
 			jQuery( this ).hide();
-			jQuery( '.edit-post-type-rest-base-disabled' ).fadeTo( 'fast', 1 );
+			parent_container.find( '.edit-post-type-rest-base-disabled' ).fadeTo( 'fast', 1 );
 		});
 	} else {
-		jQuery( '.edit-post-type-rest-base-disabled' ).fadeTo( 'fast', 0, function() {
+		parent_container.find( '.edit-post-type-rest-base-disabled' ).fadeTo( 'fast', 0, function() {
 			jQuery( this ).hide();
-			jQuery( '.edit-post-type-rest-base-active' ).fadeTo( 'fast', 1 );
+			parent_container.find( '.edit-post-type-rest-base-active' ).fadeTo( 'fast', 1 );
 		});
 	}
 }
@@ -97,8 +98,18 @@ function toggleRestBaseVisbility( clicked_button ) {
  * @since 1.0.0
  */
 function toggleRestBaseInput( input_field ) {
+	var parent_container = jQuery( input_field ).parents( 'td' );
 	var new_text = jQuery( input_field ).val();
 	var rest_base = jQuery( input_field ).data( 'rest-base' );
+	/* If left empty, fallback */
+	if ( '' === new_text ) {
+		var original_rest_base = parent_container.find( '.rest-base-hidden-input' ).val();
+		jQuery( input_field ).val( original_rest_base );
+		parent_container.find( '.endpoint-link' ).attr( 'href', rest_base + original_rest_base ).text( rest_base + original_rest_base );
+		return;
+	}
+	var new_endpoint_url = rest_base + new_text;
 	// re-populate the permalink style link -- not working
-	// jQuery( '.endpoint-link' ).attr( 'href', rest_base ).text( rest_base );
+	parent_container.find( '.endpoint-link' ).attr( 'href', new_endpoint_url ).text( new_endpoint_url );
+	parent_container.find( '.rest-base-hidden-input' ).val( new_text );
 }
