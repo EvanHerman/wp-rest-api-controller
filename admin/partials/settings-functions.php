@@ -101,14 +101,21 @@ class wp_rest_api_controller_Settings {
 			<!-- API Endpoint Example -->
 			<p class="description">
 				<small class="edit-post-type-rest-base-disabled">
-					<?php printf( esc_attr__( '%s', 'wp-rest-api-controller' ), '<span class="top-right tipso edit-rest-permalink-icon" data-tipso-title="' . __( 'Meta Key', 'wp-rest-api-controller' ) . '" data-tipso="' . sprintf( __( 'Access the %s post type via the REST API at the following URL.', 'wp-rest-api-controller' ), $singular_name ) . '"><span class="dashicons dashicons-editor-help"></span></span><a class="endpoint-link" ' . esc_attr( $disabled_attr ) . ' href="' . esc_url( $this->rest_endpoint_base . $rest_base ) . '" target="_blank">' . esc_url( $this->rest_endpoint_base . $rest_base ) ); ?></a>
-					<a href="#" onclick="toggleRestBaseVisbility(this);" class="button-secondary edit-endpoint edit-endpoint-secondary-btn" class=""><?php _e( 'Edit Endpoint', 'wp-rest-api-controller' ); ?></a>
+					<?php printf( esc_attr__( '%s', 'wp-rest-api-controller' ), '<span class="top-right tipso edit-rest-permalink-icon" data-tipso-title="' . esc_attr__( 'Meta Key', 'wp-rest-api-controller' ) . '" data-tipso="' . sprintf( esc_attr__( 'Access the %s post type via the REST API at the following URL.', 'wp-rest-api-controller' ), esc_attr( $singular_name ) ) . '"><span class="dashicons dashicons-editor-help"></span></span><a class="endpoint-link" ' . esc_attr( $disabled_attr ) . ' href="' . esc_url( $this->rest_endpoint_base . $rest_base ) . '" target="_blank">' . esc_url( $this->rest_endpoint_base . $rest_base ) ); ?></a>
+					<a href="#" onclick="toggleRestBaseVisbility(this,event);" class="button-secondary edit-endpoint edit-endpoint-secondary-btn" class=""><?php esc_attr_e( 'Edit Endpoint', 'wp-rest-api-controller' ); ?></a>
 				</small>
 				<small class="edit-post-type-rest-base-active" style="display:none;">
 					<?php echo esc_url( $this->rest_endpoint_base ); ?>
 					<input type="text" onchange="toggleRestBaseInput(this);" data-rest-base="<?php echo esc_url( $this->rest_endpoint_base ); ?>" name="<?php echo esc_attr( $args['option_id'] ); ?>[rest_base]" value="<?php echo esc_attr( $rest_base ); ?>">
-					<a href="#" onclick="toggleRestBaseVisbility(this);" class="button-secondary save-endpoint edit-endpoint-secondary-btn" class=""><?php _e( 'Save New Endpoint', 'wp-rest-api-controller' ); ?></a>
+					<a href="#" onclick="toggleRestBaseVisbility(this,event);" class="button-secondary save-endpoint edit-endpoint-secondary-btn" class=""><?php esc_attr_e( 'Save New Endpoint', 'wp-rest-api-controller' ); ?></a>
 				</small>
+				<!-- updated API endpoint notice -->
+				<span class="rest-api-endpoint-updated rest-api-controller-warning-notice">
+					<span class="dashicons dashicons-info"></span>
+					<?php esc_attr_e( 'This endpoint was updated. You need to re-save the settings to access this post type at the endpoint above.', 'wp-rest-api-controller' ); ?>
+				</span>
+				<!-- Original rest base -->
+				<input type="hidden" class="rest-base-original-hidden-input" value="<?php echo esc_url( $this->rest_endpoint_base . $rest_base ); ?>">
 				<!-- New rest base -->
 				<input type="hidden" class="rest-base-hidden-input" name="<?php echo esc_attr( $args['option_id'] ); ?>[rest_base]" value="<?php echo esc_attr( $rest_base ); ?>">
 			</p>
@@ -128,28 +135,28 @@ class wp_rest_api_controller_Settings {
 					</thead>
 					<tbody>
 						<?php
-							$x = 1;
-							foreach( $post_type_meta as $meta_key ) {
-								$meta_active_state = ( isset( $options['meta_data'][$meta_key]['active'] ) ) ? true : false;
-								$custom_meta_key = ( isset( $options['meta_data'][$meta_key]['custom_key'] ) ) ? $options['meta_data'][$meta_key]['custom_key'] : false;
-								?>
-									<tr class="<?php echo ( $x % 2 == 0 ) ? '' : 'alternate'; ?>">
-										<th class="check-column" scope="row">
-											<label class="switch small switch-green">
-												<input name="<?php echo esc_attr( $args['option_id'] ); ?>[meta_data][<?php echo $meta_key; ?>][active]" type="checkbox" class="switch-input" onchange="console.log( 'Meta Data toggled' );" value="1" <?php checked( 1, $meta_active_state );?>>
-												<span class="switch-label" data-on="<?php esc_attr_e( 'On', 'wp-rest-api-controller' ); ?>" data-off="<?php esc_attr_e( 'Off', 'wp-rest-api-controller' ); ?>"></span>
-												<span class="switch-handle"></span>
-											</label>
-										</th>
-										<td><?php echo esc_attr( $meta_key ); ?></td>
-										<td>
-											<input name="<?php echo esc_attr( $args['option_id'] ); ?>[meta_data][<?php echo $meta_key; ?>][original_meta_key]" type="hidden" value="<?php echo esc_attr( $meta_key ); ?>">
-											<input name="<?php echo esc_attr( $args['option_id'] ); ?>[meta_data][<?php echo $meta_key; ?>][custom_key]" type="text" value="<?php echo esc_attr( $custom_meta_key ); ?>" placeholder="<?php echo esc_attr( $meta_key ); ?>">
-										</td>
-									</tr>
-								<?php
-								$x++;
-							}
+						$x = 1;
+						foreach ( $post_type_meta as $meta_key ) {
+							$meta_active_state = ( isset( $options['meta_data'][ $meta_key ]['active'] ) ) ? true : false;
+							$custom_meta_key = ( isset( $options['meta_data'][ $meta_key ]['custom_key'] ) ) ? $options['meta_data'][ $meta_key ]['custom_key'] : false;
+							?>
+								<tr class="<?php echo ( 0 === $x % 2 ) ? '' : 'alternate'; ?>">
+									<th class="check-column" scope="row">
+										<label class="switch small switch-green">
+											<input name="<?php echo esc_attr( $args['option_id'] ); ?>[meta_data][<?php echo esc_attr( $meta_key ); ?>][active]" type="checkbox" class="switch-input" onchange="console.log( 'Meta Data toggled' );" value="1" <?php checked( 1, $meta_active_state );?>>
+											<span class="switch-label" data-on="<?php esc_attr_e( 'On', 'wp-rest-api-controller' ); ?>" data-off="<?php esc_attr_e( 'Off', 'wp-rest-api-controller' ); ?>"></span>
+											<span class="switch-handle"></span>
+										</label>
+									</th>
+									<td><?php echo esc_attr( $meta_key ); ?></td>
+									<td>
+										<input name="<?php echo esc_attr( $args['option_id'] ); ?>[meta_data][ <?php echo esc_attr( $meta_key ); ?> ][original_meta_key]" type="hidden" value="<?php echo esc_attr( $meta_key ); ?>">
+										<input name="<?php echo esc_attr( $args['option_id'] ); ?>[meta_data][ <?php echo esc_attr( $meta_key ); ?> ][custom_key]" type="text" value="<?php echo esc_attr( $custom_meta_key ); ?>" placeholder="<?php echo esc_attr( $meta_key ); ?>">
+									</td>
+								</tr>
+							<?php
+							$x++;
+						}
 						?>
 					</tbody>
 				</table>

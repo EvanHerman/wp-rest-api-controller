@@ -75,7 +75,7 @@ function toggleEndpointLink( checkbox ) {
  * @param  mixed HTML element of the clicked button
  * @return null
  */
-function toggleRestBaseVisbility( clicked_button ) {
+function toggleRestBaseVisbility( clicked_button, event ) {
 	var parent_container = jQuery( clicked_button ).parents( 'td' );
 	if ( jQuery( clicked_button ).hasClass( 'save-endpoint' ) ) {
 		parent_container.find( '.edit-post-type-rest-base-active' ).fadeTo( 'fast', 0, function() {
@@ -88,6 +88,7 @@ function toggleRestBaseVisbility( clicked_button ) {
 			parent_container.find( '.edit-post-type-rest-base-active' ).fadeTo( 'fast', 1 );
 		});
 	}
+	event.preventDefault();
 }
 
 /**
@@ -99,7 +100,7 @@ function toggleRestBaseVisbility( clicked_button ) {
  */
 function toggleRestBaseInput( input_field ) {
 	var parent_container = jQuery( input_field ).parents( 'td' );
-	var new_text = jQuery( input_field ).val();
+	var new_text = convert_string_to_slug( jQuery( input_field ).val() );
 	var rest_base = jQuery( input_field ).data( 'rest-base' );
 	/* If left empty, fallback */
 	if ( '' === new_text ) {
@@ -108,8 +109,44 @@ function toggleRestBaseInput( input_field ) {
 		parent_container.find( '.endpoint-link' ).attr( 'href', rest_base + original_rest_base ).text( rest_base + original_rest_base );
 		return;
 	}
+	var original_rest_base_url = parent_container.find( '.rest-base-original-hidden-input' ).val();
 	var new_endpoint_url = rest_base + new_text;
+	// If the new rest base URL has been updated, display our notice to let the user know settings need to be re-saved
+	if ( original_rest_base_url != new_endpoint_url ) {
+		parent_container.find( '.rest-api-endpoint-updated' ).fadeIn().css( 'display', 'block' );
+	} else {
+		parent_container.find( '.rest-api-endpoint-updated' ).fadeOut();
+	}
 	// re-populate the permalink style link -- not working
 	parent_container.find( '.endpoint-link' ).attr( 'href', new_endpoint_url ).text( new_endpoint_url );
 	parent_container.find( '.rest-base-hidden-input' ).val( new_text );
+	// update the text input field with the new sanitized endpoint base
+	setTimeout( function() {
+		jQuery( input_field ).val( new_text );
+	}, 200);
+}
+
+/**
+ * Remove invalid characters from the slug (similar to sanitize_title() core function)
+ * @param  string str String to be sanitized before saving.
+ * @return string     The new, cleaned, string to be used for the API endpoint.
+ */
+function convert_string_to_slug( str ) {
+	str = str.replace(/^\s+|\s+$/g, ''); // trim
+	str = str.toLowerCase();
+
+	// remove accents, swap ñ for n, etc
+	var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
+	var to   = "aaaaeeeeiiiioooouuuunc------";
+
+	for (var i=0, l=from.length ; i<l ; i++)
+	{
+		str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+	}
+
+	str = str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
+		.replace(/\s+/g, '-') // collapse whitespace and replace by -
+		.replace(/-+/g, '-'); // collapse dashes
+
+	return str;
 }
