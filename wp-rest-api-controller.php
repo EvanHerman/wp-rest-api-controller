@@ -52,6 +52,15 @@ if ( ! defined( 'WP_REST_API_CONTROLLER_URL' ) ) {
 }
 
 /**
+ * Localization
+ * Include our textdomain and translation files
+ **/
+function wp_rest_api_controller_text_domain_init() {
+	load_plugin_textdomain( 'wp-rest-api-controller', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+}
+add_action( 'init', 'wp_rest_api_controller_text_domain_init' );
+
+/**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-wp-rest-api-controller-activator.php
  */
