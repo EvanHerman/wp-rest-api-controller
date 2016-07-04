@@ -15,7 +15,9 @@ Control post type and associated meta data exposure to the REST API. Say goodbye
 
 <strong>Important: This plugin requires the [WP REST API (Version 2)](https://wordpress.org/plugins/rest-api/) to be installed. Previous versions will not work properly as the API endpoints differ.</strong>
 
-<em>Please Note: This plugin is a work in progress, and may break backwards compatibility at any point, until we reach a stable release candidate.</em>
+<em>This plugin has reached maturity and has been released to the [WordPress.org repository](https://wordpress.org/support/plugin/wp-rest-api-controller). Enjoy!</em>
+
+All pull requests welcome!
 
 ##### TwentySixteen Child Theme
 
