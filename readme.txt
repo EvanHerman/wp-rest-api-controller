@@ -1,6 +1,6 @@
 === WP REST API Controller ===
 Contributors: yikesinc, eherman24
-Tags: rest, api, endpoint, controller, toggle, endpoints, rest_base, rest_name, REST API, yikes, inc
+Tags: rest, api, endpoint, controller, meta, data, meta_data, toggle, endpoints, rest_base, rest_name, REST API, yikes, inc
 Requires at least: 4.4
 Tested up to: 4.5.3
 Stable tag: 1.0.0
@@ -15,14 +15,16 @@ WP REST API Controller allows users to toggle the visibility of, and customize t
 
 <strong>Important: </strong> WP REST API Controller requires that [WP REST API v2](https://wordpress.org/plugins/rest-api/) or later be installed, or else this plugin will not function properly.
 
-> Features:
-> - Enable/Disable custom post type REST API endpoints
-> - Enable/Disable custom post type meta data (add or remove meta fields from API requests)
-> - Rename default & custom post type endpoints (eg: change the posts API endpoints to announcements, and access it at `/wp-json/wp/v2/announcements`)
-> - Rename meta data properties in API requests, so they are more user friendly.
-> - Manipulate and control post types and data created by third party plugins and themes.
-> - Control API requests without writing a single line of PHP code.
-> - Filters included to alter default functionality.
+
+<h2>Features:</h2>
+* Enable/Disable custom post type REST API endpoints
+* Enable/Disable custom post type meta data (add or remove meta fields from API requests)
+* Rename default & custom post type endpoints (eg: change the posts API endpoints to announcements, and access it at `/wp-json/wp/v2/announcements`)
+* Rename meta data properties in API requests, so they are more user friendly.
+* Manipulate and control post types and data created by third party plugins and themes.
+* Control API requests without writing a single line of PHP code.
+* Filters included to alter default functionality.
+
 
 == Installation ==
 
