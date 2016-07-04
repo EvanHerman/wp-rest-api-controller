@@ -7,11 +7,22 @@ Stable tag: 1.0.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
-This plugin enables a UI to enable endpoints in the REST API.
+Enable a UI to toggle visibility, and customize properties in WP REST API requests.
 
 == Description ==
 
-This plugin enables a UI to enable endpoints in the REST API.
+WP REST API Controller allows users to toggle the visibility of, and customize the endpoints for all post types within WordPress. Additionally, users can tweak visibility and customize the name of meta data assigned to API requests.
+
+<strong>Important: </strong> WP REST API Controller requires that [WP REST API v2](https://wordpress.org/plugins/rest-api/) or later be installed, or else this plugin will not function properly.
+
+> Features:
+> - Enable/Disable custom post type REST API endpoints
+> - Enable/Disable custom post type meta data (add or remove meta fields from API requests)
+> - Rename default & custom post type endpoints (eg: change the posts API endpoints to announcements, and access it at `/wp-json/wp/v2/announcements`)
+> - Rename meta data properties in API requests, so they are more user friendly.
+> - Manipulate and control post types and data created by third party plugins and themes.
+> - Control API requests without writing a single line of PHP code.
+> - Filters included to alter default functionality.
 
 == Installation ==
 
@@ -23,20 +34,38 @@ This plugin enables a UI to enable endpoints in the REST API.
 
 == Frequently Asked Questions ==
 
-= A question that someone might have =
+= Can I toggle the visibility of endpoints? =
 
-An answer to that question.
+Yes! You can quickly and easily toggle the endpoints, so they are either accessible or inaccessible to API requests. Using our interface you can enable the post types you need, while disabling the ones you don't.
+
+= Can I alter the default REST endpoints using this plugin? =
+
+Yes! You can change the default post (`posts`) and page (`pages`) post type end points.
+
+= Can I alter REST endpoints for post types from other plugins or my theme? =
+
+Yes! Our plugin simply filters the `rest_base` parameter for the custom post type, so you can setup or alter REST endpoints for every custom post type on your site!
+
+= Are all post types customizable using this plugin? =
+
+Our plugin allows you to customize most of the post types within WordPress. However, we have excluded the `nav_menu_items` and `revisions` post types by default, but may consider adding them in future releases.
+
+= Can we customize the meta data assigned to post types? =
+
+Yes! Users can enable or disable custom meta data assigned to each post. You can also change the name of the property for each meta data in the API request. If you assign custom meta fields to your posts using [Advanced Custom Fields](https://wordpress.org/plugins/advanced-custom-fields/), [CMB2](https://wordpress.org/plugins/cmb2/) or `add_meta_box()` you can adjust the visibility, and customize the name, of the property in API requests.
+
+<strong>Note:</strong> All properties in the API request are populated using `get_post_meta()`. If you need to set a custom value, you can use the `wp_rest_api_controller_api_property_value` filter provided by this plugin. For examples, see the 'Other Notes' section.
 
 == Screenshots ==
 
-1. This screen shot description corresponds to screenshot-1.
+1. WP REST API Controller settings page.
 
 == Changelog ==
 
 = 1.0.0 =
-* Initial plugin.
+* Initial plugin commit.
 
 == Upgrade Notice ==
 
 = 1.0.0 =
-* Initial plugin
+* Initial plugin commit.

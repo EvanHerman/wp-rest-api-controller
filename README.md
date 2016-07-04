@@ -27,3 +27,4 @@ The child theme is not required for this plugin to function properly, and can (<
 
 * `wp_rest_api_controller_rest_base`
 * `wp_rest_api_controller_post_types` (***Note: Revisions and nav menu items are not currently controllable with this plugin***)
+* `wp_rest_api_controller_api_property_value`

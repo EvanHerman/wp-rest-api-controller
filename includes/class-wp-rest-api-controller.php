@@ -238,11 +238,7 @@ class wp_rest_api_controller {
 		) );
 		if ( is_array( $meta_options['meta_data'] ) ) {
 			foreach ( $meta_options['meta_data'] as $key => $val ) {
-				if ( $val['custom_key'] === $custom_meta_key_name ) {
-					return $val['original_meta_key'];
-				} else {
-					return $val['original_meta_key'];
-				}
+				return $val['original_meta_key'];
 			}
 		}
 	}
@@ -272,6 +268,15 @@ class wp_rest_api_controller {
 		}
 	}
 
+	/**
+	 * Append post type meta data to the API request
+	 *
+	 * All requests append data using get_post_meta() inside custom_meta_data_callback()
+	 * Users can override the value and provide a custom value using our filter `wp_rest_api_controller_api_property_value`
+	 * For help, see the 'Other Notes' section in the WordPress.org repository for this plugin
+	 *
+	 * @since 1.0.0
+	 */
 	public function append_meta_data_to_api_request() {
 		$enabled_post_types = $this->enabled_post_types;
 		if ( $enabled_post_types && ! empty( $enabled_post_types ) ) {
@@ -310,7 +315,7 @@ class wp_rest_api_controller {
 	 */
 	function custom_meta_data_callback( $object, $field_name, $request ) {
 		$original_meta_key_name = $this->get_original_meta_key_name( $object['type'], $field_name );
-	 	return get_post_meta( $object['id'], $original_meta_key_name, true );
+	 	return apply_filters( 'wp_rest_api_controller_api_property_value', get_post_meta( $object['id'], $original_meta_key_name, true ), $object['id'], $original_meta_key_name );
 	}
 
 	/**
