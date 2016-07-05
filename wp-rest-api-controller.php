@@ -8,7 +8,7 @@
  * 		Author URI:        https://www.yikesinc.com
  * 		License:           GPL-3.0+
  *		License URI:       http://www.gnu.org/licenses/gpl-3.0.txt
- * 		Text Domain:       rest-api-exposed
+ * 		Text Domain:       wp-rest-api-controller
  * 		Domain Path:       /languages
  *
  * 		WP REST API Controller by YIKES, Inc., Evan Herman, Evan Herman is free software: you can redistribute it and/or modify
