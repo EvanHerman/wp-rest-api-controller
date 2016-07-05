@@ -89,6 +89,7 @@ class wp_rest_api_controller_Settings {
 		$active_state = ( isset( $options['active'] ) && 1 === absint( $options['active'] ) ) ? true : false;
 		$disabled_attr = ( $active_state ) ? '' : 'disabled=disabled';
 		$post_type_meta = $this->retreive_post_type_meta_keys( $args['post_type_slug'] );
+		$post_type_taxonomies = $this->retreive_post_type_taxonomies( $args['post_type_slug'] );
 		?>
 		<!-- Display the checkboxes/descriptions -->
 		<label class="switch switch-green">
@@ -143,7 +144,7 @@ class wp_rest_api_controller_Settings {
 								<tr class="<?php echo ( 0 === $x % 2 ) ? '' : 'alternate'; ?>">
 									<th class="check-column" scope="row">
 										<label class="switch small switch-green">
-											<input name="<?php echo esc_attr( $args['option_id'] ); ?>[meta_data][<?php echo esc_attr( $meta_key ); ?>][active]" type="checkbox" class="switch-input" onchange="console.log( 'Meta Data toggled' );" value="1" <?php checked( 1, $meta_active_state );?>>
+											<input name="<?php echo esc_attr( $args['option_id'] ); ?>[meta_data][<?php echo esc_attr( $meta_key ); ?>][active]" type="checkbox" class="switch-input" value="1" <?php checked( 1, $meta_active_state );?>>
 											<span class="switch-label" data-on="<?php esc_attr_e( 'On', 'wp-rest-api-controller' ); ?>" data-off="<?php esc_attr_e( 'Off', 'wp-rest-api-controller' ); ?>"></span>
 											<span class="switch-handle"></span>
 										</label>
@@ -162,6 +163,56 @@ class wp_rest_api_controller_Settings {
 				</table>
 			</section>
 		<?php } ?>
+
+		<!-- Only if post type taxonomies is assigned here -->
+		<?php if ( $post_type_taxonomies && ! empty( $post_type_taxonomies ) ) { ?>
+			<section class="post-type-taxonomy-data<?php if ( ! $active_state ) { echo ' hidden-container'; } ?>">
+				<table class="widefat fixed rest-api-controller-taxonomy-data-table" cellspacing="0">
+					<thead>
+						<tr>
+							<th id="cb" class="manage-column column-cb check-column" scope="col">&nbsp;</th>
+							<th id="columnname" class="manage-column column-columnname" scope="col">
+								<span class="top-right tipso" data-tipso-title="<?php esc_attr_e( 'Taxonomy Name', 'wp-rest-api-controller' ); ?>" data-tipso="<?php esc_attr_e( 'This is the name of the taxonomy.', 'wp-rest-api-controller' ); ?>"><?php esc_attr_e( 'Taxonomy Name', 'wp-rest-api-controller' ); ?></span>
+							</th>
+							<th id="columnname" class="manage-column column-columnname" scope="col">
+								<span class="top-right tipso" data-tipso-title="<?php esc_attr_e( 'Taxonomy Key', 'wp-rest-api-controller' ); ?>" data-tipso="<?php esc_attr_e( 'This is the default taxonomy stored by WordPress.', 'wp-rest-api-controller' ); ?>"><?php esc_attr_e( 'Taxonomy Key', 'wp-rest-api-controller' ); ?></span>
+							</th>
+							<th id="columnname" class="manage-column column-columnname" scope="col">
+								<span class="top-right tipso" data-tipso-title="<?php esc_attr_e( 'Custom Taxonomy Key', 'wp-rest-api-controller' ); ?>" data-tipso="<?php esc_attr_e( 'Specify a custom taxonomy key to use instead of the default.', 'wp-rest-api-controller' ); ?>"><?php esc_attr_e( 'Custom Taxonomy Name', 'wp-rest-api-controller' ); ?></span>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php
+						$x = 1;
+						foreach ( $post_type_taxonomies as $taxonomy ) {
+							$taxonomy_active_state = ( isset( $options['taxonomy'][ $taxonomy['slug'] ]['active'] ) ) ? true : false;
+							$custom_taxonomy = ( isset( $options['taxonomy'][ $taxonomy['slug'] ]['custom_key'] ) ) ? $options['taxonomy'][ $taxonomy['slug'] ]['custom_key'] : false;
+							?>
+								<tr class="<?php echo ( 0 === $x % 2 ) ? '' : 'alternate'; ?>">
+									<th class="check-column" scope="row">
+										<label class="switch small switch-green">
+											<input name="<?php echo esc_attr( $args['option_id'] ); ?>[taxonomy][<?php echo esc_attr( $taxonomy['slug'] ); ?>][active]" type="checkbox" class="switch-input" onchange="console.log( 'Meta Data toggled' );" value="1" <?php checked( 1, $taxonomy_active_state );?>>
+											<span class="switch-label" data-on="<?php esc_attr_e( 'On', 'wp-rest-api-controller' ); ?>" data-off="<?php esc_attr_e( 'Off', 'wp-rest-api-controller' ); ?>"></span>
+											<span class="switch-handle"></span>
+										</label>
+									</th>
+									<td><?php echo esc_attr( $taxonomy['menu_name'] ); ?></td>
+									<td><?php echo esc_attr( $taxonomy['name'] ); ?></td>
+									<td>
+										<input name="<?php echo esc_attr( $args['option_id'] ); ?>[taxonomy][ <?php echo esc_attr( $taxonomy['slug'] ); ?> ][original_meta_key]" type="hidden" value="<?php echo esc_attr( $taxonomy['slug'] ); ?>">
+										<input name="<?php echo esc_attr( $args['option_id'] ); ?>[taxonomy][ <?php echo esc_attr( $taxonomy['slug'] ); ?> ][custom_key]" type="text" value="<?php echo esc_attr( $custom_taxonomy ); ?>" placeholder="<?php echo esc_attr( $taxonomy['slug'] ); ?>">
+									</td>
+								</tr>
+							<?php
+							$x++;
+						}
+						?>
+					</tbody>
+				</table>
+			</section>
+		<?php } ?>
+
 		<!-- Description -->
 		<p class="description"><?php printf( esc_attr__( 'Expose the %s post type to the REST API.', 'wp-rest-api-controller' ), '<code>' . esc_attr( $singular_name ) . '</code>' ); ?></p>
 		<?php
@@ -199,6 +250,50 @@ class wp_rest_api_controller_Settings {
 			set_transient( $post_type . '_meta_keys', $meta_keys, 60 * 60 * 24 ); # create 1 Day Expiration
 		}
 		return $meta_keys;
+	}
+
+	/**
+	 * Retreive the taxonomies assigned to a post, and cache it in a transient
+	 * Note: This only retreives meta that has already been stored. If the meta has been
+	 * registered, but no post has any meta assigned to it - it will not display.
+	 *
+	 * @param  string $post_type The post type name to retreive meta data for.
+	 * @return array 						 The array of taxonomy for the given post type.
+	 */
+	public function retreive_post_type_taxonomies( $post_type ) {
+		delete_transient( $post_type . '_taxonomies' );
+		// if transient is already set, abort
+		if ( WP_DEBUG ) {
+			if ( get_transient( $post_type . '_taxonomies' ) ) {
+				return get_transient( $post_type . '_taxonomies' );
+			}
+		}
+		if ( WP_DEBUG || false === ( $registered_taxonomies = get_transient( $post_type . '_taxonomies' ) ) ) {
+			$taxonomies = get_object_taxonomies( $post_type, 'objects' );
+			$registered_taxonomies = array();
+			if ( $taxonomies && ! empty ( $taxonomies ) ) {
+				foreach ( $taxonomies as $taxonomy ) {
+					$slug = ( isset( $taxonomy->rewrite->slug ) && ! empty( $taxonomy->rewrite->slug ) ) ? $taxonomy->rewrite->slug : sanitize_title( $taxonomy->name );
+					// build an array of taxonomies to not allow
+					$excluded_taxonomies = apply_filters( 'wp-rest-api-controller-excluded-taxonomies', array(
+						'post_format', // Post post-format taxonomy
+					) );
+					// if in the excluded array, skip
+					if ( in_array( $taxonomy->name, $excluded_taxonomies ) ) {
+						continue;
+					}
+					// push to our array
+					$registered_taxonomies[] = array(
+						'singular_name' => $taxonomy->labels->singular_name,
+						'menu_name' => $taxonomy->labels->menu_name,
+						'name' => $taxonomy->name,
+						'slug' => $slug,
+					);
+				}
+			}
+			set_transient( $post_type . '_taxonomies', $registered_taxonomies, 60 * 60 * 24 ); # create 1 Day Expiration
+		}
+		return $registered_taxonomies;
 	}
 }
 $settings = new wp_rest_api_controller_Settings();
