@@ -123,7 +123,7 @@ class wp_rest_api_controller_Settings {
 			<!-- End API Endpoint Example -->
 		</section>
 
-		<!-- Only if post type meta is assigned here -->
+		<!-- Only if post type meta is assigned here --> 
 		<?php if ( $post_type_meta && ! empty( $post_type_meta ) ) { ?>
 			<section class="post-type-meta-data<?php if ( ! $active_state ) { echo ' hidden-container'; } ?>">
 				<table class="widefat fixed rest-api-controller-meta-data-table" cellspacing="0">
