@@ -101,7 +101,7 @@ class wp_rest_api_controller_Settings {
 			<!-- API Endpoint Example -->
 			<p class="description">
 				<small class="edit-post-type-rest-base-disabled">
-					<?php printf( esc_attr__( '%s', 'wp-rest-api-controller' ), '<span class="top-right tipso edit-rest-permalink-icon" data-tipso-title="' . esc_attr__( 'Meta Key', 'wp-rest-api-controller' ) . '" data-tipso="' . sprintf( esc_attr__( 'Access the %s post type via the REST API at the following URL.', 'wp-rest-api-controller' ), esc_attr( $singular_name ) ) . '"><span class="dashicons dashicons-editor-help"></span></span><a class="endpoint-link" ' . esc_attr( $disabled_attr ) . ' href="' . esc_url( $this->rest_endpoint_base . $rest_base ) . '" target="_blank">' . esc_url( $this->rest_endpoint_base . $rest_base ) ); ?></a>
+					<?php printf( esc_attr( '%s', 'wp-rest-api-controller' ), '<span class="top-right tipso edit-rest-permalink-icon" data-tipso-title="' . esc_attr__( 'Meta Key', 'wp-rest-api-controller' ) . '" data-tipso="' . sprintf( esc_attr__( 'Access the %s post type via the REST API at the following URL.', 'wp-rest-api-controller' ), esc_attr( $singular_name ) ) . '"><span class="dashicons dashicons-editor-help"></span></span><a class="endpoint-link" ' . esc_attr( $disabled_attr ) . ' href="' . esc_url( $this->rest_endpoint_base . $rest_base ) . '" target="_blank">' . esc_url( $this->rest_endpoint_base . $rest_base ) ); ?></a>
 					<a href="#" onclick="toggleRestBaseVisbility(this,event);" class="button-secondary edit-endpoint edit-endpoint-secondary-btn" class=""><?php esc_attr_e( 'Edit Endpoint', 'wp-rest-api-controller' ); ?></a>
 				</small>
 				<small class="edit-post-type-rest-base-active" style="display:none;">
