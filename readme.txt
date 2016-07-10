@@ -67,6 +67,7 @@ Yes! Users can enable or disable custom meta data assigned to each post. You can
 = WP REST API Controller v1.1.0 - July 10th, 2016 =
 * Added the ability to clear cache when new post types/meta data have been registered.
 * Added admin notices to help clarify what happened.
+* Built in support to include hidden meta keys for 'Easy Digital Downloads' and 'WooCommerce' (to enable hidden meta keys on other post types, use the `wp_rest_api_controller_exclude_hidden_meta_keys_post_types` filter.)
 * Bumped version number.
 
 = WP REST API Controller v1.0.0 =

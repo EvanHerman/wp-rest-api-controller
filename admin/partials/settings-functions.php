@@ -188,8 +188,17 @@ class wp_rest_api_controller_Settings {
 				ON $wpdb->posts.ID = $wpdb->postmeta.post_id
 				WHERE $wpdb->posts.post_type = '%s'
 				AND $wpdb->postmeta.meta_key != ''
-				AND $wpdb->postmeta.meta_key NOT RegExp '(^[_0-9].+$)'
 			";
+			// Setup an array of post types to INCLUDE hidden meta keys (eg: meta keys beginning with underscore "_".)
+			$excluded_post_types = apply_filters( 'wp_rest_api_controller_exclude_hidden_meta_keys_post_types', array(
+				'product', // WooCommerce
+				'download', // Easy Digital Downloads
+			) );
+			// if the current post type iteration is NOT found in the array above, exclude the hidden meta keys
+			if ( ! in_array( $post_type, $excluded_post_types ) ) {
+				$query .= "AND $wpdb->postmeta.meta_key NOT RegExp '(^[_0-9].+$)'";
+				$query .= "AND $wpdb->postmeta.meta_key NOT RegExp '(^[0-9]+$)'";
+			}
 			$meta_keys = $wpdb->get_col( $wpdb->prepare( $query, $post_type ) );
 			set_transient( $post_type . '_meta_keys', $meta_keys, 60 * 60 * 24 ); // create 1 Day Expiration
 		}
