@@ -139,7 +139,7 @@ class wp_rest_api_controller_Settings {
 						$x = 1;
 						foreach ( $post_type_meta as $meta_key ) {
 							$meta_active_state = ( isset( $options['meta_data'][ $meta_key ]['active'] ) ) ? true : false;
-							$custom_meta_key = ( isset( $options['meta_data'][ $meta_key ]['custom_key'] ) ) ? $options['meta_data'][ $meta_key ]['custom_key'] : false;
+							$custom_meta_key = ( isset( $options['meta_data'][ $meta_key ]['custom_key'] ) ) ? $options['meta_data'][ $meta_key ]['custom_key'] : '';
 							?>
 								<tr class="<?php echo ( 0 === $x % 2 ) ? '' : 'alternate'; ?>">
 									<th class="check-column" scope="row">
@@ -151,8 +151,8 @@ class wp_rest_api_controller_Settings {
 									</th>
 									<td><?php echo esc_attr( $meta_key ); ?></td>
 									<td>
-										<input name="<?php echo esc_attr( $args['option_id'] ); ?>[meta_data][ <?php echo esc_attr( $meta_key ); ?> ][original_meta_key]" type="hidden" value="<?php echo esc_attr( $meta_key ); ?>">
-										<input name="<?php echo esc_attr( $args['option_id'] ); ?>[meta_data][ <?php echo esc_attr( $meta_key ); ?> ][custom_key]" type="text" value="<?php echo esc_attr( $custom_meta_key ); ?>" placeholder="<?php echo esc_attr( $meta_key ); ?>">
+										<input name="<?php echo esc_attr( $args['option_id'] ); ?>[meta_data][<?php echo esc_attr( $meta_key ); ?>][original_meta_key]" type="hidden" value="<?php echo esc_attr( $meta_key ); ?>">
+										<input name="<?php echo esc_attr( $args['option_id'] ); ?>[meta_data][<?php echo esc_attr( $meta_key ); ?>][custom_key]" type="text" value="<?php echo esc_attr( $custom_meta_key ); ?>" placeholder="<?php echo esc_attr( $meta_key ); ?>">
 									</td>
 								</tr>
 							<?php
