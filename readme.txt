@@ -3,7 +3,7 @@ Contributors: yikesinc, eherman24
 Tags: rest, api, endpoint, controller, meta, data, meta_data, toggle, endpoints, rest_base, rest_name, REST API, yikes, inc
 Requires at least: 4.4
 Tested up to: 4.5.3
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -64,10 +64,17 @@ Yes! Users can enable or disable custom meta data assigned to each post. You can
 
 == Changelog ==
 
-= 1.0.0 =
+= WP REST API Controller v1.1.0 - July 10th, 2016 =
+* Added the ability to clear cache when new post types/meta data have been registered.
+* Added admin notices to help clarify what happened.
+* Bumped version number.
+
+= WP REST API Controller v1.0.0 =
 * Initial plugin commit.
 
 == Upgrade Notice ==
 
-= 1.0.0 =
-* Initial plugin commit.
+= WP REST API Controller v1.1.0 - July 10th, 2016 =
+* Added the ability to clear cache when new post types/meta data have been registered.
+* Added admin notices to help clarify what happened.
+* Bumped version number.

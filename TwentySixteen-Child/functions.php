@@ -232,12 +232,14 @@ function portfolio_my_display_callback( $post ) {
  * @param int $post_id Post ID
  */
 function portfolio_save_meta_box( $post_id ) {
-	$portfolio_title = ( isset( $_POST['portfolio_title'] ) ) ? $_POST['portfolio_title'] : '';
-	$price = ( isset( $_POST['price'] ) ) ? $_POST['price'] : '';
-	$details = ( isset( $_POST['details'] ) ) ? $_POST['details'] : 1;
-	// Save logic goes here. Don't forget to include nonce checks!
-	update_post_meta( $post_id, 'portfolio_title', $portfolio_title );
-	update_post_meta( $post_id, 'price', $price );
-	update_post_meta( $post_id, 'details', $details );
+	if ( 'portfolio' === get_post_type( $post_id ) ) {
+		$portfolio_title = ( isset( $_POST['portfolio_title'] ) ) ? $_POST['portfolio_title'] : '';
+		$price = ( isset( $_POST['price'] ) ) ? $_POST['price'] : '';
+		$details = ( isset( $_POST['details'] ) ) ? $_POST['details'] : 1;
+		// Save logic goes here. Don't forget to include nonce checks!
+		update_post_meta( $post_id, 'portfolio_title', $portfolio_title );
+		update_post_meta( $post_id, 'price', $price );
+		update_post_meta( $post_id, 'details', $details );
+	}
 }
 add_action( 'save_post', 'portfolio_save_meta_box' );

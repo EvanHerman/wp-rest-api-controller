@@ -53,6 +53,8 @@ class wp_rest_api_controller_Admin {
 		add_action( 'admin_menu', array( $this, 'register_wp_rest_api_controller_submenu_page' ) );
 		// Include our settings
 		include( WP_REST_API_CONTROLLER_PATH . 'admin/partials/settings-functions.php' );
+		// Generate our admin notices
+		add_action( 'admin_notices', array( $this, 'wp_rest_api_controller_admin_notices' ) );
 	}
 
 	/**
@@ -106,7 +108,11 @@ class wp_rest_api_controller_Admin {
 		}
 	}
 
-	// Register the menu
+	/**
+	 * Register our REST API Controller settings page
+	 *
+	 * @since 1.0.0
+	 */
 	public function register_wp_rest_api_controller_submenu_page() {
 		add_submenu_page(
 			'tools.php',
@@ -118,12 +124,36 @@ class wp_rest_api_controller_Admin {
 		);
 	}
 
-	// Generate the Settings Page
+	/**
+	 * Generate the REST API Controller settings page
+	 *
+	 * @since 1.0.0
+	 */
 	public function wp_rest_api_controller_submenu_page_callback() {
 		ob_start();
 		include( WP_REST_API_CONTROLLER_PATH . 'admin/partials/settings-page.php' );
 		$content = ob_get_contents();
 		ob_get_clean();
 		echo $content;
+	}
+
+	/**
+	 * Generate admin notices to provide better feedback to the uesr
+	 *
+	 * @since 1.1.0
+	 */
+	public function wp_rest_api_controller_admin_notices() {
+		// Settings Updated
+		if ( isset( $_GET['settings-updated'] ) && 'true' === $_GET['settings-updated'] ) {
+			$class = 'notice notice-success';
+			$message = __( 'Settings have been successfully updated.', 'wp-rest-api-controller' );
+			printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_attr( $message ) );
+		}
+		// Success response after clearing the REST API cache
+		if ( isset( $_GET['api-cache-cleared'] ) && 'true' === $_GET['api-cache-cleared'] ) {
+			$class = 'notice notice-success';
+			$message = __( 'The WP REST API Controller cache has been cleared, and the post type and meta data lists below have been updated.', 'wp-rest-api-controller' );
+			printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_attr( $message ) );
+		}
 	}
 }

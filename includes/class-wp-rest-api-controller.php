@@ -73,7 +73,7 @@ class wp_rest_api_controller {
 	public function __construct() {
 
 		$this->plugin_name = 'WP REST API Controller';
-		$this->version = '1.0.0';
+		$this->version = '1.1.0';
 		$this->enabled_post_types = $this->get_stored_post_types();
 		$this->plugin = $plugin;
 
