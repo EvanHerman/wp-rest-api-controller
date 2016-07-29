@@ -78,7 +78,7 @@ class wp_rest_api_controller {
 		$this->plugin = $plugin;
 
 		if ( $this->enabled_post_types && ! empty( $this->enabled_post_types ) ) {
-			add_action( 'init', array( $this, 'expose_api_endpoints' ), 30 );
+			add_action( 'init', array( $this, 'expose_api_endpoints' ), 100 );
 			add_action( 'rest_api_init', array( $this, 'append_meta_data_to_api_request' ) );
 		}
 		$this->load_dependencies();
@@ -240,7 +240,7 @@ class wp_rest_api_controller {
 			if ( isset( $meta_options['meta_data'][$meta_key_name]['original_meta_key'] ) ) {
 				return $meta_options['meta_data'][$meta_key_name]['original_meta_key'];
 			}
-			return null;
+			return '';
 		}
 	}
 
