@@ -1,7 +1,7 @@
 {
   "name": "rest-api-exposed",
 	"title": "WP REST API Controller by YIKES, Inc., Evan Herman",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "This plugin enables a UI to enable endpoints in the REST API.",
   "main": "index.js",
   "scripts": {

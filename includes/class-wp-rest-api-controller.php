@@ -73,7 +73,7 @@ class wp_rest_api_controller {
 	public function __construct() {
 
 		$this->plugin_name = 'WP REST API Controller';
-		$this->version = '1.1.0';
+		$this->version = '1.2.0';
 		$this->enabled_post_types = $this->get_stored_post_types();
 		$this->plugin = $plugin;
 
@@ -228,18 +228,19 @@ class wp_rest_api_controller {
 	 * Based on the value of a custom meta key in the WP REST API array
 	 * we return the original key, so that get_post_meta() can be used properly
 	 *
-	 * @param  string $custom_meta_key_name The custom meta key defined in the options.
+	 * @param  string $meta_key_name The custom meta key defined in the options.
 	 * @return string												The original meta key to use in get_post_meta() function
 	 */
-	public function get_original_meta_key_name( $post_type_slug, $custom_meta_key_name ) {
+	public function get_original_meta_key_name( $post_type_slug, $meta_key_name ) {
 		$meta_options = get_option( 'wp_rest_api_controller_post_types_' . $post_type_slug, array(
 			'active' => 0,
 			'meta_data' => array(),
 		) );
 		if ( is_array( $meta_options['meta_data'] ) ) {
-			foreach ( $meta_options['meta_data'] as $key => $val ) {
-				return $val['original_meta_key'];
+			if ( isset( $meta_options['meta_data'][$meta_key_name]['original_meta_key'] ) ) {
+				return $meta_options['meta_data'][$meta_key_name]['original_meta_key'];
 			}
+			return null;
 		}
 	}
 
@@ -315,7 +316,8 @@ class wp_rest_api_controller {
 	 */
 	function custom_meta_data_callback( $object, $field_name, $request ) {
 		$original_meta_key_name = $this->get_original_meta_key_name( $object['type'], $field_name );
-	 	return apply_filters( 'wp_rest_api_controller_api_property_value', get_post_meta( $object['id'], $original_meta_key_name, true ), $object['id'], $original_meta_key_name );
+		return apply_filters( 'wp_rest_api_controller_api_property_value', get_post_meta( $object['id'], $original_meta_key_name, true ), $object['id'], $original_meta_key_name );
+		// return $original_meta_key_name;
 	}
 
 	/**
