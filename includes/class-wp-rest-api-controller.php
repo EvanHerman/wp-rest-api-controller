@@ -73,9 +73,11 @@ class wp_rest_api_controller {
 	public function __construct() {
 
 		$this->plugin_name = 'WP REST API Controller';
-		$this->version = '1.2.0';
+		$this->version = '1.2.1';
 		$this->enabled_post_types = $this->get_stored_post_types();
-		$this->plugin = $plugin;
+		if ( isset( $plugin ) ) {
+			$this->plugin = $plugin;
+		}
 
 		if ( $this->enabled_post_types && ! empty( $this->enabled_post_types ) ) {
 			add_action( 'init', array( $this, 'expose_api_endpoints' ), 100 );
@@ -256,15 +258,16 @@ class wp_rest_api_controller {
 		$enabled_post_types = $this->enabled_post_types;
 		if ( $enabled_post_types && ! empty( $enabled_post_types ) ) {
 			global $wp_post_types;
-			foreach ( $enabled_post_types as $post_type_slug => $enabled ) {
+			foreach ( $enabled_post_types as $post_type_slug => $enabled ) { 
+				if ( ! isset( $wp_post_types[ $post_type_slug ] ) || ! is_object( $wp_post_types[ $post_type_slug ] ) ) {
+						continue;
+					}
 				// Get the post type rest base to use for the API endpoint (eg: /v2/posts or /v2/pages)
 				$rest_base = $this->get_post_type_rest_base( $post_type_slug );
 				// Check the enabled state
 				if ( 'enabled' === $enabled ) {
 					$wp_post_types[ $post_type_slug ]->show_in_rest = true;
-					$wp_post_types[ $post_type_slug ]->rest_base = $rest_base;
-					$wp_post_types[ $post_type_slug ]->rest_controller_class = 'WP_REST_Posts_Controller';
-				} else {
+				} else { 
 					$wp_post_types[ $post_type_slug ]->show_in_rest = false;
 				}
 			}
