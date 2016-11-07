@@ -292,7 +292,7 @@ class wp_rest_api_controller {
 						'active' => 0,
 						'meta_data' => array(),
 					) );
-					if ( $post_type_options['meta_data'] && ! empty( $post_type_options['meta_data'] ) ) {
+					if ( isset( $post_type_options['meta_data'] ) && ! empty( $post_type_options['meta_data'] ) ) {
 						foreach ( $post_type_options['meta_data'] as $meta_key => $meta_data ) {
 							if ( isset( $meta_data['active'] ) && 1 === absint( $meta_data['active'] ) ) {
 								$rest_api_meta_name = ( isset( $meta_data['custom_key'] ) && ! empty( $meta_data['custom_key'] ) ) ? $meta_data['custom_key'] : $meta_key;
