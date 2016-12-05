@@ -72,20 +72,29 @@ class wp_rest_api_controller {
 	 */
 	public function __construct() {
 
-		$this->plugin_name = 'WP REST API Controller';
-		$this->version = '1.2.1';
+		$this->plugin_name        = 'WP REST API Controller';
+		$this->version            = '1.3.0';
 		$this->enabled_post_types = $this->get_stored_post_types();
+
 		if ( isset( $plugin ) ) {
+
 			$this->plugin = $plugin;
+
 		}
 
 		if ( $this->enabled_post_types && ! empty( $this->enabled_post_types ) ) {
-			add_action( 'init', array( $this, 'expose_api_endpoints' ), 100 );
+
+			add_action( 'init',          array( $this, 'expose_api_endpoints' ), 100 );
 			add_action( 'rest_api_init', array( $this, 'append_meta_data_to_api_request' ) );
+
 		}
+
 		$this->load_dependencies();
+
 		$this->set_locale();
+
 		$this->define_admin_hooks();
+
 	}
 
 	/**
@@ -166,7 +175,9 @@ class wp_rest_api_controller {
 	 * @since    1.0.0
 	 */
 	public function run() {
+
 		$this->loader->run();
+
 	}
 
 	/**
@@ -177,7 +188,9 @@ class wp_rest_api_controller {
 	 * @return    string    The name of the plugin.
 	 */
 	public function get_plugin_name() {
+
 		return $this->plugin_name;
+
 	}
 
 	/**
@@ -187,7 +200,9 @@ class wp_rest_api_controller {
 	 * @return    wp_rest_api_controller_Loader    Orchestrates the hooks of the plugin.
 	 */
 	public function get_loader() {
+
 		return $this->loader;
+
 	}
 
 	/**
@@ -197,7 +212,9 @@ class wp_rest_api_controller {
 	 * @return    string    The version number of the plugin.
 	 */
 	public function get_version() {
+
 		return $this->version;
+
 	}
 
 	/**
@@ -207,23 +224,35 @@ class wp_rest_api_controller {
 	 * @since 1.0.0
 	 */
 	public function get_stored_post_types() {
+
 		$stored_post_types = get_option( 'wp_rest_api_controller_post_types', false );
-		// if none have been saved, abort
+
 		if ( ! $stored_post_types ) {
-			return false;
+
+			return;
+
 		}
+
 		$post_types_array = array();
-		// Loop over and check and push to our array
+
 		foreach ( $stored_post_types as $post_type_slug ) {
-			$post_type_options = get_option( 'wp_rest_api_controller_post_types_' . $post_type_slug, 0 );
+
+			$post_type_options = get_option( "wp_rest_api_controller_post_types_{$post_type_slug}", 0 );
+
 			if ( $post_type_options && ( isset( $post_type_options['active'] ) && $post_type_options['active'] ) ) {
+
 				$post_types_array[ $post_type_slug ] = 'enabled';
-			} else {
-				$post_types_array[ $post_type_slug ] = 'disabled';
+
+				continue;
+
 			}
+
+			$post_types_array[ $post_type_slug ] = 'disabled';
+
 		}
-		// return the post types array
+
 		return $post_types_array;
+
 	}
 
 	/**
@@ -231,46 +260,73 @@ class wp_rest_api_controller {
 	 * we return the original key, so that get_post_meta() can be used properly
 	 *
 	 * @param  string $custom_meta_key_name The custom meta key defined in the options.
-	 * @return string												The original meta key to use in get_post_meta() function
+	 * @return string                       The original meta key to use in get_post_meta() function
 	 */
 	public function get_original_meta_key_name( $post_type_slug, $custom_meta_key_name ) {
-		$meta_options = get_option( 'wp_rest_api_controller_post_types_' . $post_type_slug, array(
+
+		$meta_options = get_option( "wp_rest_api_controller_post_types_{$post_type_slug}", array(
 			'active' => 0,
 			'meta_data' => array(),
 		) );
-		if ( is_array( $meta_options['meta_data'] ) ) {
-			foreach ( $meta_options['meta_data'] as $key ) {
-				if ( $custom_meta_key_name === $key['custom_key'] ) {
-					return $key['original_meta_key'];
-				}
-			}
-			return '';
+
+		if ( ! is_array( $meta_options['meta_data'] ) ) {
+
+			return;
+
 		}
+
+		foreach ( $meta_options['meta_data'] as $key ) {
+
+			if ( $custom_meta_key_name === $key['custom_key'] ) {
+
+				return $key['original_meta_key'];
+
+			}
+		}
+
 	}
 
 	/**
 	 * Expose (or disable) post types to the REST API
 	 *
 	 * @return null Expose the enabled API endpoints
+	 *
 	 * @since 1.0.0
 	 */
 	public function expose_api_endpoints() {
+
 		$enabled_post_types = $this->enabled_post_types;
-		if ( $enabled_post_types && ! empty( $enabled_post_types ) ) {
-			global $wp_post_types;
-			foreach ( $enabled_post_types as $post_type_slug => $enabled ) { 
-				if ( ! isset( $wp_post_types[ $post_type_slug ] ) || ! is_object( $wp_post_types[ $post_type_slug ] ) ) {
-						continue;
-					}
-				// Get the post type rest base to use for the API endpoint (eg: /v2/posts or /v2/pages)
-				$rest_base = $this->get_post_type_rest_base( $post_type_slug );
-				// Check the enabled state
-				if ( 'enabled' === $enabled ) {
-					$wp_post_types[ $post_type_slug ]->show_in_rest = true;
-				} else { 
-					$wp_post_types[ $post_type_slug ]->show_in_rest = false;
-				}
+
+		if ( ! $enabled_post_types || empty( $enabled_post_types ) ) {
+
+			return;
+
+		}
+
+		global $wp_post_types;
+
+		foreach ( $enabled_post_types as $post_type_slug => $enabled ) {
+
+			if ( ! isset( $wp_post_types[ $post_type_slug ] ) || ! is_object( $wp_post_types[ $post_type_slug ] ) ) {
+
+				continue;
+
 			}
+
+			$rest_base = $this->get_post_type_rest_base( $post_type_slug );
+
+			if ( 'enabled' !== $enabled ) {
+
+				$wp_post_types[ $post_type_slug ]->show_in_rest = false;
+
+				continue;
+
+			}
+
+			$wp_post_types[ $post_type_slug ]->show_in_rest = true;
+			$wp_post_types[ $post_type_slug ]->rest_base   = $rest_base;
+			$wp_post_types[ $post_type_slug ]->rest_controller_class = 'WP_REST_Posts_Controller';
+
 		}
 	}
 
@@ -284,72 +340,111 @@ class wp_rest_api_controller {
 	 * @since 1.0.0
 	 */
 	public function append_meta_data_to_api_request() {
+
 		$enabled_post_types = $this->enabled_post_types;
-		if ( $enabled_post_types && ! empty( $enabled_post_types ) ) {
-			foreach ( $enabled_post_types as $post_type_slug => $enabled ) {
-				if ( 'enabled' === $enabled ) {
-					$post_type_options = get_option( 'wp_rest_api_controller_post_types_' . $post_type_slug, array(
-						'active' => 0,
-						'meta_data' => array(),
-					) );
-					if ( isset( $post_type_options['meta_data'] ) && ! empty( $post_type_options['meta_data'] ) ) {
-						foreach ( $post_type_options['meta_data'] as $meta_key => $meta_data ) {
-							if ( isset( $meta_data['active'] ) && 1 === absint( $meta_data['active'] ) ) {
-								$rest_api_meta_name = ( isset( $meta_data['custom_key'] ) && ! empty( $meta_data['custom_key'] ) ) ? $meta_data['custom_key'] : $meta_key;
-								register_rest_field( $post_type_slug,
-									str_replace( '-', '_', sanitize_title( $rest_api_meta_name ) ), // remove spaces, replace '-' with '_'
-									array(
-										'get_callback'    => array( $this, 'custom_meta_data_callback' ),
-										'update_callback' => null,
-										'schema'          => null,
-									)
-								);
-							}
-						}
-					}
+
+		if ( ! $enabled_post_types || empty( $enabled_post_types ) ) {
+
+			return;
+
+		}
+
+		foreach ( $enabled_post_types as $post_type_slug => $enabled ) {
+
+			if ( 'enabled' !== $enabled ) {
+
+				continue;
+
+			}
+
+			$post_type_options = get_option( "wp_rest_api_controller_post_types_{$post_type_slug}", array(
+				'active' => 0,
+				'meta_data' => array(),
+			) );
+
+			if ( ! isset( $post_type_options['meta_data'] ) || empty( $post_type_options['meta_data'] ) ) {
+
+				continue;
+
+			}
+
+			foreach ( $post_type_options['meta_data'] as $meta_key => $meta_data ) {
+
+				if ( ! isset( $meta_data['active'] ) || ( isset( $meta_data['active'] ) && 1 !== absint( $meta_data['active'] ) ) ) {
+
+					continue;
 				}
+
+				$rest_api_meta_name = ( isset( $meta_data['custom_key'] ) && ! empty( $meta_data['custom_key'] ) ) ? $meta_data['custom_key'] : $meta_key;
+
+				register_rest_field( $post_type_slug,
+					str_replace( '-', '_', sanitize_title( $rest_api_meta_name ) ),
+					array(
+						'get_callback'    => array( $this, 'custom_meta_data_callback' ),
+						'update_callback' => null,
+						'schema'          => null,
+					)
+				);
+
 			}
 		}
 	}
 
 	/**
 	 * Callback function to append our metadata value to the field
+	 *
 	 * @param  array   $object      Post object
 	 * @param  string  $field_name  Field name.
 	 * @param  array   $request     API request.
+	 *
 	 * @return string               The original meta key name to use in get_post_meta();
 	 */
 	function custom_meta_data_callback( $object, $field_name, $request ) {
+
 		$original_meta_key_name = $this->get_original_meta_key_name( $object['type'], $field_name );
+
 		return apply_filters( 'wp_rest_api_controller_api_property_value', get_post_meta( $object['id'], $original_meta_key_name, true ), $object['id'], $original_meta_key_name );
+
 	}
 
 	/**
 	 * Get the rest base for a given post type
+	 *
 	 * @param  string $post_type_slug Slug of the post type to return.
+	 *
 	 * @return string                 REST API base name.
 	 */
-	public function get_post_type_rest_base( $post_type_slug ) {
-		// Store options for custom REST base name
-		$post_type_options = $options = get_option( 'wp_rest_api_controller_post_types_' . $post_type_slug, array(
+	public static function get_post_type_rest_base( $post_type_slug ) {
+
+		$post_type_options = $options = get_option( "wp_rest_api_controller_post_types_{$post_type_slug}", array(
 			'active' => 0,
 			'meta_data' => array(),
 		) );
-		// Re-set the default 'post'/'page' rest base values
+
 		switch ( $post_type_slug ) {
+
 			case 'post':
 				$rest_base = 'posts';
 				break;
+
 			case 'page':
 				$rest_base = 'pages';
 				break;
+
 			default:
 				$rest_base = $post_type_slug;
 				break;
+
 		}
+
 		if ( isset( $post_type_options['rest_base'] ) && ! empty( $post_type_options['rest_base'] ) ) {
+
 			$rest_base = $post_type_options['rest_base'];
+
 		}
-		return apply_filters( 'wp_rest_api_controller_rest_base', $rest_base, $post_type_slug );
+
+		return apply_filters( 'wp_rest_api_controller_rest_base', $rest_base, $post_type_slug, 0 );
+
 	}
+
 }
