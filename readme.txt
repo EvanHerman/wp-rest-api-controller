@@ -13,7 +13,7 @@ Enable a UI to toggle visibility and customize properties in WP REST API request
 
 WP REST API Controller allows admins to toggle the visibility of, and customize the endpoints for, all post types within WordPress with an easy-to-use graphical interface. Additionally, you can tweak visibility and customize the meta data attached to the API response.
 
-> **Note:** This plugin requires WordPress Version 4.7 or to work.
+> **Note:** This plugin requires WordPress Version 4.7 or later to work.
 
 **Features:**
 
