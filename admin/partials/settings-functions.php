@@ -70,8 +70,8 @@ class wp_rest_api_controller_Settings {
 			$post_types['attachment']
 		);
 
-		return apply_filters( 'wp_rest_api_controller_post_types', $post_types );
 
+		return apply_filters( 'wp_rest_api_controller_post_types', $post_types );
 	}
 
 	// ------------------------------------------------------------------

@@ -1,7 +1,7 @@
 === WP REST API Controller ===
 Contributors: yikesinc, eherman24
 Tags: rest, api, endpoint, controller, meta, data, meta_data, toggle, endpoints, rest_base, rest_name, REST API, yikes, inc
-Requires at least: WordPress 4.7 or later
+Requires at least: WordPress 4.7
 Tested up to: 4.7
 Stable tag: 1.3.0
 License: GPLv3 or later

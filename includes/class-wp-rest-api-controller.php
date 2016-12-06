@@ -287,7 +287,6 @@ class wp_rest_api_controller {
 		}
 
 		return $this->post_meta[ $post_type_slug ][ $custom_meta_key_name ]['original_key'];
-
 	}
 
 	/**
@@ -314,7 +313,6 @@ class wp_rest_api_controller {
 			if ( ! isset( $wp_post_types[ $post_type_slug ] ) || ! is_object( $wp_post_types[ $post_type_slug ] ) ) {
 
 				continue;
-
 			}
 
 			$rest_base = $this->get_post_type_rest_base( $post_type_slug );
@@ -329,7 +327,6 @@ class wp_rest_api_controller {
 
 			$wp_post_types[ $post_type_slug ]->show_in_rest = true;
 			$wp_post_types[ $post_type_slug ]->rest_base    = $rest_base;
-
 		}
 	}
 
@@ -373,10 +370,9 @@ class wp_rest_api_controller {
 
 			foreach ( $post_type_options['meta_data'] as $meta_key => $meta_data ) {
 
-				if ( ! isset( $meta_data['active'] ) && 1 !== absint( $meta_data['active'] ) ) {
+				if ( ! isset( $meta_data['active'] ) || ( isset( $meta_data['active'] ) && 1 !== absint( $meta_data['active'] ) ) ) {
 
 					continue;
-
 				}
 
 				$rest_api_meta_name = ( isset( $meta_data['custom_key'] ) && ! empty( $meta_data['custom_key'] ) ) ? $meta_data['custom_key'] : $meta_key;
@@ -424,7 +420,7 @@ class wp_rest_api_controller {
 	 *
 	 * @return string                 REST API base name.
 	 */
-	public function get_post_type_rest_base( $post_type_slug ) {
+	public static function get_post_type_rest_base( $post_type_slug ) {
 
 		$post_type_options = $options = get_option( "wp_rest_api_controller_post_types_{$post_type_slug}", array(
 			'active' => 0,
