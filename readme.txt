@@ -52,6 +52,9 @@ Our plugin allows you to customize most of the post types within WordPress. Howe
 
 Yes! Users can enable or disable custom meta data assigned to each post. You can also change the name of the property for each meta data in the API request. If you assign custom meta fields to your posts using [Advanced Custom Fields](https://wordpress.org/plugins/advanced-custom-fields/), [CMB2](https://wordpress.org/plugins/cmb2/) or `add_meta_box()` you can adjust the visibility, and customize the name, of the property in API requests.
 
+= Is this plugin compatible with the Core WordPress 4.7 REST API? =
+Yes! Version 1.3 of this plugin is compatible with WordPress 4.7.
+
 <strong>Note:</strong> All properties in the API request are populated using `get_post_meta()`. If you need to set a custom value, you can use the `wp_rest_api_controller_api_property_value` filter provided by this plugin. For examples, see the 'Other Notes' section.
 
 == Screenshots ==
