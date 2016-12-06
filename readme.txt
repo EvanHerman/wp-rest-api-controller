@@ -1,30 +1,26 @@
 === WP REST API Controller ===
 Contributors: yikesinc, eherman24
 Tags: rest, api, endpoint, controller, meta, data, meta_data, toggle, endpoints, rest_base, rest_name, REST API, yikes, inc
-Requires at least: 4.4
-Tested up to: 4.5.3
-Stable tag: 1.0.0
+Requires at least: WordPress 4.7 or later
+Tested up to: 4.7
+Stable tag: 1.3.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
-Enable a UI to toggle visibility, and customize properties in WP REST API requests.
+Enable a UI to toggle visibility and customize properties in WP REST API requests.
 
 == Description ==
 
-WP REST API Controller allows users to toggle the visibility of, and customize the endpoints for all post types within WordPress. Additionally, users can tweak visibility and customize the name of meta data assigned to API requests.
-
-<strong>Important: </strong> WP REST API Controller requires that [WP REST API v2](https://wordpress.org/plugins/rest-api/) or later be installed, or else this plugin will not function properly.
-
+WP REST API Controller allows users to toggle the visibility of, and customize the endpoints for, all post types within WordPress. Additionally, users can tweak visibility and customize the meta data attached to the API response.
 
 <h2>Features:</h2>
-* Enable/Disable custom post type REST API endpoints
-* Enable/Disable custom post type meta data (add or remove meta fields from API requests)
-* Rename default & custom post type endpoints (eg: change the posts API endpoints to announcements, and access it at `/wp-json/wp/v2/announcements`)
-* Rename meta data properties in API requests, so they are more user friendly.
+* Enable/Disable REST API endpoints
+* Enable/Disable post type meta data (add or remove meta fields from API requests)
+* Rename post type base endpoints (eg: change the `/posts/` API endpoints to `/announcements/`)
+* Rename meta data models in API requests, so they are more user friendly.
 * Manipulate and control post types and data created by third party plugins and themes.
-* Control API requests without writing a single line of PHP code.
-* Filters included to alter default functionality.
-
+* Granular control of API responses without writing a single line of PHP code.
+* Filters included to alter and extend default functionality.
 
 == Installation ==
 
@@ -64,10 +60,28 @@ Yes! Users can enable or disable custom meta data assigned to each post. You can
 
 == Changelog ==
 
-= 1.0.0 =
+= WP REST API Controller v1.3.0 - December 6th, 2016 =
+* Refactor code base.
+* Repair a few errors.
+* Remove additional post types (media, changeset, custom_css).
+* Updated plugin compatibility to work alongside WordPress 4.7 and later (REST API now baked into core).
+
+= WP REST API Controller v1.2.0 - July 10th, 2016 =
+* Patched issue where all meta keys were returning the same value.
+* Bumped version to v1.2.0.
+
+= WP REST API Controller v1.1.0 - July 10th, 2016 =
+* Added the ability to clear cache when new post types/meta data have been registered.
+* Added admin notices to help clarify what happened.
+* Built in support to include hidden meta keys for 'Easy Digital Downloads' and 'WooCommerce' (to enable hidden meta keys on other post types, use the `wp_rest_api_controller_exclude_hidden_meta_keys_post_types` filter.)
+* Bumped version number to v1.1.0.
+
+= WP REST API Controller v1.0.0 =
 * Initial plugin commit.
 
 == Upgrade Notice ==
 
-= 1.0.0 =
-* Initial plugin commit.
+= WP REST API Controller v1.3.0 - December 6th, 2016 =
+* Refactor code base.
+* Repair a few errors.
+* Updated plugin compatibility to work alongside WordPress 4.7 and later (REST API now baked into core).
