@@ -62,10 +62,16 @@ class wp_rest_api_controller_Settings {
 
 		$post_types = get_post_types();
 
-		unset( $post_types['revision'], $post_types['nav_menu_item'], $post_types['custom_css'], $post_types['customize_changeset'] );
+		unset(
+			$post_types['revision'],
+			$post_types['nav_menu_item'],
+			$post_types['custom_css'],
+			$post_types['customize_changeset'],
+			$post_types['attachment']
+		);
+
 
 		return apply_filters( 'wp_rest_api_controller_post_types', $post_types );
-
 	}
 
 	// ------------------------------------------------------------------

@@ -61,6 +61,8 @@ class wp_rest_api_controller {
 
 	private $enabled_post_types;
 
+	private $post_meta;
+
 	/**
 	 * Define the core functionality of the plugin.
 	 *
@@ -284,6 +286,7 @@ class wp_rest_api_controller {
 			}
 		}
 
+		return $this->post_meta[ $post_type_slug ][ $custom_meta_key_name ]['original_key'];
 	}
 
 	/**
@@ -310,7 +313,6 @@ class wp_rest_api_controller {
 			if ( ! isset( $wp_post_types[ $post_type_slug ] ) || ! is_object( $wp_post_types[ $post_type_slug ] ) ) {
 
 				continue;
-
 			}
 
 			$rest_base = $this->get_post_type_rest_base( $post_type_slug );
@@ -324,9 +326,7 @@ class wp_rest_api_controller {
 			}
 
 			$wp_post_types[ $post_type_slug ]->show_in_rest = true;
-			$wp_post_types[ $post_type_slug ]->rest_base   = $rest_base;
-			$wp_post_types[ $post_type_slug ]->rest_controller_class = 'WP_REST_Posts_Controller';
-
+			$wp_post_types[ $post_type_slug ]->rest_base    = $rest_base;
 		}
 	}
 
@@ -377,7 +377,13 @@ class wp_rest_api_controller {
 
 				$rest_api_meta_name = ( isset( $meta_data['custom_key'] ) && ! empty( $meta_data['custom_key'] ) ) ? $meta_data['custom_key'] : $meta_key;
 
-				register_rest_field( $post_type_slug,
+				$this->post_meta[ $post_type_slug ][ $rest_api_meta_name ] = array(
+					'original_key' => $meta_key,
+					'custom_key'   => $meta_data['custom_key'],
+				);
+
+				register_rest_field(
+					$post_type_slug,
 					str_replace( '-', '_', sanitize_title( $rest_api_meta_name ) ),
 					array(
 						'get_callback'    => array( $this, 'custom_meta_data_callback' ),

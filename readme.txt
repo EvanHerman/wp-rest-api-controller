@@ -63,6 +63,7 @@ Yes! Users can enable or disable custom meta data assigned to each post. You can
 = WP REST API Controller v1.3.0 - December 6th, 2016 =
 * Refactor code base.
 * Repair a few errors.
+* Remove additional post types (media, changeset, custom_css).
 * Updated plugin compatibility to work alongside WordPress 4.7 and later (REST API now baked into core).
 
 = WP REST API Controller v1.2.0 - July 10th, 2016 =
