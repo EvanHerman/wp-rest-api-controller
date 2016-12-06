@@ -1,5 +1,5 @@
 === WP REST API Controller ===
-Contributors: yikesinc, eherman24
+Contributors: yikesinc, eherman24, liljimmi, yikesitskevin
 Tags: rest, api, endpoint, controller, meta, data, meta_data, toggle, endpoints, rest_base, rest_name, REST API, yikes, inc
 Requires at least: WordPress 4.7
 Tested up to: 4.7
@@ -11,9 +11,12 @@ Enable a UI to toggle visibility and customize properties in WP REST API request
 
 == Description ==
 
-WP REST API Controller allows users to toggle the visibility of, and customize the endpoints for, all post types within WordPress. Additionally, users can tweak visibility and customize the meta data attached to the API response.
+WP REST API Controller allows admins to toggle the visibility of, and customize the endpoints for, all post types within WordPress with an easy-to-use graphical interface. Additionally, you can tweak visibility and customize the meta data attached to the API response.
 
-<h2>Features:</h2>
+> **Note:** This plugin requires WordPress Version 4.7 or to work.
+
+**Features:**
+
 * Enable/Disable REST API endpoints
 * Enable/Disable post type meta data (add or remove meta fields from API requests)
 * Rename post type base endpoints (eg: change the `/posts/` API endpoints to `/announcements/`)
@@ -29,6 +32,7 @@ WP REST API Controller allows users to toggle the visibility of, and customize t
 3. On the following screen, click the "Upload Plugin" button.
 4. Browse your computer to where you downloaded the plugin .zip file, select it and click the "Install Now" button.
 5. After the plugin has successfully installed, click "Activate Plugin" and enjoy!
+6. Find the WP REST API Controller Settings screen under the **Tools** menu in the WordPress Admin
 
 == Frequently Asked Questions ==
 
