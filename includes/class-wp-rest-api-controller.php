@@ -271,22 +271,29 @@ class wp_rest_api_controller {
 			'meta_data' => array(),
 		) );
 
-		if ( ! is_array( $meta_options['meta_data'] ) ) {
-
+		if ( ! isset( $meta_options['meta_data'] ) || ! is_array( $meta_options['meta_data'] ) ) {
 			return;
-
 		}
 
 		foreach ( $meta_options['meta_data'] as $key ) {
 
-			if ( $custom_meta_key_name === $key['custom_key'] ) {
+			if ( strtolower( $custom_meta_key_name ) === strtolower( $key['custom_key'] ) ) {
 
 				return $key['original_meta_key'];
 
 			}
 		}
 
-		return $this->post_meta[ $post_type_slug ][ $custom_meta_key_name ]['original_key'];
+		// Make sure we have a 'original_key' before returning it
+		$return_key = '';
+		if ( isset( $this->post_meta[ $post_type_slug ] ) && isset( $this->post_meta[ $post_type_slug ][ $custom_meta_key_name ] ) 
+			&& isset( $this->post_meta[ $post_type_slug ][ $custom_meta_key_name ]['original_key'] ) ) {
+
+			$return_key = $this->post_meta[ $post_type_slug ][ $custom_meta_key_name ]['original_key'];
+
+		}
+
+		return $return_key;
 	}
 
 	/**
