@@ -8,11 +8,26 @@ class wp_rest_api_controller_Settings {
 	// Store our REST API Endpoint base
 	public $rest_endpoint_base;
 
-	public function __construct() {
+	// Post type slugs that we should not allow users to enable/disable
+	private $always_enabled_post_type_slugs;
 
+	public function __construct() {
+		add_action( 'admin_init', array( $this, 'set_always_enabled_post_type_slugs' ), 1 );
 		add_action( 'admin_init', array( $this, 'wp_rest_api_controller_settings_api_init' ) );
 		add_action( 'admin_init', array( $this, 'wp_rest_api_controller_delete_api_cache' ) );
+	}
 
+	public function set_always_enabled_post_type_slugs() {
+		$this->always_enabled_post_type_slugs = apply_filters( 'wp_rest_api_controller_always_enabled_post_types', array(
+				'post',
+				'page',
+				'revision',
+				'nav_menu_item',
+				'custom_css',
+				'customize_changeset',
+				'attachment'
+			)
+		);
 	}
 
 	public function wp_rest_api_controller_settings_api_init() {
@@ -62,14 +77,12 @@ class wp_rest_api_controller_Settings {
 
 		$post_types = get_post_types();
 
-		unset(
-			$post_types['revision'],
-			$post_types['nav_menu_item'],
-			$post_types['custom_css'],
-			$post_types['customize_changeset'],
-			$post_types['attachment']
-		);
-
+		// Excluded post types
+		foreach( $this->always_enabled_post_type_slugs as $slug ) {
+			if ( isset( $post_types[ $slug ] ) ) {
+				unset( $post_types[ $slug ] );
+			}
+		}
 
 		return apply_filters( 'wp_rest_api_controller_post_types', $post_types );
 	}

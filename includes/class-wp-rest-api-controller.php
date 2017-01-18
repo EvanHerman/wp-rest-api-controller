@@ -75,7 +75,7 @@ class wp_rest_api_controller {
 	public function __construct() {
 
 		$this->plugin_name        = 'WP REST API Controller';
-		$this->version            = '1.3.0';
+		$this->version            = '1.4.0';
 		$this->enabled_post_types = $this->get_stored_post_types();
 
 		if ( isset( $plugin ) ) {
@@ -96,6 +96,8 @@ class wp_rest_api_controller {
 		$this->set_locale();
 
 		$this->define_admin_hooks();
+
+		$this->run_one_point_four_update_check();
 
 	}
 
@@ -180,6 +182,25 @@ class wp_rest_api_controller {
 
 		$this->loader->run();
 
+	}
+
+	/**
+	 * As of 1.4.0, we've made some core changes to the plugin, so run the changes
+	 *
+	 * @since    1.4.0
+	 */
+	public function run_one_point_four_update_check() {
+
+		// Check if we've done this before
+		if ( get_option( 'wp_rest_api_controller_one_point_four', false ) === false ) {
+
+			// We no longer support enabling/disabling post/page endpoints, so remove these options
+			delete_option( 'wp_rest_api_controller_post_types_post' );
+			delete_option( 'wp_rest_api_controller_post_types_page' );
+
+			// Add a flag so we don't do this all the time
+			add_option( 'wp_rest_api_controller_one_point_four', true );
+		}
 	}
 
 	/**

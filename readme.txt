@@ -2,8 +2,8 @@
 Contributors: yikesinc, eherman24, liljimmi, yikesitskevin
 Tags: rest, api, endpoint, controller, meta, data, meta_data, toggle, endpoints, rest_base, rest_name, REST API, yikes, inc
 Requires at least: WordPress 4.7
-Tested up to: 4.7
-Stable tag: 1.3.0
+Tested up to: 4.7.1
+Stable tag: 1.4.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -11,19 +11,21 @@ Enable a UI to toggle visibility and customize properties in WP REST API request
 
 == Description ==
 
-WP REST API Controller allows admins to toggle the visibility of, and customize the endpoints for, all post types within WordPress with an easy-to-use graphical interface. Additionally, you can tweak visibility and customize the meta data attached to the API response.
+WP REST API Controller allows admins to toggle the visibility of, and customize the endpoints for, all *custom* post types within WordPress with an easy-to-use graphical interface. Additionally, you can tweak visibility and customize the meta data attached to the API response.
 
 > **Note:** This plugin requires WordPress Version 4.7 or later to work.
 
 **Features:**
 
-* Enable/Disable REST API endpoints
-* Enable/Disable post type meta data (add or remove meta fields from API requests)
-* Rename post type base endpoints (eg: change the `/posts/` API endpoints to `/announcements/`)
+* Enable/Disable REST API endpoints for custom post types
+* Enable/Disable custom post type meta data (add or remove meta fields from API requests)
+* Rename custom post type base endpoints
 * Rename meta data models in API requests, so they are more user friendly.
 * Manipulate and control post types and data created by third party plugins and themes.
 * Granular control of API responses without writing a single line of PHP code.
 * Filters included to alter and extend default functionality.
+
+> **Note:** As of version 1.4.0, this plugin no longer controls default WordPress Posts or Pages.
 
 == Installation ==
 
@@ -42,7 +44,7 @@ Yes! You can quickly and easily toggle the endpoints, so they are either accessi
 
 = Can I alter the default REST endpoints using this plugin? =
 
-Yes! You can change the default post (`posts`) and page (`pages`) post type end points.
+No. You can not change the default post (`posts`) and page (`pages`) post type endpoints. You can only control custom post type endpoints.
 
 = Can I alter REST endpoints for post types from other plugins or my theme? =
 
@@ -50,7 +52,7 @@ Yes! Our plugin simply filters the `rest_base` parameter for the custom post typ
 
 = Are all post types customizable using this plugin? =
 
-Our plugin allows you to customize most of the post types within WordPress. However, we have excluded the `nav_menu_items` and `revisions` post types by default, but may consider adding them in future releases.
+Our plugin allows you to customize most of the post types within WordPress. However, we have excluded the `posts`, `pages`, `nav_menu_items` and `revisions` post types by default. As WordPress Core continues to develop REST API functionality, these post types may change.
 
 = Can we customize the meta data assigned to post types? =
 
@@ -66,6 +68,12 @@ Yes! Version 1.3 of this plugin is compatible with WordPress 4.7.
 1. WP REST API Controller settings page.
 
 == Changelog ==
+
+= WP REST API Controller v1.4.0 - January 18th, 2016 =
+* Default `posts` and `pages` are no longer controllable with this plugin (this change is due to future WordPress Core development leveraging the REST API). As a result, both endpoints will be enabled and all post meta customizations will be lost on update.
+* Added array of 'always enabled' posts and an associated filter `wp_rest_api_controller_always_enabled_post_types`. By default, post, page, revision, nav_menu_item, custom_css, customize_changeset, and attachment post types are always enabled.
+* Added logic to handle empty post meta names to prevent all post meta fields from being displayed
+* Added logic to handle uppercase letters in customized post meta names
 
 = WP REST API Controller v1.3.0 - December 6th, 2016 =
 * Refactor code base.
