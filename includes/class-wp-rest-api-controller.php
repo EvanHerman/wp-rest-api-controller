@@ -408,6 +408,12 @@ class wp_rest_api_controller {
 	function custom_meta_data_callback( $object, $field_name, $request ) {
 
 		$original_meta_key_name = $this->get_original_meta_key_name( $object['type'], $field_name );
+		
+		// If we can't find the original meta key name, then return. 
+		// We do not want our get_post_meta() call to look like get_post_meta( $id, NULL, true ) or all meta fields will be returned
+		if ( empty( $original_meta_key_name ) ) {
+			return;
+		}
 
 		return apply_filters( 'wp_rest_api_controller_api_property_value', get_post_meta( $object['id'], $original_meta_key_name, true ), $object['id'], $original_meta_key_name );
 
