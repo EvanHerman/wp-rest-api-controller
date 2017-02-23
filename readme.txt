@@ -2,8 +2,8 @@
 Contributors: yikesinc, eherman24, liljimmi, yikesitskevin
 Tags: rest, api, endpoint, controller, meta, data, meta_data, toggle, endpoints, rest_base, rest_name, REST API, yikes, inc
 Requires at least: WordPress 4.7
-Tested up to: 4.7.1
-Stable tag: 1.4.0
+Tested up to: 4.7.2
+Stable tag: 1.4.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -61,7 +61,10 @@ Yes! Users can enable or disable custom meta data assigned to each post. You can
 = Is this plugin compatible with the Core WordPress 4.7 REST API? =
 Yes! Version 1.3 of this plugin is compatible with WordPress 4.7.
 
-<strong>Note:</strong> All properties in the API request are populated using `get_post_meta()`. If you need to set a custom value, you can use the `wp_rest_api_controller_api_property_value` filter provided by this plugin. For examples, see the 'Other Notes' section.
+= How do I retrieve repeating postmeta fields? =
+A repeating postmeta field is one where there are multiple database entries for a single meta key. The default behavior of this plugin did not deal with these fields correctly (i.e. it only returned the first value). As of v1.4.1, a new filter has been added - `wp_rest_api_controller_retrieve_meta_single` - that allows you to retrieve all of the repeating post meta fields. The reason this was not set as the default behavior is that it changes the data structure of non-repeating fields (i.e. all postmeta values will be returned as arrays). This filter has three parameters: `$single` - the boolean value for returning postmeta as arrays or as single items, `$renamed_meta_key_name` - the renamed name of the meta_key we're retrieving and `$original_meta_key_name` - the original meta key name. These parameters allow you to specifically determine which fields you want returned as arrays. As always, if you have any questions please reach out to us on GitHub or through the WordPress Support forum.
+
+<strong>Note:</strong> All properties in the API request are populated using `get_post_meta()`. If you need to set a custom value, you can use the `wp_rest_api_controller_api_property_value` filter provided by this plugin.
 
 == Screenshots ==
 
@@ -69,7 +72,10 @@ Yes! Version 1.3 of this plugin is compatible with WordPress 4.7.
 
 == Changelog ==
 
-= WP REST API Controller v1.4.0 - January 18th, 2016 =
+= WP REST API Controller v1.4.1 - February 23rd, 2017 =
+* A new filter has been added: `wp_rest_api_controller_retrieve_meta_single`. This controls the `$single` argument for the `get_post_meta()` function. Please note: if you want to see all of the values for repeating meta key fields (i.e. multiple entries in the postmeta table corresponding to the same key) you *need to use this filter* and return false. If you don't you will only retrieve the first value. For more information, see the FAQ "How do I retrieve repeating postmeta fields."
+
+= WP REST API Controller v1.4.0 - January 18th, 2017 =
 * Default `posts` and `pages` are no longer controllable with this plugin (this change is due to future WordPress Core development leveraging the REST API). As a result, both endpoints will be enabled and all post meta customizations will be lost on update.
 * Added array of 'always enabled' posts and an associated filter `wp_rest_api_controller_always_enabled_post_types`. By default, post, page, revision, nav_menu_item, custom_css, customize_changeset, and attachment post types are always enabled.
 * Added logic to handle empty post meta names to prevent all post meta fields from being displayed

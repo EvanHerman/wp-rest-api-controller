@@ -443,7 +443,23 @@ class wp_rest_api_controller {
 			return;
 		}
 
-		return apply_filters( 'wp_rest_api_controller_api_property_value', get_post_meta( $object['id'], $original_meta_key_name, true ), $object['id'], $original_meta_key_name );
+
+		/**
+		*	'wp_rest_api_controller_retrieve_meta_single'
+		*
+		*	Toggle the get_post_meta's $single argument
+		*
+		*	For meta data stored with repeating keys (i.e. multiple DB entries for one meta_key value), you should set this value to false.
+		*	If you do not set this to false, you will only retrieve the first value found in the DB, rather than an array of all the values.
+		*
+		*	@param bool  | true 					| The default is true - return single
+		*	@param string| $field_name				| The renamed meta key - allows users to filter this called based on the renamed meta key name
+		*	@param string| $original_meta_key_name	| The meta key - allows users to filter this call based on the original meta key name
+		*	@return bool | T/F
+		*/
+		$retrieve_post_meta_single = apply_filters( 'wp_rest_api_controller_retrieve_meta_single', true, $field_name, $original_meta_key_name );
+
+		return apply_filters( 'wp_rest_api_controller_api_property_value', get_post_meta( $object['id'], $original_meta_key_name, $retrieve_post_meta_single ), $object['id'], $original_meta_key_name );
 
 	}
 
