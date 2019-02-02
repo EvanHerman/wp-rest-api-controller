@@ -3,7 +3,7 @@ Contributors: yikesinc, eherman24, liljimmi, yikesitskevin
 Tags: rest, api, endpoint, controller, meta, data, meta_data, toggle, endpoints, rest_base, rest_name, REST API, yikes, inc
 Requires at least: WordPress 4.7
 Tested up to: 4.7.2
-Stable tag: 1.4.1
+Stable tag: 1.4.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -71,6 +71,9 @@ A repeating postmeta field is one where there are multiple database entries for 
 1. WP REST API Controller settings page.
 
 == Changelog ==
+
+= WP REST API Controller v1.4.2 - February 2rd, 2019 =
+* Update rest_endpoint_base static string to wp-core get_rest_url() flexible url
 
 = WP REST API Controller v1.4.1 - February 23rd, 2017 =
 * A new filter has been added: `wp_rest_api_controller_retrieve_meta_single`. This controls the `$single` argument for the `get_post_meta()` function. Please note: if you want to see all of the values for repeating meta key fields (i.e. multiple entries in the postmeta table corresponding to the same key) you *need to use this filter* and return false. If you don't you will only retrieve the first value. For more information, see the FAQ "How do I retrieve repeating postmeta fields."
