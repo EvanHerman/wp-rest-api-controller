@@ -34,7 +34,11 @@ class wp_rest_api_controller_Settings {
 
 		$post_types = $this->get_registered_post_types();
 
-		$this->rest_endpoint_base = esc_url( site_url( '/wp-json/wp/v2/' ) );
+        /**
+         * @link https://developer.wordpress.org/reference/functions/get_rest_url/
+         * @return Full URL to the endpoint.
+         */
+		$this->rest_endpoint_base = esc_url( get_rest_url( null, '/wp/v2/' ) );
 
 		add_settings_section(
 			'wp_rest_api_controller_setting_section',
