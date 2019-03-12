@@ -4,7 +4,7 @@
  * 		Plugin URI:        https://www.yikesplugins.com
  * 		Description:       WP REST API Controller enables a UI to toggle endpoints in the REST API.
  * 		Version:           2.0.0
- * 		Author:            YIKES, Inc., Evan Herman, yikesitskevin
+ * 		Author:            YIKES, Inc.
  * 		Author URI:        https://www.yikesinc.com
  * 		License:           GPL-3.0+
  *		License URI:       http://www.gnu.org/licenses/gpl-3.0.txt
