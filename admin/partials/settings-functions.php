@@ -173,8 +173,8 @@ class wp_rest_api_controller_Settings {
 			'meta_data' => array(),
 		) );
 
-		$active_state   = ( isset( $options['active'] ) && 1 === absint( $options['active'] ) ) ? true : false;
-		$disabled_attr  = ( $active_state ) ? '' : 'disabled=disabled';
+		$active_state   =  isset( $options['active'] ) && 1 === absint( $options['active'] ) || ! empty( $post_type_object->show_in_rest ) && $post_type_object->show_in_rest === true;
+		$disabled_attr  = $active_state ? '' : 'disabled=disabled';
 		$post_type_meta = $this->retreive_post_type_meta_keys( $args['post_type_slug'] );
 		?>
 		<!-- Anchor for our JS -->

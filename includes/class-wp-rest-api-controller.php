@@ -244,7 +244,12 @@ class wp_rest_api_controller {
 
 		foreach ( $stored_post_types as $post_type_slug ) {
 
-			$post_type_options = get_option( "wp_rest_api_controller_post_types_{$post_type_slug}", 0 );
+			$post_type_options = get_option( "wp_rest_api_controller_post_types_{$post_type_slug}", 'unset' );
+
+			// This means nothing has been set. If the options have never been saved, don't turn things on and off.
+			if ( $post_type_options === 'unset' ) {
+				continue;
+			}
 
 			if ( $post_type_options && ( isset( $post_type_options['active'] ) && $post_type_options['active'] ) ) {
 
@@ -255,6 +260,7 @@ class wp_rest_api_controller {
 			$post_types_array[ $post_type_slug ] = 'disabled';
 
 		}
+
 		return $post_types_array;
 	}
 
@@ -275,9 +281,12 @@ class wp_rest_api_controller {
 
 		foreach ( $taxonomies as $tax_slug ) {
 
-			$tax_options = get_option( "wp_rest_api_controller_taxonomies_{$tax_slug}", 0 );
+			$tax_options = get_option( "wp_rest_api_controller_taxonomies_{$tax_slug}", 'unset' );
 
-			// var_dump( $tax_options );
+			// This means nothing has been set. If the options have never been saved, don't turn things on and off.
+			if ( $tax_options === 'unset' ) {
+				continue;
+			}
 
 			$taxonomies_array[ $tax_slug ] = array(
 				'enabled'   => ! empty( $tax_options['active'] ) && $tax_options['active'],
