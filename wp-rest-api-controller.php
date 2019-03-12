@@ -1,31 +1,19 @@
 <?php
 /**
- * 		Plugin Name:       WP REST API Controller
- * 		Plugin URI:        https://www.yikesplugins.com
- * 		Description:       WP REST API Controller enables a UI to toggle endpoints in the REST API.
- * 		Version:           2.0.0
- * 		Author:            YIKES, Inc.
- * 		Author URI:        https://www.yikesinc.com
- * 		License:           GPL-3.0+
- *		License URI:       http://www.gnu.org/licenses/gpl-3.0.txt
- * 		Text Domain:       wp-rest-api-controller
- * 		Domain Path:       /languages
+ * Plugin Name:       WP REST API Controller
+ * Plugin URI:        https://www.yikesplugins.com
+ * Description:       WP REST API Controller enables a UI to toggle endpoints in the REST API.
+ * Version:           2.0.0
+ * Author:            YIKES, Inc.
+ * Author URI:        https://www.yikesinc.com
+ * License:           GPL-3.0+
+ * icense URI:       http://www.gnu.org/licenses/gpl-3.0.txt
+ * Text Domain:       wp-rest-api-controller
+ * Domain Path:       /languages
  *
- * 		WP REST API Controller by YIKES, Inc., Evan Herman, Evan Herman is free software: you can redistribute it and/or modify
- * 		it under the terms of the GNU General Public License as published by
- * 		the Free Software Foundation, either version 2 of the License, or
- * 		any later version.
- *
- * 		WP REST API Controller by YIKES, Inc., Evan Herman, Evan Herman is distributed in the hope that it will be useful,
- * 		but WITHOUT ANY WARRANTY; without even the implied warranty of
- * 		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * 		GNU General Public License for more details.
- *
- * 		You should have received a copy of the GNU General Public License
- *		along with WP REST API Controller by YIKES, Inc., Evan Herman, Evan Herman If not, see <http://www.gnu.org/licenses/>.
- *
-**/
-
+ * WP REST API Controller by YIKES, Inc. is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version.
+ */
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
