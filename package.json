@@ -1,17 +1,18 @@
 {
-  "name": "rest-api-exposed",
-	"title": "WP REST API Controller by YIKES, Inc., Evan Herman",
-  "version": "1.2.0",
-  "description": "This plugin enables a UI to enable endpoints in the REST API.",
+  "name": "wp-rest-api-controller",
+  "title": "WP REST API Controller",
+  "version": "2.0.0",
+  "description": "This plugin offers a UI to enable/disable endpoints and meta data for CPTs and taxonomies using WordPress' REST API.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "YIKES, Inc., Evan Herman",
-	"site": "https://www.yikesinc.com",
+  "site": "https://www.yikesinc.com",
   "license": "GPLv2",
   "dependencies": {
-    "grunt": "^0.4.5"
+    "grunt": "^0.4.5",
+    "grunt-pot": "^0.3.0"
   },
   "devDependencies": {
     "autoprefixer-core": "^5.2.1",

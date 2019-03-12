@@ -29,3 +29,7 @@
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
+
+// Delete all of our plugin's options on uninstall.
+global $wpdb;
+$wpdb->execute( "DELETE FROM $wpdb->options WHERE option_name LIKE wp_rest_api_controller_% OR option_name LIKE wp-rest-api-controller-%" );

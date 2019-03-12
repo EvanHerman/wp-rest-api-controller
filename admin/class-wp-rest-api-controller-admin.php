@@ -37,7 +37,7 @@ class wp_rest_api_controller_Admin {
 	 * @access   private
 	 * @var      string    $version    The current version of this plugin.
 	 */
-	private $version;
+	private $version = '2.0.0';
 
 	/**
 	 * Initialize the class and set its properties.

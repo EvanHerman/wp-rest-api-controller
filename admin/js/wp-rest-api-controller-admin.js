@@ -29,6 +29,9 @@
 	 * practising this, we should strive to set a better example in our own work.
 	 */
 	jQuery( document ).ready( function() {
+
+		checkAllToggle();
+
 		// Check for tooltips, and initialize if they are present
 		if ( jQuery( '.tipso' ).length > 0 ) {
 			jQuery( '.tipso' ).each( function() {
@@ -48,8 +51,44 @@
 			alert( rest_api_controller_localized_admin_data.disabled_notice );
 			return false;
 		});
+
+		jQuery( 'body' ).on( 'click', '.rest-controller-tabs-list-item > a', function() {
+			var tab = jQuery( this ).data( 'tab' );
+			
+			if ( typeof tab === 'undefined' ) {
+				return;
+			}
+
+			jQuery( '#rest-controller-active-tab' ).val( tab );
+
+			toggle_section_visibility( tab, this );
+		});
+		jQuery( '.rest-controller-tabs-list-item > a[data-tab="' + jQuery( '#rest-controller-active-tab' ).val() + '"]' ).click();
 	});
 })( jQuery );
+
+function toggle_section_visibility( tab, element ) {
+	jQuery( '.rest-controller-tabs-list-item' ).removeClass( 'active' );
+	jQuery( element ).parent( '.rest-controller-tabs-list-item' ).addClass( 'active' );
+	jQuery( '.rest-api-controller-section' ).hide().parents( 'tr' ).hide();
+	jQuery( '.rest-api-controller-' + tab ).show().parents( 'tr' ).show();
+}
+
+function checkAllToggle() {
+	jQuery( '.object-meta-data' ).each( function() {
+		var allChecked = true;
+
+		jQuery( this ).find( '.meta-switch-input' ).each( function() {
+			if ( jQuery( this ).prop( 'checked' ) === false ) {
+				allChecked = false;
+			}
+		});
+
+		if ( allChecked ) {
+			jQuery( this ).find( '.all-meta-switch-input' ).prop( 'checked', true );
+		}
+	});
+}
 
 /**
  * Toggle the end point link disabled attributes
@@ -65,7 +104,7 @@ function toggleEndpointLink( checkbox ) {
 		jQuery( checkbox ).parents( 'td' ).find( '.endpoint-link' ).attr( 'disabled', 'disabled' );
 	}
 	// Toggle the visibility of the metadata fields
-	jQuery( checkbox ).parents( 'td' ).find( '.post-type-meta-data' ).fadeToggle();
+	jQuery( checkbox ).parents( 'td' ).find( '.object-meta-data' ).fadeToggle();
 	jQuery( checkbox ).parents( 'td' ).find( '.rest-api-endpoint-container' ).fadeToggle();
 }
 

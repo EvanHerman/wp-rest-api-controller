@@ -99,6 +99,33 @@ module.exports = function(grunt) {
 		 },
     },
 
+    pot: {
+      options: {
+        text_domain: 'wp-rest-api-controller', 
+        dest: 'languages/', 
+            keywords: [
+              '__:1',
+              '_e:1',
+          '_x:1,2c',
+          'esc_html__:1',
+          'esc_html_e:1',
+          'esc_html_x:1,2c',
+          'esc_attr__:1', 
+          'esc_attr_e:1', 
+          'esc_attr_x:1,2c', 
+          '_ex:1,2c',
+          '_n:1,2', 
+          '_nx:1,2,4c',
+          '_n_noop:1,2',
+          '_nx_noop:1,2,3c'
+        ],
+      },
+      files: {
+        src:  [ '**/*.php' ],
+        expand: true,
+      }
+    }
+
   });
 
   // load tasks
@@ -108,6 +135,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-banner');
   grunt.loadNpmTasks('grunt-postcss'); // CSS autoprefixer plugin (cross-browser auto pre-fixes)
   grunt.loadNpmTasks('grunt-auto-install'); // autoload all of ourd ependencies (ideally, you install this one package, and run grunt auto_install to install our dependencies automagically)
+  grunt.loadNpmTasks('grunt-pot');
 
   // register task
   grunt.registerTask('default', [

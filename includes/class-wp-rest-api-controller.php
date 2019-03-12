@@ -77,6 +77,7 @@ class wp_rest_api_controller {
 		$this->plugin_name        = 'WP REST API Controller';
 		$this->version            = '1.4.0';
 		$this->enabled_post_types = $this->get_stored_post_types();
+		$this->enabled_taxonomies = $this->get_stored_taxonomies();
 
 		if ( isset( $plugin ) ) {
 
@@ -84,11 +85,9 @@ class wp_rest_api_controller {
 
 		}
 
-		if ( $this->enabled_post_types && ! empty( $this->enabled_post_types ) ) {
-
+		if ( ! empty( $this->enabled_post_types ) || ! empty( $this->enabled_taxonomies ) ) {
 			add_action( 'init',          array( $this, 'expose_api_endpoints' ), 100 );
 			add_action( 'rest_api_init', array( $this, 'append_meta_data_to_api_request' ) );
-
 		}
 
 		$this->load_dependencies();
@@ -247,13 +246,10 @@ class wp_rest_api_controller {
 	 * @since 1.0.0
 	 */
 	public function get_stored_post_types() {
-
 		$stored_post_types = get_option( 'wp_rest_api_controller_post_types', false );
 
 		if ( ! $stored_post_types ) {
-
 			return;
-
 		}
 
 		$post_types_array = array();
@@ -265,17 +261,44 @@ class wp_rest_api_controller {
 			if ( $post_type_options && ( isset( $post_type_options['active'] ) && $post_type_options['active'] ) ) {
 
 				$post_types_array[ $post_type_slug ] = 'enabled';
-
 				continue;
-
 			}
 
 			$post_types_array[ $post_type_slug ] = 'disabled';
 
 		}
-
 		return $post_types_array;
+	}
 
+	/**
+	 * Get the stored taxonomies to expose/disable to the REST API
+	 *
+	 * @return array Array of post type slugs to expose to our API
+	 * @since 1.0.0
+	 */
+	public function get_stored_taxonomies() {
+		$taxonomies = get_option( 'wp_rest_api_controller_taxonomies', false );
+
+		if ( ! $taxonomies ) {
+			return;
+		}
+
+		$taxonomies_array = array();
+
+		foreach ( $taxonomies as $tax_slug ) {
+
+			$tax_options = get_option( "wp_rest_api_controller_taxonomies_{$tax_slug}", 0 );
+
+			// var_dump( $tax_options );
+
+			$taxonomies_array[ $tax_slug ] = array(
+				'enabled'   => ! empty( $tax_options['active'] ) && $tax_options['active'],
+				'rest_base' => ! empty( $tax_options['rest_base'] ) ? $tax_options['rest_base'] : $tax_slug,
+				'meta_data' => ! empty( $tax_options['meta_data'] ) ? $tax_options['meta_data'] : array(),
+			);
+		}
+
+		return $taxonomies_array;
 	}
 
 	/**
@@ -285,76 +308,108 @@ class wp_rest_api_controller {
 	 * @param  string $custom_meta_key_name The custom meta key defined in the options.
 	 * @return string                       The original meta key to use in get_post_meta() function
 	 */
-	public function get_original_meta_key_name( $post_type_slug, $custom_meta_key_name ) {
+	public function get_original_meta_key_name( $object_slug, $custom_meta_key_name, $is_tax = false ) {
 
-		$meta_options = get_option( "wp_rest_api_controller_post_types_{$post_type_slug}", array(
-			'active' => 0,
+		$option_name  = $is_tax ? "wp_rest_api_controller_taxonomies_{$object_slug}" : "wp_rest_api_controller_post_types_{$object_slug}";
+		$meta_options = get_option( $option_name, array(
+			'active'    => 0,
 			'meta_data' => array(),
 		) );
 
-		if ( ! isset( $meta_options['meta_data'] ) || ! is_array( $meta_options['meta_data'] ) ) {
+		if ( empty( $meta_options['meta_data'] ) ) {
 			return;
 		}
 
 		foreach ( $meta_options['meta_data'] as $key ) {
-
 			if ( strtolower( $custom_meta_key_name ) === strtolower( $key['custom_key'] ) ) {
-
 				return $key['original_meta_key'];
-
 			}
 		}
 
-		// Make sure we have a 'original_key' before returning it
-		$return_key = '';
-		if ( isset( $this->post_meta[ $post_type_slug ] ) && isset( $this->post_meta[ $post_type_slug ][ $custom_meta_key_name ] ) 
-			&& isset( $this->post_meta[ $post_type_slug ][ $custom_meta_key_name ]['original_key'] ) ) {
-
-			$return_key = $this->post_meta[ $post_type_slug ][ $custom_meta_key_name ]['original_key'];
-
-		}
-
-		return $return_key;
+		// If we can't find this key, it's already the original meta key name, so return it.
+		return $custom_meta_key_name;
 	}
 
 	/**
-	 * Expose (or disable) post types to the REST API
-	 *
-	 * @return null Expose the enabled API endpoints
+	 * Expose (or disable) post types/taxonomies to the REST API.
 	 *
 	 * @since 1.0.0
 	 */
 	public function expose_api_endpoints() {
 
-		$enabled_post_types = $this->enabled_post_types;
-
-		if ( ! $enabled_post_types || empty( $enabled_post_types ) ) {
-
-			return;
-
+		if ( ! empty( $this->enabled_post_types ) ) {
+			$this->expose_post_type_api_endpoints();
 		}
 
+		if ( ! empty( $this->enabled_taxonomies ) ) {
+			$this->expose_taxonomy_api_endpoints();
+		}
+	}
+
+	/**
+	 * Expose (or disable) post types to the REST API.
+	 *
+	 * @since 1.0.0
+	 */
+	private function expose_post_type_api_endpoints() {
 		global $wp_post_types;
 
-		foreach ( $enabled_post_types as $post_type_slug => $enabled ) {
+		foreach ( $this->enabled_post_types as $post_type_slug => $enabled ) {
 
 			if ( ! isset( $wp_post_types[ $post_type_slug ] ) || ! is_object( $wp_post_types[ $post_type_slug ] ) ) {
-
 				continue;
 			}
 
 			$rest_base = $this->get_post_type_rest_base( $post_type_slug );
 
 			if ( 'enabled' !== $enabled ) {
-
 				$wp_post_types[ $post_type_slug ]->show_in_rest = false;
-
 				continue;
-
 			}
 
 			$wp_post_types[ $post_type_slug ]->show_in_rest = true;
 			$wp_post_types[ $post_type_slug ]->rest_base    = $rest_base;
+		}
+	}
+
+	/**
+	 * Expose (or disable) taxonomies to the REST API
+	 *
+	 * @since 1.0.0
+	 */
+	private function expose_taxonomy_api_endpoints() {
+		global $taxonomies;
+
+		foreach ( $this->enabled_taxonomies as $tax_slug => $tax_params ) {
+
+			$taxonomy = get_taxonomy( $tax_slug );
+
+			if ( empty( $taxonomy ) || ! is_object( $taxonomy ) ) {
+				continue;
+			}
+
+			if ( ! $tax_params['enabled'] ) {
+				$taxonomy->show_in_rest = false;
+			} else {
+				$taxonomy->show_in_rest = true;
+				$taxonomy->rest_base    = $tax_params['rest_base'];
+			}
+		}
+	}
+
+	/**
+	 * Append post type/taxonomy meta data to the API request.
+	 *
+	 * @since 1.0.0
+	 */
+	public function append_meta_data_to_api_request() {
+
+		if ( ! empty( $this->enabled_post_types ) ) {
+			$this->append_post_type_meta_data_to_api();
+		}
+
+		if ( ! empty( $this->enabled_taxonomies ) ) {
+			$this->append_taxonomy_meta_data_to_api();
 		}
 	}
 
@@ -367,59 +422,70 @@ class wp_rest_api_controller {
 	 *
 	 * @since 1.0.0
 	 */
-	public function append_meta_data_to_api_request() {
-
-		$enabled_post_types = $this->enabled_post_types;
-
-		if ( ! $enabled_post_types || empty( $enabled_post_types ) ) {
-
-			return;
-
-		}
-
-		foreach ( $enabled_post_types as $post_type_slug => $enabled ) {
+	private function append_post_type_meta_data_to_api() {
+		foreach ( $this->enabled_post_types as $post_type_slug => $enabled ) {
 
 			if ( 'enabled' !== $enabled ) {
-
 				continue;
-
 			}
 
 			$post_type_options = get_option( "wp_rest_api_controller_post_types_{$post_type_slug}", array(
-				'active' => 0,
+				'active'    => 0,
 				'meta_data' => array(),
 			) );
 
 			if ( ! isset( $post_type_options['meta_data'] ) || empty( $post_type_options['meta_data'] ) ) {
-
 				continue;
-
 			}
 
 			foreach ( $post_type_options['meta_data'] as $meta_key => $meta_data ) {
 
 				if ( ! isset( $meta_data['active'] ) || ( isset( $meta_data['active'] ) && 1 !== absint( $meta_data['active'] ) ) ) {
-
 					continue;
 				}
 
 				$rest_api_meta_name = ( isset( $meta_data['custom_key'] ) && ! empty( $meta_data['custom_key'] ) ) ? $meta_data['custom_key'] : $meta_key;
 
-				$this->post_meta[ $post_type_slug ][ $rest_api_meta_name ] = array(
-					'original_key' => $meta_key,
-					'custom_key'   => $meta_data['custom_key'],
-				);
+				// $this->post_meta[ $post_type_slug ][ $rest_api_meta_name ] = array(
+				// 	'original_key' => $meta_key,
+				// 	'custom_key'   => $meta_data['custom_key'],
+				// );
 
 				register_rest_field(
 					$post_type_slug,
-					str_replace( '-', '_', sanitize_title( $rest_api_meta_name ) ),
+					$rest_api_meta_name,
 					array(
 						'get_callback'    => array( $this, 'custom_meta_data_callback' ),
 						'update_callback' => null,
 						'schema'          => null,
 					)
 				);
+			}
+		}
+	}
 
+	private function append_taxonomy_meta_data_to_api() {
+		foreach ( $this->enabled_taxonomies as $tax_slug => $tax_params ) {
+
+			if ( ! $tax_params['enabled'] || empty( $tax_params['meta_data'] ) ) {
+				continue;
+			}
+
+			foreach ( $tax_params['meta_data'] as $meta_key => $meta_data ) {
+
+				if ( empty( $meta_data['active'] ) ) {
+					continue;
+				}
+
+				register_rest_field(
+					$tax_slug,
+					! empty( $meta_data['custom_key'] ) ? $meta_data['custom_key'] : $meta_key,
+					array(
+						'get_callback'    => array( $this, 'custom_meta_data_callback' ),
+						'update_callback' => null,
+						'schema'          => null,
+					)
+				);
 			}
 		}
 	}
@@ -435,7 +501,10 @@ class wp_rest_api_controller {
 	 */
 	function custom_meta_data_callback( $object, $field_name, $request ) {
 
-		$original_meta_key_name = $this->get_original_meta_key_name( $object['type'], $field_name );
+		$is_tax      = isset( $object['taxonomy'] );
+		$object_type = $is_tax ? $object['taxonomy'] : $object['type'];
+
+		$original_meta_key_name = $this->get_original_meta_key_name( $object_type, $field_name, $is_tax );
 		
 		// If we can't find the original meta key name, then return. 
 		// We do not want our get_post_meta() call to look like get_post_meta( $id, NULL, true ) or all meta fields will be returned
@@ -443,24 +512,22 @@ class wp_rest_api_controller {
 			return;
 		}
 
-
 		/**
-		*	'wp_rest_api_controller_retrieve_meta_single'
-		*
-		*	Toggle the get_post_meta's $single argument
-		*
-		*	For meta data stored with repeating keys (i.e. multiple DB entries for one meta_key value), you should set this value to false.
-		*	If you do not set this to false, you will only retrieve the first value found in the DB, rather than an array of all the values.
-		*
-		*	@param bool  | true 					| The default is true - return single
-		*	@param string| $field_name				| The renamed meta key - allows users to filter this called based on the renamed meta key name
-		*	@param string| $original_meta_key_name	| The meta key - allows users to filter this call based on the original meta key name
-		*	@return bool | T/F
-		*/
+		 * Toggle the get_post_meta's $single argument.
+		 *
+		 * For meta data stored with repeating keys (i.e. multiple DB entries for one meta_key value), you should set this value to false.
+		 * If you do not set this to false, you will only retrieve the first value found in the DB, rather than an array of all the values.
+		 *
+		 * @param bool   $retrieve_single        The default is true - return single.
+		 * @param string $field_name             The renamed meta key - allows users to filter this called based on the renamed meta key name.
+		 * @param string $original_meta_key_name The meta key - allows users to filter this call based on the original meta key name.
+		 *
+		 * @return bool  True to return single, False to return all.
+		 */
 		$retrieve_post_meta_single = apply_filters( 'wp_rest_api_controller_retrieve_meta_single', true, $field_name, $original_meta_key_name );
+		$meta_value                = $is_tax ? get_term_meta( $object['id'], $original_meta_key_name, $retrieve_post_meta_single ) : get_post_meta( $object['id'], $original_meta_key_name, $retrieve_post_meta_single );
 
-		return apply_filters( 'wp_rest_api_controller_api_property_value', get_post_meta( $object['id'], $original_meta_key_name, $retrieve_post_meta_single ), $object['id'], $original_meta_key_name );
-
+		return apply_filters( 'wp_rest_api_controller_api_property_value', $meta_value, $object['id'], $original_meta_key_name, $is_tax );
 	}
 
 	/**
@@ -500,7 +567,6 @@ class wp_rest_api_controller {
 		}
 
 		return apply_filters( 'wp_rest_api_controller_rest_base', $rest_base, $post_type_slug, 0 );
-
 	}
 
 }
