@@ -57,11 +57,23 @@ class wp_rest_api_controller {
 	 */
 	protected $version;
 
-	public $plugin;
-
+	/**
+	 * Enabled post types.
+	 *
+	 * @since  1.0.0
+	 * @access private
+	 * @var    array
+	 */
 	private $enabled_post_types;
 
-	private $post_meta;
+	/**
+	 * Enabled taxonomies.
+	 *
+	 * @since  2.0.0
+	 * @access private
+	 * @var    array
+	 */
+	private $enabled_taxonomies;
 
 	/**
 	 * Define the core functionality of the plugin.
@@ -75,29 +87,19 @@ class wp_rest_api_controller {
 	public function __construct() {
 
 		$this->plugin_name        = 'WP REST API Controller';
-		$this->version            = '1.4.0';
+		$this->version            = '2.0.0';
 		$this->enabled_post_types = $this->get_stored_post_types();
 		$this->enabled_taxonomies = $this->get_stored_taxonomies();
 
-		if ( isset( $plugin ) ) {
-
-			$this->plugin = $plugin;
-
-		}
-
 		if ( ! empty( $this->enabled_post_types ) || ! empty( $this->enabled_taxonomies ) ) {
-			add_action( 'init',          array( $this, 'expose_api_endpoints' ), 100 );
+			add_action( 'init', array( $this, 'expose_api_endpoints' ), 100 );
 			add_action( 'rest_api_init', array( $this, 'append_meta_data_to_api_request' ) );
 		}
 
 		$this->load_dependencies();
-
 		$this->set_locale();
-
 		$this->define_admin_hooks();
-
 		$this->run_one_point_four_update_check();
-
 	}
 
 	/**
@@ -149,11 +151,8 @@ class wp_rest_api_controller {
 	 * @access   private
 	 */
 	private function set_locale() {
-
 		$plugin_i18n = new wp_rest_api_controller_i18n();
-
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
-
 	}
 
 	/**
@@ -164,12 +163,9 @@ class wp_rest_api_controller {
 	 * @access   private
 	 */
 	private function define_admin_hooks() {
-
-		$plugin_admin = new wp_rest_api_controller_Admin( $this->get_plugin_name(), $this->get_version() );
-
+		$plugin_admin = new WP_REST_API_Controller_Admin( $this->get_plugin_name(), $this->get_version() );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
-
 	}
 
 	/**
@@ -178,9 +174,7 @@ class wp_rest_api_controller {
 	 * @since    1.0.0
 	 */
 	public function run() {
-
 		$this->loader->run();
-
 	}
 
 	/**
@@ -190,14 +184,14 @@ class wp_rest_api_controller {
 	 */
 	public function run_one_point_four_update_check() {
 
-		// Check if we've done this before
+		// Check if we've done this before.
 		if ( get_option( 'wp_rest_api_controller_one_point_four', false ) === false ) {
 
-			// We no longer support enabling/disabling post/page endpoints, so remove these options
+			// We no longer support enabling/disabling post/page endpoints, so remove these options.
 			delete_option( 'wp_rest_api_controller_post_types_post' );
 			delete_option( 'wp_rest_api_controller_post_types_page' );
 
-			// Add a flag so we don't do this all the time
+			// Add a flag so we don't do this all the time.
 			add_option( 'wp_rest_api_controller_one_point_four', true );
 		}
 	}
@@ -210,9 +204,7 @@ class wp_rest_api_controller {
 	 * @return    string    The name of the plugin.
 	 */
 	public function get_plugin_name() {
-
 		return $this->plugin_name;
-
 	}
 
 	/**
@@ -222,9 +214,7 @@ class wp_rest_api_controller {
 	 * @return    wp_rest_api_controller_Loader    Orchestrates the hooks of the plugin.
 	 */
 	public function get_loader() {
-
 		return $this->loader;
-
 	}
 
 	/**
@@ -234,9 +224,7 @@ class wp_rest_api_controller {
 	 * @return    string    The version number of the plugin.
 	 */
 	public function get_version() {
-
 		return $this->version;
-
 	}
 
 	/**
@@ -445,11 +433,6 @@ class wp_rest_api_controller {
 				}
 
 				$rest_api_meta_name = ( isset( $meta_data['custom_key'] ) && ! empty( $meta_data['custom_key'] ) ) ? $meta_data['custom_key'] : $meta_key;
-
-				// $this->post_meta[ $post_type_slug ][ $rest_api_meta_name ] = array(
-				// 	'original_key' => $meta_key,
-				// 	'custom_key'   => $meta_data['custom_key'],
-				// );
 
 				register_rest_field(
 					$post_type_slug,

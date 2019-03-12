@@ -199,7 +199,7 @@ class wp_rest_api_controller_Settings {
 
 				<small class="edit-post-type-rest-base-active" style="display:none;">
 					<?php echo esc_url( $this->rest_endpoint_base ); ?>
-					<input class="inline-input" type="text" onchange="toggleRestBaseInput(this);" data-rest-base="<?php echo esc_url( $this->rest_endpoint_base ); ?>" name="<?php echo esc_attr( $args['option_id'] ); ?>[rest_base]" value="<?php echo esc_attr( $rest_base ); ?>">
+					<input class="inline-input" type="text" data-rest-base="<?php echo esc_url( $this->rest_endpoint_base ); ?>" name="<?php echo esc_attr( $args['option_id'] ); ?>[rest_base]" value="<?php echo esc_attr( $rest_base ); ?>">
 					<a href="#" onclick="toggleRestBaseVisbility(this,event);" class="button-secondary save-endpoint edit-endpoint-secondary-btn" class=""><?php esc_attr_e( 'Save New Endpoint', 'wp-rest-api-controller' ); ?></a>
 				</small>
 
@@ -308,7 +308,7 @@ class wp_rest_api_controller_Settings {
 
 				<small class="edit-post-type-rest-base-active" style="display:none;">
 					<?php echo esc_url( $this->rest_endpoint_base ); ?>
-					<input class="inline-input" type="text" onchange="toggleRestBaseInput(this);" data-rest-base="<?php echo esc_url( $this->rest_endpoint_base ); ?>" name="<?php echo esc_attr( $args['option_id'] ); ?>[rest_base]" value="<?php echo esc_attr( $rest_base ); ?>">
+					<input class="inline-input" type="text" data-rest-base="<?php echo esc_url( $this->rest_endpoint_base ); ?>" name="<?php echo esc_attr( $args['option_id'] ); ?>[rest_base]" value="<?php echo esc_attr( $rest_base ); ?>">
 					<a href="#" onclick="toggleRestBaseVisbility(this,event);" class="button-secondary save-endpoint edit-endpoint-secondary-btn" class=""><?php esc_attr_e( 'Save New Endpoint', 'wp-rest-api-controller' ); ?></a>
 				</small>
 

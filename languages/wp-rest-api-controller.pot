@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wp-rest-api-controller 2.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-12 09:53-0400\n"
+"POT-Creation-Date: 2019-03-12 10:41-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,126 +18,126 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: admin/class-wp-rest-api-controller-admin.php:101
+#: admin/class-wp-rest-api-controller-admin.php:85
 msgid ""
-"This post type is disabled. Enable it and save the settings, to access this "
+"This post type is disabled. Enable it and save the settings to access this "
 "link."
 msgstr ""
 
-#: admin/class-wp-rest-api-controller-admin.php:119
+#: admin/class-wp-rest-api-controller-admin.php:98
 msgid "WP REST API Controller"
 msgstr ""
 
-#: admin/class-wp-rest-api-controller-admin.php:120
+#: admin/class-wp-rest-api-controller-admin.php:99
 msgid "REST API Controller"
 msgstr ""
 
-#: admin/class-wp-rest-api-controller-admin.php:149
+#: admin/class-wp-rest-api-controller-admin.php:128
 msgid "Settings have been successfully updated."
 msgstr ""
 
-#: admin/class-wp-rest-api-controller-admin.php:155
+#: admin/class-wp-rest-api-controller-admin.php:134
 msgid ""
 "The WP REST API Controller cache has been cleared, and the post type and "
 "meta data lists below have been updated."
 msgstr ""
 
-#: admin/partials/settings-functions.php:151
+#: admin/partials/settings-functions.php:157
 msgid "Toggle visibility of post types and select meta data to the REST API."
 msgstr ""
 
-#: admin/partials/settings-functions.php:152
+#: admin/partials/settings-functions.php:158
 msgid "Toggle visibility of taxonomies and select meta data to the REST API."
 msgstr ""
 
-#: admin/partials/settings-functions.php:180
-#: admin/partials/settings-functions.php:289
+#: admin/partials/settings-functions.php:186
+#: admin/partials/settings-functions.php:295
 msgid "Enabled"
 msgstr ""
 
-#: admin/partials/settings-functions.php:180
-#: admin/partials/settings-functions.php:289
+#: admin/partials/settings-functions.php:186
+#: admin/partials/settings-functions.php:295
 msgid "Disabled"
 msgstr ""
 
-#: admin/partials/settings-functions.php:190
-#: admin/partials/settings-functions.php:299
+#: admin/partials/settings-functions.php:196
+#: admin/partials/settings-functions.php:305
 msgid "REST Endpoint"
 msgstr ""
 
-#: admin/partials/settings-functions.php:190
+#: admin/partials/settings-functions.php:196
 #, php-format
 msgid "Access the %s post type via the REST API at the following URL."
 msgstr ""
 
-#: admin/partials/settings-functions.php:191
-#: admin/partials/settings-functions.php:300
-msgid "Edit Endpoint"
-msgstr ""
-
 #: admin/partials/settings-functions.php:197
 #: admin/partials/settings-functions.php:306
-msgid "Save New Endpoint"
+msgid "Edit Endpoint"
 msgstr ""
 
 #: admin/partials/settings-functions.php:203
 #: admin/partials/settings-functions.php:312
+msgid "Save New Endpoint"
+msgstr ""
+
+#: admin/partials/settings-functions.php:209
+#: admin/partials/settings-functions.php:318
 msgid ""
 "This endpoint was updated. You need to re-save the settings to access this "
 "post type at the endpoint above."
 msgstr ""
 
-#: admin/partials/settings-functions.php:227
-#: admin/partials/settings-functions.php:336
+#: admin/partials/settings-functions.php:233
+#: admin/partials/settings-functions.php:342
 msgid "Diable All"
 msgstr ""
 
-#: admin/partials/settings-functions.php:227
-#: admin/partials/settings-functions.php:336
+#: admin/partials/settings-functions.php:233
+#: admin/partials/settings-functions.php:342
 msgid "Enable All"
 msgstr ""
 
-#: admin/partials/settings-functions.php:231
-#: admin/partials/settings-functions.php:340
+#: admin/partials/settings-functions.php:237
+#: admin/partials/settings-functions.php:346
 msgid "Meta Key"
 msgstr ""
 
-#: admin/partials/settings-functions.php:231
-#: admin/partials/settings-functions.php:340
+#: admin/partials/settings-functions.php:237
+#: admin/partials/settings-functions.php:346
 msgid "This is the default meta key stored by WordPress."
 msgstr ""
 
-#: admin/partials/settings-functions.php:232
-#: admin/partials/settings-functions.php:341
+#: admin/partials/settings-functions.php:238
+#: admin/partials/settings-functions.php:347
 msgid "Custom Meta Key"
 msgstr ""
 
-#: admin/partials/settings-functions.php:232
-#: admin/partials/settings-functions.php:341
+#: admin/partials/settings-functions.php:238
+#: admin/partials/settings-functions.php:347
 msgid "Specify a custom meta key to use instead of the default."
 msgstr ""
 
-#: admin/partials/settings-functions.php:246
-#: admin/partials/settings-functions.php:355
+#: admin/partials/settings-functions.php:252
+#: admin/partials/settings-functions.php:361
 msgid "On"
 msgstr ""
 
-#: admin/partials/settings-functions.php:246
-#: admin/partials/settings-functions.php:355
+#: admin/partials/settings-functions.php:252
+#: admin/partials/settings-functions.php:361
 msgid "Off"
 msgstr ""
 
-#: admin/partials/settings-functions.php:265
+#: admin/partials/settings-functions.php:271
 #, php-format
 msgid "Expose the %s post type to the REST API."
 msgstr ""
 
-#: admin/partials/settings-functions.php:299
+#: admin/partials/settings-functions.php:305
 #, php-format
 msgid "Access the %s taxonomy via the REST API at the following URL."
 msgstr ""
 
-#: admin/partials/settings-functions.php:374
+#: admin/partials/settings-functions.php:380
 #, php-format
 msgid "Expose the %s taxonomy to the REST API."
 msgstr ""
