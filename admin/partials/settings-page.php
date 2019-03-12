@@ -1,12 +1,11 @@
 <?php
 $kses_filter = array(
 	'input' => array(
-		'type' => array(),
-		'name' => array(),
-		'id' => array(),
-		'class' => array(),
-		'value' => array(),
-		'pmbx_context' => array(),
+		'type'         => array(),
+		'name'         => array(),
+		'id'           => array(),
+		'class'        => array(),
+		'value'        => array(),
 	),
 );
 $clear_api_cache_button = get_submit_button( __( 'Clear Cache', 'wp-rest-api-controller' ), 'secondary', 'clear-wp-rest-api-controller-cache' );

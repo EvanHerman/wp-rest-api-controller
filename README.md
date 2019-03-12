@@ -5,11 +5,10 @@
 Control post type and associated meta data exposure to the REST API. Say goodbye to manually enabling/disabling rest API endpoints via code, now you can use our dashboard interface to control exposure of your post types to the WP REST API.
 
 **Features:**
-* Enable/Disable REST API endpoints
-* Enable/Disable post type meta data (add or remove meta fields from API requests)
-* Rename post type base endpoints (eg: change the `/posts/` API endpoints to `/announcements/`)
-* Rename meta data models in API requests, so they are more user friendly.
-* Manipulate and control post types and data created by third party plugins and themes.
+* Enable/Disable REST API endpoints for taxonomies and CPTs
+* Enable/Disable post type/taxonomy meta data (add or remove meta fields from API requests)
+* Rename post type/taxonomy base endpoints
+* Rename meta data names in API requests so they are more user friendly.
 
 <em>This plugin has reached maturity and has been released to the [WordPress.org repository](https://wordpress.org/support/plugin/wp-rest-api-controller). Enjoy!</em>
 
@@ -26,7 +25,9 @@ All pull requests welcome!
 ##### Filters
 
 * `wp_rest_api_controller_rest_base`
-* `wp_rest_api_controller_post_types` (***Note: Revision and nav menu items are not currently controllable with this plugin***)
+* `wp_rest_api_controller_post_types` (***Note: Revisions, Posts, Pages, and Nav Menu Items are not controllable with this plugin without using filters***)
 * `wp_rest_api_controller_api_property_value`
-* `wp_rest_api_controller_exclude_hidden_meta_keys_post_types`
-* `wp-rest-api-controller-excluded-taxonomies`
+* `wp_rest_api_controller_always_enabled_post_types`
+* `wp_rest_api_controller_excluded_taxonomy_slugs`
+* `wp_rest_api_controller_taxonomies`
+* `wp_rest_api_controller_retrieve_meta_single`
