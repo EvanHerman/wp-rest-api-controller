@@ -2,8 +2,8 @@
 Contributors: yikesinc, eherman24, liljimmi, yikesitskevin
 Tags: rest, api, endpoint, controller, meta, data, meta_data, toggle, endpoints, rest_base, rest_name, REST API, yikes, inc
 Requires at least: WordPress 4.7
-Tested up to: 5.1.0
-Stable tag: 2.0.0
+Tested up to: 5.2.0
+Stable tag: 2.0.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -71,6 +71,9 @@ A repeating postmeta field is one where there are multiple database entries for 
 1. WP REST API Controller settings page.
 
 == Changelog ==
+
+= 2.0.1 - May 13th, 2019 =
+* Fixing uninstall issue.
 
 = 2.0.0 - March 12th, 2019 =
 * Taxonomies are now added to the WP REST API Controller! You can rename taxonomy endpoints, enable/disable taxonomy meta, and rename taxonomy meta.
