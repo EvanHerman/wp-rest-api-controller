@@ -89,11 +89,16 @@ function toggleEndpointLink( checkbox ) {
  * @return null
  */
 function toggleRestBaseVisbility( clicked_button, event ) {
-	var parent_container = jQuery( clicked_button ).parents( 'td' );
-	if ( jQuery( clicked_button ).hasClass( 'save-endpoint' ) ) {
+	var clicked_button_obj = jQuery( clicked_button );
+	var parent_container   = clicked_button_obj.parents( 'td' );
+	if ( clicked_button_obj.hasClass( 'save-endpoint' ) ) {
+		var endpoint  = clicked_button_obj.siblings( '.inline-input' ).val();
+		var rest_base = clicked_button_obj.siblings( '.inline-input' ).data( 'rest-base' );
+		var href      = rest_base + endpoint;
 		parent_container.find( '.edit-post-type-rest-base-active' ).fadeTo( 'fast', 0, function() {
 			jQuery( this ).hide();
 			parent_container.find( '.edit-post-type-rest-base-disabled' ).fadeTo( 'fast', 1 );
+			parent_container.find( '.endpoint-link' ).attr( 'href', href ).text( href );
 		});
 	} else {
 		parent_container.find( '.edit-post-type-rest-base-disabled' ).fadeTo( 'fast', 0, function() {

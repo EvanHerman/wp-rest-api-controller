@@ -175,7 +175,7 @@ class wp_rest_api_controller_Settings {
 
 		$active_state   =  isset( $options['active'] ) && 1 === absint( $options['active'] ) || ! empty( $post_type_object->show_in_rest ) && $post_type_object->show_in_rest === true;
 		$disabled_attr  = $active_state ? '' : 'disabled=disabled';
-		$post_type_meta = $this->retreive_post_type_meta_keys( $args['post_type_slug'] );
+		$post_type_meta = $this->retrieve_post_type_meta_keys( $args['post_type_slug'] );
 		?>
 		<!-- Anchor for our JS -->
 		<span class="rest-api-controller-post-types rest-api-controller-section"></span>
@@ -208,13 +208,6 @@ class wp_rest_api_controller_Settings {
 					<span class="dashicons dashicons-info"></span>
 					<?php esc_attr_e( 'This endpoint was updated. You need to re-save the settings to access this post type at the endpoint above.', 'wp-rest-api-controller' ); ?>
 				</span>
-
-				<!-- Original rest base -->
-				<input type="hidden" class="rest-base-original-hidden-input" value="<?php echo esc_url( $this->rest_endpoint_base . $rest_base ); ?>">
-
-				<!-- New rest base -->
-				<input type="hidden" class="rest-base-hidden-input" name="<?php echo esc_attr( $args['option_id'] ); ?>[rest_base]" value="<?php echo esc_attr( $rest_base ); ?>">
-
 			</p>
 
 			<!-- End API Endpoint Example -->
@@ -283,8 +276,7 @@ class wp_rest_api_controller_Settings {
 
 		$active_state  = isset( $options['active'] ) && 1 === absint( $options['active'] ) || ! empty( $taxonomy->show_in_rest ) && $taxonomy->show_in_rest === true;
 		$rest_base     = ! empty( $options['rest_base'] ) ? $options['rest_base'] : $args['tax_slug'];
-		$taxonomy_meta = $this->retreive_taxonomy_meta_keys( $taxonomy->name );
-
+		$taxonomy_meta = $this->retrieve_taxonomy_meta_keys( $taxonomy->name );
 		?>
 
 		<span class="rest-api-controller-taxonomies rest-api-controller-section"></span>
@@ -317,13 +309,6 @@ class wp_rest_api_controller_Settings {
 					<span class="dashicons dashicons-info"></span>
 					<?php esc_attr_e( 'This endpoint was updated. You need to re-save the settings to access this post type at the endpoint above.', 'wp-rest-api-controller' ); ?>
 				</span>
-
-				<!-- Original rest base -->
-				<input type="hidden" class="rest-base-original-hidden-input" value="<?php echo esc_url( $this->rest_endpoint_base . $rest_base ); ?>">
-
-				<!-- New rest base -->
-				<input type="hidden" class="rest-base-hidden-input" name="<?php echo esc_attr( $args['option_id'] ); ?>[rest_base]" value="<?php echo esc_attr( $rest_base ); ?>">
-
 			</p>
 
 			<!-- End API Endpoint Example -->
@@ -382,14 +367,14 @@ class wp_rest_api_controller_Settings {
 	}
 
 	/**
-	 * Retreive the meta data assigned to a post, and cache it in a transient
+	 * retrieve the meta data assigned to a post, and cache it in a transient
 	 * Note: This only retreives meta that has already been stored. If the meta has been
 	 * registered, but no post has any meta assigned to it - it will not display.
 	 *
 	 * @param  string $post_type The post type name to retreive meta data for.
 	 * @return array             The array of meta data for the given post type.
 	 */
-	public function retreive_post_type_meta_keys( $post_type ) {
+	public function retrieve_post_type_meta_keys( $post_type ) {
 
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG || false === ( $meta_keys = get_transient( $post_type . '_meta_keys' ) ) ) {
 
@@ -403,6 +388,7 @@ class wp_rest_api_controller_Settings {
 			";
 
 			$meta_keys = $wpdb->get_col( $wpdb->prepare( $query, $post_type ) );
+			$meta_keys = array_filter( $meta_keys );
 
 			set_transient( $post_type . '_meta_keys', $meta_keys, DAY_IN_SECONDS );
 
@@ -412,14 +398,14 @@ class wp_rest_api_controller_Settings {
 	}
 
 	/**
-	 * Retreive the meta data assigned to a post, and cache it in a transient
+	 * retrieve the meta data assigned to a post, and cache it in a transient
 	 * Note: This only retreives meta that has already been stored. If the meta has been
 	 * registered, but no post has any meta assigned to it - it will not display.
 	 *
 	 * @param  string $tax_slug  The post type name to retreive meta data for.
 	 * @return array             The array of meta data for the given post type.
 	 */
-	public function retreive_taxonomy_meta_keys( $tax_slug ) {
+	public function retrieve_taxonomy_meta_keys( $tax_slug ) {
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG || false === ( $meta_keys = get_transient( $tax_slug . '_meta_keys' ) ) ) {
 
 			global $wpdb;
@@ -434,6 +420,7 @@ class wp_rest_api_controller_Settings {
 			";
 
 			$meta_keys = $wpdb->get_col( $wpdb->prepare( $query, $tax_slug ) );
+			$meta_keys = array_filter( $meta_keys );
 
 			set_transient( $tax_slug . '_meta_keys', $meta_keys, DAY_IN_SECONDS );
 		}
