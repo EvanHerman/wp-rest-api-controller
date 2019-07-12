@@ -72,7 +72,7 @@ A repeating postmeta field is one where there are multiple database entries for 
 
 == Changelog ==
 
-= 2.0.2 - July 8th, 2019 =
+= 2.0.2 - July 12th, 2019 =
 * Fixing bug with renaming endpoints.
 * Fixing bug where empty meta fields would appear in a taxonomy's list.
 * Some code cleanup.
