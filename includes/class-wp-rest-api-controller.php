@@ -474,7 +474,7 @@ class wp_rest_api_controller {
 					! empty( $meta_data['custom_key'] ) ? $meta_data['custom_key'] : $meta_key,
 					array(
 						'get_callback'    => array( $this, 'custom_meta_data_callback' ),
-						'update_callback' => array( $this, 'custom_update_meta_data_callback' ),
+						'update_callback' => null,
 						'schema'          => null,
 					)
 				);
@@ -526,19 +526,17 @@ class wp_rest_api_controller {
 	 * Callback function to update metadata value for the field
 	 *
 	 * @param  array   $value       New value to update with
-	 * @param  array   $object      Post object
+	 * @param  array   $post      Post object
 	 * @param  string  $field_name  Field name.
 	 *
 	 * @return string               The original meta key name to use in get_post_meta();
 	 */
-	function custom_update_meta_data_callback( $value, $object, $field_name ) {
+	function custom_update_meta_data_callback( $value, $post, $field_name ) {
 		// TODO: should we add a check whether $value is empty? Sounds like no, since
 		// if someone doesn't want to update the value - he should skip the field from request at all
 
-		$is_tax      = isset( $object['taxonomy'] );
-		$object_type = $is_tax ? $object['taxonomy'] : $object['type'];
-
-		$original_meta_key_name = $this->get_original_meta_key_name( $object_type, $field_name, $is_tax );
+		$object_type = $post->post_type;
+		$original_meta_key_name = $this->get_original_meta_key_name( $object_type, $field_name );
 
 		// If we can't find the original meta key name, then return.
 		// We do not want our get_post_meta() call to look like get_post_meta( $id, NULL, true ) or all meta fields will be returned
@@ -548,7 +546,7 @@ class wp_rest_api_controller {
 
 		// TODO: should we add an additional security check before persisting to DB?
 		// TODO: should we add an a filter BEFORE the value is being persisted to DB?
-		return $is_tax ? update_term_meta( $object['id'], $original_meta_key_name, $value ) : update_post_meta( $object['id'], $original_meta_key_name, $value );
+		return update_post_meta( $post->ID, $original_meta_key_name, $value );
 	}
 
 	/**
