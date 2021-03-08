@@ -7,7 +7,7 @@
  * Author:            YIKES, Inc.
  * Author URI:        https://www.yikesinc.com
  * License:           GPL-3.0+
- * icense URI:       http://www.gnu.org/licenses/gpl-3.0.txt
+ * License URI:       http://www.gnu.org/licenses/gpl-3.0.txt
  * Text Domain:       wp-rest-api-controller
  * Domain Path:       /languages
  *
@@ -21,22 +21,22 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 /**
- * 	Define path constant to our plugin directory.
+ *  Define path constant to our plugin directory.
  *
- * 	@since 6.0.0
- *	@return void
+ *  @since 6.0.0
+ *  @return void
  */
 if ( ! defined( 'WP_REST_API_CONTROLLER_PATH' ) ) {
-	define( 'WP_REST_API_CONTROLLER_PATH' , plugin_dir_path( __FILE__ ) );
+	define( 'WP_REST_API_CONTROLLER_PATH', plugin_dir_path( __FILE__ ) );
 }
 /**
- * 	Define URL constant to our plugin directory.
+ *  Define URL constant to our plugin directory.
  *
- * 	@since 6.0.0
- *	@return void
+ *  @since 6.0.0
+ *  @return void
  */
 if ( ! defined( 'WP_REST_API_CONTROLLER_URL' ) ) {
-	define( 'WP_REST_API_CONTROLLER_URL' , plugin_dir_url( __FILE__ ) );
+	define( 'WP_REST_API_CONTROLLER_URL', plugin_dir_url( __FILE__ ) );
 }
 
 /**
