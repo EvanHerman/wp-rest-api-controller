@@ -1,5 +1,5 @@
 === ===
-Contributors: yikesinc, eherman24, liljimmi, yikesitskevin
+Contributors: yikesinc, eherman24, liljimmi, yikesitskevin, jpowersdev
 Tags: rest, api, endpoint, controller, meta, data, meta_data, toggle, endpoints, rest_base, rest_name, REST API, yikes, inc
 Requires at least: WordPress 4.7
 Tested up to: 5.6.2
