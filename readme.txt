@@ -2,7 +2,7 @@
 Contributors: yikesinc, eherman24, liljimmi, yikesitskevin
 Tags: rest, api, endpoint, controller, meta, data, meta_data, toggle, endpoints, rest_base, rest_name, REST API, yikes, inc
 Requires at least: WordPress 4.7
-Tested up to: 5.2.0
+Tested up to: 5.6
 Stable tag: 2.0.3
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
