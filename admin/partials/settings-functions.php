@@ -3,6 +3,9 @@
 // Add all the sections, fields and settings during admin_init
 // ------------------------------------------------------------------
 //
+
+use wp_rest_api_controller;
+
 class wp_rest_api_controller_Settings {
 
 	// Store our REST API Endpoint base.

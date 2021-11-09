@@ -88,7 +88,7 @@ class wp_rest_api_controller {
 
 		$this->plugin_name        = 'WP REST API Controller';
 		$this->version            = '2.0.5';
-		$this->enabled_post_types = $this->get_stored_post_types();
+		$this->enabled_post_types = self::get_stored_post_types();
 		$this->enabled_taxonomies = $this->get_stored_taxonomies();
 
 		if ( ! empty( $this->enabled_post_types ) || ! empty( $this->enabled_taxonomies ) ) {
@@ -233,7 +233,7 @@ class wp_rest_api_controller {
 	 * @return array Array of post type slugs to expose to our API
 	 * @since 1.0.0
 	 */
-	public function get_stored_post_types() {
+	public static function get_stored_post_types() {
 		$stored_post_types = get_option( 'wp_rest_api_controller_post_types', false );
 
 		if ( ! $stored_post_types ) {
@@ -357,7 +357,7 @@ class wp_rest_api_controller {
 				continue;
 			}
 
-			$rest_base = $this->get_post_type_rest_base( $post_type_slug );
+			$rest_base = self::get_post_type_rest_base( $post_type_slug );
 
 			if ( 'enabled' !== $enabled ) {
 				$wp_post_types[ $post_type_slug ]->show_in_rest = false;
@@ -497,8 +497,8 @@ class wp_rest_api_controller {
 		$object_type = $is_tax ? $object['taxonomy'] : $object['type'];
 
 		$original_meta_key_name = $this->get_original_meta_key_name( $object_type, $field_name, $is_tax );
-		
-		// If we can't find the original meta key name, then return. 
+
+		// If we can't find the original meta key name, then return.
 		// We do not want our get_post_meta() call to look like get_post_meta( $id, NULL, true ) or all meta fields will be returned
 		if ( empty( $original_meta_key_name ) ) {
 			return;
