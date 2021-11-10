@@ -4,8 +4,6 @@
 // ------------------------------------------------------------------
 //
 
-use wp_rest_api_controller;
-
 class wp_rest_api_controller_Settings {
 
 	// Store our REST API Endpoint base.
