@@ -72,6 +72,10 @@ A repeating postmeta field is one where there are multiple database entries for 
 
 == Changelog ==
 
+= 2.0.7 - November 10th, 2021=
+* PHP 8 Compatibility
+* Bugfixes
+
 = 2.0.5 - March 8th, 2021 =
 * Housekeeping
 
