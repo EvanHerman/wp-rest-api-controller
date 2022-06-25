@@ -448,7 +448,7 @@ class wp_rest_api_controller {
 					$rest_api_meta_name,
 					array(
 						'get_callback'    => array( $this, 'custom_meta_data_callback' ),
-						'update_callback' => null,
+						'update_callback' => array( $this, 'custom_update_meta_data_callback' ),
 						'schema'          => null,
 					)
 				);
@@ -520,6 +520,33 @@ class wp_rest_api_controller {
 		$meta_value                = $is_tax ? get_term_meta( $object['id'], $original_meta_key_name, $retrieve_post_meta_single ) : get_post_meta( $object['id'], $original_meta_key_name, $retrieve_post_meta_single );
 
 		return apply_filters( 'wp_rest_api_controller_api_property_value', $meta_value, $object['id'], $original_meta_key_name, $is_tax );
+	}
+
+	/**
+	 * Callback function to update metadata value for the field
+	 *
+	 * @param  array   $value       New value to update with
+	 * @param  array   $post      Post object
+	 * @param  string  $field_name  Field name.
+	 *
+	 * @return string               The original meta key name to use in get_post_meta();
+	 */
+	function custom_update_meta_data_callback( $value, $post, $field_name ) {
+		// TODO: should we add a check whether $value is empty? Sounds like no, since
+		// if someone doesn't want to update the value - he should skip the field from request at all
+
+		$object_type = $post->post_type;
+		$original_meta_key_name = $this->get_original_meta_key_name( $object_type, $field_name );
+
+		// If we can't find the original meta key name, then return.
+		// We do not want our get_post_meta() call to look like get_post_meta( $id, NULL, true ) or all meta fields will be returned
+		if ( empty( $original_meta_key_name ) ) {
+			return;
+		}
+
+		// TODO: should we add an additional security check before persisting to DB?
+		// TODO: should we add an a filter BEFORE the value is being persisted to DB?
+		return update_post_meta( $post->ID, $original_meta_key_name, $value );
 	}
 
 	/**
