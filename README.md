@@ -1,6 +1,6 @@
 # WP REST API Controller
 
-![Rest API Controller Banner](https://ps.w.org/wp-rest-api-controller/assets/banner-772x250.png)
+<img src="https://ps.w.org/wp-rest-api-controller/assets/banner-772x250.png" width="100%" />
 
 Control post type and associated meta data exposure to the REST API. Say goodbye to manually enabling/disabling rest API endpoints via code, now you can use our dashboard interface to control exposure of your post types to the WP REST API.
 
