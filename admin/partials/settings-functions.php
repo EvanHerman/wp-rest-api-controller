@@ -37,7 +37,7 @@ class WP_REST_API_Controller_Settings {
 	 * Class constructor.
 	 */
 	public function __construct() {
-		add_action( 'admin_init', array( $this, 'set_always_enabled_post_type_slugs' ), 1 );
+		add_action( 'admin_init', array( $this, 'set_always_enabled_post_type_slugs' ) );
 		add_action( 'admin_init', array( $this, 'wp_rest_api_controller_settings_api_init' ) );
 		add_action( 'admin_init', array( $this, 'wp_rest_api_controller_delete_api_cache' ) );
 	}
