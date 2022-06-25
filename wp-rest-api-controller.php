@@ -86,7 +86,7 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-wp-rest-api-controller.php
  */
 function run_wp_rest_api_controller() {
 
-	$plugin = new wp_rest_api_controller();
+	$plugin = new WP_REST_API_Controller();
 	$plugin->run();
 
 }

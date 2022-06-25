@@ -221,7 +221,7 @@ class WP_REST_API_Controller_Settings {
 	public function wp_rest_api_controller_setting_section_setting_callback_function( $args ) {
 
 		$post_type_object = get_post_type_object( $args['post_type_slug'] );
-		$rest_base        = wp_rest_api_controller::get_post_type_rest_base( $args['post_type_slug'] );
+		$rest_base        = WP_REST_API_Controller::get_post_type_rest_base( $args['post_type_slug'] );
 		$singular_name    = ! empty( $post_type_object->labels ) && ! empty( $post_type_object->labels->singular_name ) ? $post_type_object->labels->singular_name : $args['post_type_name'];
 		$options          = get_option(
 			$args['option_id'],
@@ -450,15 +450,20 @@ class WP_REST_API_Controller_Settings {
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG || false === $meta_keys ) {
 
 			global $wpdb;
-			$query = "
-				SELECT DISTINCT($wpdb->postmeta.meta_key)
-				FROM $wpdb->posts
-				LEFT JOIN $wpdb->postmeta
-				ON $wpdb->posts.ID = $wpdb->postmeta.post_id
-				WHERE $wpdb->posts.post_type = '%s'
-			";
 
-			$meta_keys = $wpdb->get_col( $wpdb->prepare( $query, $post_type ) );
+			$meta_keys = $wpdb->get_col(
+				$wpdb->prepare(
+					"
+					SELECT DISTINCT($wpdb->postmeta.meta_key)
+					FROM $wpdb->posts
+					LEFT JOIN $wpdb->postmeta
+					ON $wpdb->posts.ID = $wpdb->postmeta.post_id
+					WHERE $wpdb->posts.post_type = '%s'
+					",
+					$post_type
+				)
+			);
+
 			$meta_keys = array_filter( $meta_keys );
 
 			set_transient( $post_type . '_meta_keys', $meta_keys, DAY_IN_SECONDS );
@@ -482,17 +487,21 @@ class WP_REST_API_Controller_Settings {
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG || false === $meta_keys ) {
 
 			global $wpdb;
-			$query = "
-				SELECT DISTINCT($wpdb->termmeta.meta_key)
-				FROM $wpdb->terms
-				LEFT JOIN $wpdb->termmeta
-				ON $wpdb->terms.term_id = $wpdb->termmeta.term_id
-				LEFT JOIN $wpdb->term_taxonomy
-				ON $wpdb->terms.term_id = $wpdb->term_taxonomy.term_id
-				WHERE $wpdb->term_taxonomy.taxonomy = '%s'
-			";
 
-			$meta_keys = $wpdb->get_col( $wpdb->prepare( $query, $tax_slug ) );
+			$meta_keys = $wpdb->get_col(
+				$wpdb->prepare(
+					"
+						SELECT DISTINCT($wpdb->termmeta.meta_key)
+						FROM $wpdb->terms
+						LEFT JOIN $wpdb->termmeta
+						ON $wpdb->terms.term_id = $wpdb->termmeta.term_id
+						LEFT JOIN $wpdb->term_taxonomy
+						ON $wpdb->terms.term_id = $wpdb->term_taxonomy.term_id
+						WHERE $wpdb->term_taxonomy.taxonomy = '%s'
+					",
+					$tax_slug
+				)
+			);
 			$meta_keys = array_filter( $meta_keys );
 
 			set_transient( $tax_slug . '_meta_keys', $meta_keys, DAY_IN_SECONDS );
@@ -508,9 +517,13 @@ class WP_REST_API_Controller_Settings {
 	 */
 	public function wp_rest_api_controller_delete_api_cache() {
 
-		if ( isset( $_POST['clear-wp-rest-api-controller-cache'] ) ) {
+		$clear_cache_button_clicked = filter_input( INPUT_POST, 'clear-wp-rest-api-controller-cache', FILTER_SANITIZE_STRING );
 
-			if ( ! isset( $_POST['clear_wp_rest_api_controller_cache'] ) || ! wp_verify_nonce( $_POST['clear_wp_rest_api_controller_cache'], 'clear_wp_rest_api_controller_cache' ) ) {
+		if ( $clear_cache_button_clicked && ! empty( $clear_cache_button_clicked ) ) {
+
+			$clear_rest_api_controller_cache = filter_input( INPUT_POST, 'clear_wp_rest_api_controller_cache', FILTER_SANITIZE_STRING );
+
+			if ( ! $clear_rest_api_controller_cache || ! wp_verify_nonce( $clear_rest_api_controller_cache, 'clear_wp_rest_api_controller_cache' ) ) {
 
 				wp_safe_redirect(
 					add_query_arg(
@@ -525,7 +538,7 @@ class WP_REST_API_Controller_Settings {
 
 			} else {
 
-				$post_types = wp_rest_api_controller::get_stored_post_types();
+				$post_types = WP_REST_API_Controller::get_stored_post_types();
 
 				if ( $post_types && ! empty( $post_types ) ) {
 					foreach ( $post_types as $post_type_slug => $post_type_data ) {

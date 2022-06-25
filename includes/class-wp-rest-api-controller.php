@@ -8,8 +8,8 @@
  * @link       https://www.evan-herman.com
  * @since      1.0.0
  *
- * @package    wp_rest_api_controller
- * @subpackage wp_rest_api_controller/includes
+ * @package    WP_REST_API_Controller
+ * @subpackage WP_REST_API_Controller/includes
  */
 
 /**
@@ -22,11 +22,11 @@
  * version of the plugin.
  *
  * @since      1.0.0
- * @package    wp_rest_api_controller
- * @subpackage wp_rest_api_controller/includes
+ * @package    WP_REST_API_Controller
+ * @subpackage WP_REST_API_Controller/includes
  * @author     YIKES, Inc., Evan Herman
  */
-class wp_rest_api_controller {
+class WP_REST_API_Controller {
 
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
@@ -250,7 +250,7 @@ class wp_rest_api_controller {
 			$post_type_options = get_option( "wp_rest_api_controller_post_types_{$post_type_slug}", 'unset' );
 
 			// This means nothing has been set. If the options have never been saved, don't turn things on and off.
-			if ( $post_type_options === 'unset' ) {
+			if ( 'unest' === $post_type_options ) {
 				continue;
 			}
 
@@ -288,7 +288,7 @@ class wp_rest_api_controller {
 			$tax_options = get_option( "wp_rest_api_controller_taxonomies_{$tax_slug}", 'unset' );
 
 			// This means nothing has been set. If the options have never been saved, don't turn things on and off.
-			if ( $tax_options === 'unset' ) {
+			if ( 'unset' === $tax_options ) {
 				continue;
 			}
 
@@ -306,9 +306,11 @@ class wp_rest_api_controller {
 	 * Based on the value of a custom meta key in the WP REST API array
 	 * we return the original key, so that get_post_meta() can be used properly
 	 *
+	 * @param string $object_slug          The post object slug.
 	 * @param string $custom_meta_key_name The custom meta key defined in the options.
+	 * @param string $is_tax               Is this a taxaonomy.
 	 *
-	 * @return string                      The original meta key to use in get_post_meta() function
+	 * @return string The original meta key to use in get_post_meta() function
 	 */
 	public function get_original_meta_key_name( $object_slug, $custom_meta_key_name, $is_tax = false ) {
 
@@ -467,6 +469,9 @@ class wp_rest_api_controller {
 		}
 	}
 
+	/**
+	 * Append taxonomy meta data to the WP API.
+	 */
 	private function append_taxonomy_meta_data_to_api() {
 		foreach ( $this->enabled_taxonomies as $tax_slug => $tax_params ) {
 
@@ -496,13 +501,12 @@ class wp_rest_api_controller {
 	/**
 	 * Callback function to append our metadata value to the field
 	 *
-	 * @param  array  $object      Post object
-	 * @param  string $field_name  Field name.
-	 * @param  array  $request     API request.
+	 * @param  array  $object     Post object.
+	 * @param  string $field_name Field name.
 	 *
-	 * @return string               The original meta key name to use in get_post_meta();
+	 * @return string The original meta key name to use in get_post_meta();
 	 */
-	function custom_meta_data_callback( $object, $field_name, $request ) {
+	public function custom_meta_data_callback( $object, $field_name ) {
 
 		$is_tax      = isset( $object['taxonomy'] );
 		$object_type = $is_tax ? $object['taxonomy'] : $object['type'];
@@ -510,7 +514,7 @@ class wp_rest_api_controller {
 		$original_meta_key_name = $this->get_original_meta_key_name( $object_type, $field_name, $is_tax );
 
 		// If we can't find the original meta key name, then return.
-		// We do not want our get_post_meta() call to look like get_post_meta( $id, NULL, true ) or all meta fields will be returned
+		// We do not want our get_post_meta() call to look like get_post_meta( $id, NULL, true ) or all meta fields will be returned.
 		if ( empty( $original_meta_key_name ) ) {
 			return;
 		}
@@ -538,11 +542,11 @@ class wp_rest_api_controller {
 	 *
 	 * @param  string $post_type_slug Slug of the post type to return.
 	 *
-	 * @return string                 REST API base name.
+	 * @return string REST API base name.
 	 */
 	public static function get_post_type_rest_base( $post_type_slug ) {
 
-		$post_type_options = $options = get_option(
+		$post_type_options = get_option(
 			"wp_rest_api_controller_post_types_{$post_type_slug}",
 			array(
 				'active'    => 0,

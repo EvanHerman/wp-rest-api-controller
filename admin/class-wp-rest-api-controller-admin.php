@@ -5,8 +5,8 @@
  * @link       https://www.evan-herman.com
  * @since      1.0.0
  *
- * @package    wp_rest_api_controller
- * @subpackage wp_rest_api_controller/admin
+ * @package    WP_REST_API_Controller
+ * @subpackage WP_REST_API_Controller/admin
  */
 
 /**
@@ -15,8 +15,8 @@
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the admin-specific stylesheet and JavaScript.
  *
- * @package    wp_rest_api_controller
- * @subpackage wp_rest_api_controller/admin
+ * @package    WP_REST_API_Controller
+ * @subpackage WP_REST_API_Controller/admin
  * @author     YIKES, Inc., Evan Herman
  */
 class WP_REST_API_Controller_Admin {
@@ -58,6 +58,9 @@ class WP_REST_API_Controller_Admin {
 
 		// Generate our admin notices.
 		add_action( 'admin_notices', array( $this, 'wp_rest_api_controller_admin_notices' ) );
+
+		add_action( 'removable_query_args', array( $this, 'remove_custom_query_args' ) );
+
 	}
 
 	/**
@@ -126,17 +129,34 @@ class WP_REST_API_Controller_Admin {
 	 * @since 1.1.0
 	 */
 	public function wp_rest_api_controller_admin_notices() {
-		// Settings Updated.
-		if ( isset( $_GET['settings-updated'] ) && 'true' === $_GET['settings-updated'] ) {
+		$settings_updated = filter_input( INPUT_GET, 'settings-updated', FILTER_VALIDATE_BOOLEAN );
+		$flush_api_cache  = filter_input( INPUT_GET, 'api-cache-cleared', FILTER_VALIDATE_BOOLEAN );
+
+		if ( $settings_updated ) {
 			$class   = 'notice notice-success';
 			$message = __( 'Settings have been successfully updated.', 'wp-rest-api-controller' );
 			printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_attr( $message ) );
 		}
-		// Success response after clearing the REST API cache.
-		if ( isset( $_GET['api-cache-cleared'] ) && 'true' === $_GET['api-cache-cleared'] ) {
+
+		if ( $flush_api_cache ) {
 			$class   = 'notice notice-success';
 			$message = __( 'The WP REST API Controller cache has been cleared, and the post type and meta data lists below have been updated.', 'wp-rest-api-controller' );
 			printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_attr( $message ) );
 		}
+	}
+
+	/**
+	 * Remove our api-cache-cleared query arg from the settings page.
+	 *
+	 * @param  array $removable_query_args Default query args that are removed.
+	 *
+	 * @return array Query args to be removed with our custom key.
+	 */
+	public function remove_custom_query_args( $removable_query_args ) {
+
+		$removable_query_args[] = 'api-cache-cleared';
+
+		return $removable_query_args;
+
 	}
 }

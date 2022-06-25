@@ -20,7 +20,7 @@
  *
  * @link    https://www.evan-herman.com
  * @since   1.0.0
- * @package wp_rest_api_controller
+ * @package WP_REST_API_Controller
  */
 
 // If uninstall not called from WordPress, then exit.

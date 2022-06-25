@@ -5,8 +5,8 @@
  * @link       https://www.evan-herman.com
  * @since      1.0.0
  *
- * @package    wp_rest_api_controller
- * @subpackage wp_rest_api_controller/includes
+ * @package    WP_REST_API_Controller
+ * @subpackage WP_REST_API_Controller/includes
  */
 
 /**
@@ -15,8 +15,8 @@
  * This class defines all code necessary to run during the plugin's activation.
  *
  * @since      1.0.0
- * @package    wp_rest_api_controller
- * @subpackage wp_rest_api_controller/includes
+ * @package    WP_REST_API_Controller
+ * @subpackage WP_REST_API_Controller/includes
  * @author     YIKES, Inc., Evan Herman
  */
 class WP_REST_API_Controller_Activator {
