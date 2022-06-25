@@ -1,8 +1,39 @@
-# WP REST API Controller
+<h1 align="center">WP REST API Controller
+	<a href="https://github.com/EvanHerman/wp-rest-api-controller/releases/latest/">
+		<img src="https://img.shields.io/static/v1?pluginVersion=&message=v2.0.7&label=&color=999&style=flat-square">
+	</a>
+</h1>
+
+<h4 align="center">Control post type and associated meta data exposure to the REST API. Say goodbye to manually enabling/disabling rest API endpoints via code, now you can use our dashboard interface to control exposure of your post types to the WP REST API.</h4>
+
+<p align="center">
+	<a href="https://github.com/EvanHerman/wp-rest-api-controller/actions/workflows/phpunit.yml?query=branch%3Amaster" target="_blank">
+		<img src="https://github.com/EvanHerman/wp-rest-api-controller/actions/workflows/phpunit.yml/badge.svg?branch=master">
+	</a>
+	<a href="https://github.com/EvanHerman/wp-rest-api-controller/actions/workflows/wpcs.yml?query=branch%3Amaster" target="_blank">
+		<img src="https://github.com/EvanHerman/wp-rest-api-controller/actions/workflows/wpcs.yml/badge.svg?branch=master">
+	</a>
+</p>
+
+<p align="center">
+	<a href="https://codeclimate.com/github/EvanHerman/wp-rest-api-controller/maintainability">
+		<img src="https://api.codeclimate.com/v1/badges/31291cf5b446387d7cd4/maintainability" />
+	</a>
+	<a href="https://codeclimate.com/github/EvanHerman/wp-rest-api-controller/test_coverage">
+		<img src="https://api.codeclimate.com/v1/badges/31291cf5b446387d7cd4/test_coverage" />
+	</a>
+</p>
+
+<p align="center">
+	<a href="https://wordpress.org/" target="_blank">
+		<img src="https://img.shields.io/static/v1?label=&message=4.7+-+6.0&color=blue&style=flat-square&logo=wordpress&logoColor=white" alt="WordPress Versions">
+	</a>
+	<a href="https://www.php.net/" target="_blank">
+		<img src="https://img.shields.io/static/v1?label=&message=5.6+-+8.0&color=777bb4&style=flat-square&logo=php&logoColor=white" alt="PHP Versions">
+	</a>
+</p>
 
 <img src="https://ps.w.org/wp-rest-api-controller/assets/banner-772x250.png" width="100%" />
-
-Control post type and associated meta data exposure to the REST API. Say goodbye to manually enabling/disabling rest API endpoints via code, now you can use our dashboard interface to control exposure of your post types to the WP REST API.
 
 **Features:**
 * Enable/Disable REST API endpoints for taxonomies and CPTs
