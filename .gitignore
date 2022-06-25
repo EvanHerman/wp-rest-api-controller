@@ -5,3 +5,5 @@ build/
 .husky
 .DS_Store
 .phpunit.result.cache
+junit.xml
+clover.xml

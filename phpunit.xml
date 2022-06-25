@@ -13,7 +13,7 @@
 	</testsuites>
 	<filter>
 		<whitelist addUncoveredFilesFromWhitelist="true">
-			<file>./wp-rest-api-controller.php.php</file>
+			<file>./wp-rest-api-controller.php</file>
 			<directory>./lib</directory>
 			<exclude>
 				<directory suffix=".php">./build</directory>
