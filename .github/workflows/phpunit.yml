@@ -1,0 +1,51 @@
+---
+name: PHPUnit Tests
+
+on: push
+
+jobs:
+  phpunit:
+    name: PHPUnit
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_ROOT_PASSWORD: password
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: php-actions/composer@v5
+
+      - name: Setup PHP with Xdebug
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          coverage: xdebug
+
+      - name: Install Tests
+        run: yarn install:tests
+
+      - name: Composer Install
+        run: sudo composer install
+
+      - name: Run unit tests
+        run: yarn test:php-coverage-cli
+
+      - name: Comment Unit Test Results on PR
+        uses: EnricoMi/publish-unit-test-result-action@v1.39
+        if: always()
+        with:
+          files: "junit.xml"
+
+      - name: Publish Unit Test Results to Code Climate
+        uses: aktions/codeclimate-test-reporter@v1
+        with:
+          codeclimate-test-reporter-id: ${{ secrets.CODE_CLIMATE_TEST_REPORTER_ID }}
+          command: after-build --coverage-input-type clover

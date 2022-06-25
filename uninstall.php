@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Fired when the plugin is uninstalled.
  *
@@ -19,10 +18,9 @@
  * For more information, see the following discussion:
  * https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate/pull/123#issuecomment-28541913
  *
- * @link       https://www.yikesinc.com
- * @since      1.0.0
- *
- * @package    wp_rest_api_controller
+ * @link    https://www.evan-herman.com
+ * @since   1.0.0
+ * @package wp_rest_api_controller
  */
 
 // If uninstall not called from WordPress, then exit.

@@ -1,12 +1,11 @@
 <?php
-
 /**
  * The file that defines the core plugin class
  *
  * A class definition that includes attributes and functions used across both the
  * public-facing side of the site and the admin area.
  *
- * @link       https://www.yikesinc.com
+ * @link       https://www.evan-herman.com
  * @since      1.0.0
  *
  * @package    wp_rest_api_controller
@@ -35,7 +34,7 @@ class wp_rest_api_controller {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      wp_rest_api_controller_Loader    $loader    Maintains and registers all hooks for the plugin.
+	 * @var      WP_REST_API_Controller_Loader $loader Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
 
@@ -44,7 +43,7 @@ class wp_rest_api_controller {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
+	 * @var      string    $plugin_name The string used to uniquely identify this plugin.
 	 */
 	protected $plugin_name;
 
@@ -53,7 +52,7 @@ class wp_rest_api_controller {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      string    $version    The current version of the plugin.
+	 * @var      string    $version The current version of the plugin.
 	 */
 	protected $version;
 
@@ -107,8 +106,8 @@ class wp_rest_api_controller {
 	 *
 	 * Include the following files that make up the plugin:
 	 *
-	 * - wp_rest_api_controller_Loader. Orchestrates the hooks of the plugin.
-	 * - wp_rest_api_controller_i18n. Defines internationalization functionality.
+	 * - WP_REST_API_Controller_Loader. Orchestrates the hooks of the plugin.
+	 * - WP_REST_API_Controller_I18n. Defines internationalization functionality.
 	 * - wp_rest_api_controller_Admin. Defines all hooks for the admin area.
 	 * - wp_rest_api_controller_Public. Defines all hooks for the public side of the site.
 	 *
@@ -137,21 +136,21 @@ class wp_rest_api_controller {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-wp-rest-api-controller-admin.php';
 
-		$this->loader = new wp_rest_api_controller_Loader();
+		$this->loader = new WP_REST_API_Controller_Loader();
 
 	}
 
 	/**
 	 * Define the locale for this plugin for internationalization.
 	 *
-	 * Uses the wp_rest_api_controller_i18n class in order to set the domain and to register the hook
+	 * Uses the WP_REST_API_Controller_I18n class in order to set the domain and to register the hook
 	 * with WordPress.
 	 *
 	 * @since    1.0.0
 	 * @access   private
 	 */
 	private function set_locale() {
-		$plugin_i18n = new wp_rest_api_controller_i18n();
+		$plugin_i18n = new WP_REST_API_Controller_I18n();
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 	}
 
@@ -200,8 +199,9 @@ class wp_rest_api_controller {
 	 * The name of the plugin used to uniquely identify it within the context of
 	 * WordPress and to define internationalization functionality.
 	 *
-	 * @since     1.0.0
-	 * @return    string    The name of the plugin.
+	 * @since 1.0.0
+	 *
+	 * @return string The name of the plugin.
 	 */
 	public function get_plugin_name() {
 		return $this->plugin_name;
@@ -210,8 +210,9 @@ class wp_rest_api_controller {
 	/**
 	 * The reference to the class that orchestrates the hooks with the plugin.
 	 *
-	 * @since     1.0.0
-	 * @return    wp_rest_api_controller_Loader    Orchestrates the hooks of the plugin.
+	 * @since 1.0.0
+	 *
+	 * @return WP_REST_API_Controller_Loader Orchestrates the hooks of the plugin.
 	 */
 	public function get_loader() {
 		return $this->loader;
@@ -220,8 +221,9 @@ class wp_rest_api_controller {
 	/**
 	 * Retrieve the version number of the plugin.
 	 *
-	 * @since     1.0.0
-	 * @return    string    The version number of the plugin.
+	 * @since 1.0.0
+	 *
+	 * @return string The version number of the plugin.
 	 */
 	public function get_version() {
 		return $this->version;
@@ -230,8 +232,9 @@ class wp_rest_api_controller {
 	/**
 	 * Get the stored post types to expose/disable to the REST API
 	 *
-	 * @return array Array of post type slugs to expose to our API
 	 * @since 1.0.0
+	 *
+	 * @return array Array of post type slugs to expose to our API
 	 */
 	public static function get_stored_post_types() {
 		$stored_post_types = get_option( 'wp_rest_api_controller_post_types', false );
@@ -267,8 +270,9 @@ class wp_rest_api_controller {
 	/**
 	 * Get the stored taxonomies to expose/disable to the REST API
 	 *
-	 * @return array Array of post type slugs to expose to our API
 	 * @since 1.0.0
+	 *
+	 * @return array Array of post type slugs to expose to our API
 	 */
 	public function get_stored_taxonomies() {
 		$taxonomies = get_option( 'wp_rest_api_controller_taxonomies', false );
@@ -302,16 +306,20 @@ class wp_rest_api_controller {
 	 * Based on the value of a custom meta key in the WP REST API array
 	 * we return the original key, so that get_post_meta() can be used properly
 	 *
-	 * @param  string $custom_meta_key_name The custom meta key defined in the options.
-	 * @return string                       The original meta key to use in get_post_meta() function
+	 * @param string $custom_meta_key_name The custom meta key defined in the options.
+	 *
+	 * @return string                      The original meta key to use in get_post_meta() function
 	 */
 	public function get_original_meta_key_name( $object_slug, $custom_meta_key_name, $is_tax = false ) {
 
 		$option_name  = $is_tax ? "wp_rest_api_controller_taxonomies_{$object_slug}" : "wp_rest_api_controller_post_types_{$object_slug}";
-		$meta_options = get_option( $option_name, array(
-			'active'    => 0,
-			'meta_data' => array(),
-		) );
+		$meta_options = get_option(
+			$option_name,
+			array(
+				'active'    => 0,
+				'meta_data' => array(),
+			)
+		);
 
 		if ( empty( $meta_options['meta_data'] ) ) {
 			return;
@@ -426,10 +434,13 @@ class wp_rest_api_controller {
 				continue;
 			}
 
-			$post_type_options = get_option( "wp_rest_api_controller_post_types_{$post_type_slug}", array(
-				'active'    => 0,
-				'meta_data' => array(),
-			) );
+			$post_type_options = get_option(
+				"wp_rest_api_controller_post_types_{$post_type_slug}",
+				array(
+					'active'    => 0,
+					'meta_data' => array(),
+				)
+			);
 
 			if ( ! isset( $post_type_options['meta_data'] ) || empty( $post_type_options['meta_data'] ) ) {
 				continue;
@@ -485,9 +496,9 @@ class wp_rest_api_controller {
 	/**
 	 * Callback function to append our metadata value to the field
 	 *
-	 * @param  array   $object      Post object
-	 * @param  string  $field_name  Field name.
-	 * @param  array   $request     API request.
+	 * @param  array  $object      Post object
+	 * @param  string $field_name  Field name.
+	 * @param  array  $request     API request.
 	 *
 	 * @return string               The original meta key name to use in get_post_meta();
 	 */
@@ -531,10 +542,13 @@ class wp_rest_api_controller {
 	 */
 	public static function get_post_type_rest_base( $post_type_slug ) {
 
-		$post_type_options = $options = get_option( "wp_rest_api_controller_post_types_{$post_type_slug}", array(
-			'active' => 0,
-			'meta_data' => array(),
-		) );
+		$post_type_options = $options = get_option(
+			"wp_rest_api_controller_post_types_{$post_type_slug}",
+			array(
+				'active'    => 0,
+				'meta_data' => array(),
+			)
+		);
 
 		switch ( $post_type_slug ) {
 

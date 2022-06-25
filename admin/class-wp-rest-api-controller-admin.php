@@ -2,7 +2,7 @@
 /**
  * The admin-specific functionality of the plugin.
  *
- * @link       https://www.yikesinc.com
+ * @link       https://www.evan-herman.com
  * @since      1.0.0
  *
  * @package    wp_rest_api_controller
@@ -81,9 +81,13 @@ class WP_REST_API_Controller_Admin {
 		if ( $base && 'tools_page_wp-rest-api-controller-settings' === $base ) {
 			wp_enqueue_script( 'tipso.js', plugin_dir_url( __FILE__ ) . 'js/min/tipso.min.js', array( 'jquery' ), $this->version, true );
 			wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/min/wp-rest-api-controller-admin.min.js', array( 'jquery' ), $this->version, true );
-			wp_localize_script( $this->plugin_name, 'rest_api_controller_localized_admin_data', array(
-				'disabled_notice' => __( 'This post type is disabled. Enable it and save the settings to access this link.', 'wp-rest-api-controller' ),
-			) );
+			wp_localize_script(
+				$this->plugin_name,
+				'rest_api_controller_localized_admin_data',
+				array(
+					'disabled_notice' => __( 'This post type is disabled. Enable it and save the settings to access this link.', 'wp-rest-api-controller' ),
+				)
+			);
 		}
 	}
 
@@ -110,10 +114,10 @@ class WP_REST_API_Controller_Admin {
 	 */
 	public function wp_rest_api_controller_submenu_page_callback() {
 		ob_start();
-		include( WP_REST_API_CONTROLLER_PATH . 'admin/partials/settings-page.php' );
+		include WP_REST_API_CONTROLLER_PATH . 'admin/partials/settings-page.php';
 		$content = ob_get_contents();
 		ob_get_clean();
-		echo $content;
+		echo $content; // phpcs:ignore
 	}
 
 	/**
@@ -122,15 +126,15 @@ class WP_REST_API_Controller_Admin {
 	 * @since 1.1.0
 	 */
 	public function wp_rest_api_controller_admin_notices() {
-		// Settings Updated
+		// Settings Updated.
 		if ( isset( $_GET['settings-updated'] ) && 'true' === $_GET['settings-updated'] ) {
-			$class = 'notice notice-success';
+			$class   = 'notice notice-success';
 			$message = __( 'Settings have been successfully updated.', 'wp-rest-api-controller' );
 			printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_attr( $message ) );
 		}
-		// Success response after clearing the REST API cache
+		// Success response after clearing the REST API cache.
 		if ( isset( $_GET['api-cache-cleared'] ) && 'true' === $_GET['api-cache-cleared'] ) {
-			$class = 'notice notice-success';
+			$class   = 'notice notice-success';
 			$message = __( 'The WP REST API Controller cache has been cleared, and the post type and meta data lists below have been updated.', 'wp-rest-api-controller' );
 			printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_attr( $message ) );
 		}

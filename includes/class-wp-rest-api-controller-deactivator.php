@@ -1,9 +1,8 @@
 <?php
-
 /**
  * Fired during plugin deactivation
  *
- * @link       https://www.yikesinc.com
+ * @link       https://www.evan-herman.com
  * @since      1.0.0
  *
  * @package    plugin-boilerplate
@@ -20,7 +19,7 @@
  * @subpackage plugin-boilerplate/includes
  * @author     YIKES, Inc., Evan Herman
  */
-class wp_rest_api_controller_Deactivator {
+class WP_REST_API_Controller_Deactivator {
 
 	/**
 	 * Short Description. (use period)
@@ -29,8 +28,6 @@ class wp_rest_api_controller_Deactivator {
 	 *
 	 * @since    1.0.0
 	 */
-	public static function deactivate() {
-
-	}
+	public static function deactivate() {}
 
 }

@@ -1,4 +1,4 @@
-# WP REST API Controller by YIKES Inc.
+# WP REST API Controller
 
 ![Rest API Controller Banner](https://ps.w.org/wp-rest-api-controller/assets/banner-772x250.png)
 
@@ -31,3 +31,7 @@ All pull requests welcome!
 * `wp_rest_api_controller_excluded_taxonomy_slugs`
 * `wp_rest_api_controller_taxonomies`
 * `wp_rest_api_controller_retrieve_meta_single`
+
+_________________
+
+<div align="center" style="font-weight: bold;">Originally built with <span style="color: #F3A4B2;">&hearts;</span> by YIKES Inc. in Philadelphia, PA.<br />Now Maintained by Evan Herman in Lancaster, PA.</div>

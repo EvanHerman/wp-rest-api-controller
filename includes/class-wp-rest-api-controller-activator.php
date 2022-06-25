@@ -1,9 +1,8 @@
 <?php
-
 /**
  * Fired during plugin activation
  *
- * @link       https://www.yikesinc.com
+ * @link       https://www.evan-herman.com
  * @since      1.0.0
  *
  * @package    wp_rest_api_controller
@@ -20,7 +19,7 @@
  * @subpackage wp_rest_api_controller/includes
  * @author     YIKES, Inc., Evan Herman
  */
-class wp_rest_api_controller_Activator {
+class WP_REST_API_Controller_Activator {
 
 	/**
 	 * Short Description. (use period)
@@ -29,7 +28,5 @@ class wp_rest_api_controller_Activator {
 	 *
 	 * @since    1.0.0
 	 */
-	public static function activate() {
-
-	}
+	public static function activate() {}
 }

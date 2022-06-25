@@ -1,13 +1,20 @@
 <?php
+/**
+ * Settings Page Markup
+ *
+ * @package WP REST API Controller
+ */
+
 $kses_filter = array(
 	'input' => array(
-		'type'         => array(),
-		'name'         => array(),
-		'id'           => array(),
-		'class'        => array(),
-		'value'        => array(),
+		'type'  => array(),
+		'name'  => array(),
+		'id'    => array(),
+		'class' => array(),
+		'value' => array(),
 	),
 );
+
 $clear_api_cache_button = get_submit_button( __( 'Clear Cache', 'wp-rest-api-controller' ), 'secondary', 'clear-wp-rest-api-controller-cache' );
 $save_settings_button   = get_submit_button( __( 'Save Settings', 'wp-rest-api-controller' ), 'primary', 'save-wp-rest-api-controller-settings' );
 ?>
