@@ -90,4 +90,4 @@ function run_wp_rest_api_controller() {
 	$plugin->run();
 
 }
-run_wp_rest_api_controller();
+add_action( 'init', 'run_wp_rest_api_controller' );

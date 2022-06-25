@@ -14,11 +14,13 @@
 	<filter>
 		<whitelist addUncoveredFilesFromWhitelist="true">
 			<file>./wp-rest-api-controller.php</file>
-			<directory>./lib</directory>
+			<directory>./includes/</directory>
+			<directory>./admin/</directory>
 			<exclude>
 				<directory suffix=".php">./build</directory>
 				<directory suffix=".php">./node_modules</directory>
 				<directory suffix=".php">./vendor</directory>
+				<directory suffix=".php">./includes/class-wp-rest-api-controller-loader.php</directory>
 			</exclude>
 		</whitelist>
 	</filter>
