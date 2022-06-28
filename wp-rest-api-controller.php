@@ -452,8 +452,6 @@ if ( ! class_exists( 'WP_REST_API_Controller' ) ) {
 		/**
 		 * Internationalization.
 		 *
-		 */
-		 /**
 		 * @codeCoverageIgnore
 		 */
 		public function load_plugin_textdomain() {

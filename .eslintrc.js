@@ -5,7 +5,7 @@ module.exports = {
 		"es2021": true
 	},
 	"ignorePatterns": [
-		"admin/js/min/*.min.js",
+		"admin/js/*.min.js",
 		"admin/js/tipso.js"
 	],
 	"globals": {
