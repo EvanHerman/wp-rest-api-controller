@@ -1,0 +1,31 @@
+{
+	"name": "evanherman/yikes-inc-simple-taxonomy-ordering",
+	"description": "Custom drag & drop taxonomy ordering WordPress plugin.",
+	"type": "wordpress-plugin",
+	"license": "GPL-2.0-only",
+	"config": {
+		"platform": {
+			"php": "7.3"
+		},
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
+	},
+	"require": {
+		"php": ">=5.6"
+	},
+	"require-dev": {
+		"phpcompatibility/phpcompatibility-wp": "^2.1",
+		"phpunit/phpunit": "^9",
+		"squizlabs/php_codesniffer": "^3.5",
+		"wp-cli/wp-cli-bundle": "^2.4",
+		"wp-coding-standards/wpcs": "^2.3",
+		"wp-phpunit/wp-phpunit": "^5.8",
+		"yoast/phpunit-polyfills": "^1.0.1",
+		"dealerdirect/phpcodesniffer-composer-installer": "^0.7.2"
+	},
+	"scripts": {
+		"test": "@php ./vendor/bin/phpunit",
+		"test:coverage": "@php ./vendor/bin/phpunit --coverage-html .dev/tests/php/coverage/"
+	}
+}

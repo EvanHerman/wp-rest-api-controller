@@ -1,0 +1,31 @@
+<phpunit
+	bootstrap=".dev/tests/php/bootstrap.php"
+	backupGlobals="false"
+	colors="true"
+	convertErrorsToExceptions="true"
+	convertNoticesToExceptions="true"
+	convertWarningsToExceptions="true"
+	>
+	<testsuites>
+		<testsuite name="WP Rest API Controller Test Suite">
+			<directory prefix="test-" suffix=".php">./.dev/tests/php/</directory>
+		</testsuite>
+	</testsuites>
+	<filter>
+		<whitelist addUncoveredFilesFromWhitelist="true">
+			<file>./wp-rest-api-controller.php</file>
+			<directory>./includes/</directory>
+			<directory>./admin/</directory>
+			<exclude>
+				<directory suffix=".php">./build</directory>
+				<directory suffix=".php">./node_modules</directory>
+				<directory suffix=".php">./vendor</directory>
+				<directory suffix=".php">./admin/partials/settings-page.php</directory>
+				<directory suffix=".php">./includes/class-wp-rest-api-controller-loader.php</directory>
+			</exclude>
+		</whitelist>
+	</filter>
+	<php>
+		<const name="PHPUNIT_PLUGIN_TEST" value="true"/>
+	</php>
+</phpunit>

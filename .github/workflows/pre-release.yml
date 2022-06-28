@@ -1,0 +1,36 @@
+---
+name: Pre-Release
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  pre-release:
+    name: Pre Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: GuillaumeFalourd/setup-rsync@v1
+
+      - name: Install yarn dependencies
+        run: yarn install
+
+      - name: Build the plugin
+        run: |
+          yarn min
+          sudo mkdir -p ./build/wp-rest-api-controller
+          sudo rsync -av --exclude-from .distignore --delete . build/wp-rest-api-controller/
+          cd ./build
+          sudo zip -r wp-rest-api-controller.zip wp-rest-api-controller/.
+
+      - uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: latest
+          prerelease: true
+          title: Development Build
+          files: ./build/wp-rest-api-controller.zip

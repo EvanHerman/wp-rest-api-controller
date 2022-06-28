@@ -1,34 +1,71 @@
 {
-  "name": "wp-rest-api-controller",
-  "title": "WP REST API Controller",
-  "version": "2.0.7",
-  "description": "This plugin offers a UI to enable/disable endpoints and meta data for CPTs and taxonomies using WordPress' REST API.",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "YIKES, Inc.",
-  "site": "https://www.yikesinc.com",
-  "license": "GPLv2",
-  "dependencies": {
-    "grunt": "^0.4.5",
-    "grunt-pot": "^0.3.0"
-  },
-  "devDependencies": {
-    "autoprefixer-core": "^5.2.1",
-    "clean-css": ">=4.1.11",
-    "debug": ">=2.6.9",
-    "diff": ">=3.5.0",
-    "grunt-auto-install": "^0.2.4",
-    "grunt-banner": "^0.6.0",
-    "grunt-contrib-cssmin": "^0.12.3",
-    "grunt-contrib-uglify": "^0.9.1",
-    "grunt-contrib-watch": "^0.6.1",
-    "grunt-postcss": "^0.5.0",
-    "js-yaml": ">=3.13.1",
-    "lodash": ">=4.17.13",
-    "minimatch": ">=3.0.2",
-    "qs": ">=1.0.0",
-    "underscore.string": ">=3.3.5"
-  }
+	"name": "wp-rest-api-controller",
+	"title": "WP REST API Controller",
+	"description": "This plugin offers a UI to enable/disable endpoints and meta data for CPTs and taxonomies using WordPress' REST API.",
+	"version": "2.0.7",
+	"tested_up_to": "6.0",
+	"author": "Evan Herman",
+	"license": "GPL-2.0",
+	"repository": "EvanHerman/wp-rest-api-controller",
+	"homepage": "https://wordpress.org/plugins/wp-rest-api-controller/",
+	"bugs": {
+		"url": "https://github.com/EvanHerman/wp-rest-api-controller/issues"
+	},
+	"scripts": {
+		"build": "yarn min && rm -rf build/* && rsync -av --mkpath --exclude-from .distignore --delete . build/wp-rest-api-controller/ && cd build/ && zip -r wp-rest-api-controller.zip wp-rest-api-controller/.",
+		"min": "yarn min:css && yarn min:js",
+		"min:js": "minify ./admin/js/wp-rest-api-controller-admin.js > ./admin/js/wp-rest-api-controller-admin.min.js",
+		"min:css": "minify ./admin/css/wp-rest-api-controller-admin.css > ./admin/css/wp-rest-api-controller-admin.min.css && minify ./admin/css/tipso.css > ./admin/css/tipso.min.css",
+		"install:tests": ".dev/scripts/install-wp-tests.sh wordpress_test root password 127.0.0.1 latest",
+		"test:php": "./vendor/bin/phpunit --coverage-text",
+		"test:php-coverage": "./vendor/bin/phpunit --coverage-html .dev/tests/php/coverage/",
+		"test:php-coverage-cli": "./vendor/bin/phpunit --coverage-clover=clover.xml --log-junit=junit.xml",
+		"lint": "yarn lint:css && yarn lint:js",
+		"lint:js": "yarn eslint 'admin/js/*.js'",
+		"lint:css": "yarn stylelint admin/css/*.css",
+		"phpcs": "./vendor/bin/phpcs .",
+		"generate-pot": "wp i18n make-pot . languages/wp-rest-api-controller.pot --domain=wp-rest-api-controller --include=wp-rest-api-controller.php,admin/**/*.php --subtract-and-merge",
+		"watch": "npm-watch",
+		"prepare": "husky install",
+		"version": "grunt version && yarn generate-pot && git add -A .",
+		"postversion": "git push && git push --tags"
+	},
+	"watch": {
+		"min": {
+			"patterns": [
+				"admin/js",
+				"admin/css"
+			],
+			"extensions": "js,css",
+			"quiet": true,
+			"runOnChangeOnly": true,
+			"ignore": "*.min.*"
+		}
+	},
+	"devDependencies": {
+		"autoprefixer-core": "^5.2.1",
+		"clean-css": ">=4.1.11",
+		"debug": ">=2.6.9",
+		"diff": ">=3.5.0",
+		"grunt-auto-install": "^0.2.4",
+		"grunt-banner": "^0.6.0",
+		"grunt-contrib-cssmin": "^0.12.3",
+		"grunt-contrib-uglify": "^0.9.1",
+		"grunt-contrib-watch": "^0.6.1",
+		"grunt-postcss": "^0.5.0",
+		"js-yaml": ">=3.13.1",
+		"lodash": ">=4.17.13",
+		"minimatch": ">=3.0.2",
+		"npm-watch": "^0.11.0",
+		"qs": ">=1.0.0",
+		"underscore.string": ">=3.3.5",
+		"eslint": "^8.17.0",
+		"grunt": "^1.5.3",
+		"grunt-pot": "^0.3.0",
+		"grunt-text-replace": "^0.4.0",
+		"husky": "^8.0.1",
+		"minify": "^9.1.0",
+		"stylelint": "^14.9.1",
+		"stylelint-config-standard": "^26.0.0"
+	}
 }
