@@ -50,6 +50,7 @@
 		<exclude name="WordPress.DB.PreparedSQLPlaceholders.QuotedSimplePlaceholder"/>
 		<exclude name="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound"/>
 		<exclude name="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound"/>
+		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing.BlankLineAfterEnd"/>
 		<exclude name="Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace"/>
 	</rule>
 

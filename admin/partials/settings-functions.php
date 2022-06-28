@@ -25,44 +25,34 @@ class WP_REST_API_Controller_Settings {
 	private $always_enabled_post_type_slugs;
 
 	/**
-	 * List of excluded taxonomies.
-	 *
-	 * @var array
-	 */
-	private $excluded_taxonomies = array(
-		'nav_menu' => 'nav_menu',
-	);
-
-	/**
 	 * Class constructor.
 	 */
 	public function __construct() {
-		add_action( 'admin_init', array( $this, 'set_always_enabled_post_type_slugs' ) );
 		add_action( 'admin_init', array( $this, 'wp_rest_api_controller_settings_api_init' ) );
 		add_action( 'admin_init', array( $this, 'wp_rest_api_controller_delete_api_cache' ) );
 	}
 
 	/**
-	 * Return an array of always enabled post types.
+	 * Return an array of excluded post types.
+	 *
+	 * @return array Array of excluded post types.
 	 */
-	public function set_always_enabled_post_type_slugs() {
+	public function get_excluded_post_types() {
+
 		/**
-		 * Filter of always enabled post types.
+		 * Array of excluded post types.
 		 *
 		 * @var array
 		 */
-		$this->always_enabled_post_type_slugs = apply_filters(
-			'wp_rest_api_controller_always_enabled_post_types',
+		return apply_filters(
+			'wp_rest_api_controller_excluded_post_type_slugs',
 			array(
-				'post',
-				'page',
-				'revision',
 				'nav_menu_item',
-				'custom_css',
-				'customize_changeset',
-				'attachment',
+				'wp_template',
+				'wp_template_part',
 			)
 		);
+
 	}
 
 	/**
@@ -71,7 +61,19 @@ class WP_REST_API_Controller_Settings {
 	 * @return array Array of excluded taxonomies.
 	 */
 	public function get_excluded_taxonomies() {
-		return apply_filters( 'wp_rest_api_controller_excluded_taxonomy_slugs', $this->excluded_taxonomies );
+
+		/**
+		 * Array of excluded taxonomies.
+		 *
+		 * @var array
+		 */
+		return apply_filters(
+			'wp_rest_api_controller_excluded_taxonomy_slugs',
+			array(
+				'nav_menu',
+			)
+		);
+
 	}
 
 	/**
@@ -102,6 +104,9 @@ class WP_REST_API_Controller_Settings {
 
 			foreach ( $post_types as $post_type_slug => $post_type_name ) {
 
+				$post_type      = get_post_type_object( $post_type_slug );
+				$post_type_name = isset( $post_type->label ) ? $post_type->label : $post_type_name;
+
 				add_settings_field(
 					"wp_rest_api_controller_post_types_{$post_type_slug}",
 					$post_type_name,
@@ -121,6 +126,7 @@ class WP_REST_API_Controller_Settings {
 			}
 
 			update_option( 'wp_rest_api_controller_post_types', $wp_rest_api_controller_post_types );
+
 		}
 
 		$taxonomies = $this->get_registered_taxonomies();
@@ -149,9 +155,9 @@ class WP_REST_API_Controller_Settings {
 			}
 
 			update_option( 'wp_rest_api_controller_taxonomies', $wp_rest_api_controller_taxonomies );
+
 		}
 
-		register_setting( 'wp-rest-api-controller', 'wp-rest-api-controller-active-tab' );
 	}
 
 	/**
@@ -161,16 +167,17 @@ class WP_REST_API_Controller_Settings {
 	 */
 	public function get_registered_post_types() {
 
-		$post_types = get_post_types();
+		$post_types          = get_post_types();
+		$excluded_post_types = $this->get_excluded_post_types();
 
-		// Excluded post types.
-		foreach ( $this->always_enabled_post_type_slugs as $slug ) {
-			if ( isset( $post_types[ $slug ] ) ) {
-				unset( $post_types[ $slug ] );
+		foreach ( $post_types as $key => $slug ) {
+			if ( in_array( $key, $excluded_post_types, true ) ) {
+				unset( $post_types[ $key ] );
 			}
 		}
 
 		return apply_filters( 'wp_rest_api_controller_post_types', $post_types );
+
 	}
 
 	/**
@@ -179,16 +186,18 @@ class WP_REST_API_Controller_Settings {
 	 * @return array Array of available taxonomies.
 	 */
 	public function get_registered_taxonomies() {
-		$taxonomies = get_taxonomies();
-		$excluded   = $this->get_excluded_taxonomies();
+
+		$taxonomies          = get_taxonomies();
+		$excluded_taxonomies = $this->get_excluded_taxonomies();
 
 		foreach ( $taxonomies as $key => $tax_slug ) {
-			if ( isset( $excluded[ $tax_slug ] ) ) {
+			if ( in_array( $key, $excluded_taxonomies, true ) ) {
 				unset( $taxonomies[ $key ] );
 			}
 		}
 
 		return apply_filters( 'wp_rest_api_controller_taxonomies', $taxonomies );
+
 	}
 
 	/**
@@ -200,14 +209,13 @@ class WP_REST_API_Controller_Settings {
 		?>
 		<div class="rest-controller-tabs">
 			<ul id="rest-controller-tabs-list">
-					<li class="active rest-controller-tabs-list-item active"><a data-tab="post-types">Post Types</a></li>
-					<li class="rest-controller-tabs-list-item"><a data-tab="taxonomies">Taxonomies</a></li>
+					<li class="active rest-controller-tabs-list-item active"><a data-tab="post-types"><?php esc_html_e( 'Post Types', 'wp-rest-api-controller' ); ?></a></li>
+					<li class="rest-controller-tabs-list-item"><a data-tab="taxonomies"><?php esc_html_e( 'Taxonomies', 'wp-rest-api-controller' ); ?></a></li>
 			</ul>
 		</div>
 
 		<p id="rest-api-controller-post-types" class="rest-api-controller-post-types rest-api-controller-section"> <?php esc_html_e( 'Toggle visibility of post types and select meta data to the REST API.', 'wp-rest-api-controller' ); ?> </p>
-		<p id="rest-api-controller-taxonomies" class="rest-api-controller-taxonomies rest-api-controller-section"> <?php esc_html_e( 'Toggle visibility of taxonomies and select meta data to the REST API.', 'wp-rest-api-controller' ); ?> </p>
-		<input type="hidden" id="rest-controller-active-tab" name="wp-rest-api-controller-active-tab" value="<?php echo esc_attr( get_option( 'wp-rest-api-controller-active-tab', 'post-types' ) ); ?>"/>
+		<p id="rest-api-controller-taxonomies" class="rest-api-controller-taxonomies rest-api-controller-section hidden"> <?php esc_html_e( 'Toggle visibility of taxonomies and select meta data to the REST API.', 'wp-rest-api-controller' ); ?> </p>
 		<?php
 	}
 
@@ -221,7 +229,7 @@ class WP_REST_API_Controller_Settings {
 	public function wp_rest_api_controller_setting_section_setting_callback_function( $args ) {
 
 		$post_type_object = get_post_type_object( $args['post_type_slug'] );
-		$rest_base        = WP_REST_API_Controller::get_post_type_rest_base( $args['post_type_slug'] );
+		$rest_base        = ( new WP_REST_API_Controller() )->get_post_type_rest_base( $args['post_type_slug'] );
 		$singular_name    = ! empty( $post_type_object->labels ) && ! empty( $post_type_object->labels->singular_name ) ? $post_type_object->labels->singular_name : $args['post_type_name'];
 		$options          = get_option(
 			$args['option_id'],
@@ -342,7 +350,7 @@ class WP_REST_API_Controller_Settings {
 			)
 		);
 
-		$active_state  = isset( $options['active'] ) && absint( $options['active'] ) === 1 || ! empty( $taxonomy->show_in_rest ) && true === $taxonomy->show_in_rest;
+		$active_state  = isset( $options['active'] ) && absint( $options['active'] ) === 1;
 		$rest_base     = ! empty( $options['rest_base'] ) ? $options['rest_base'] : $args['tax_slug'];
 		$taxonomy_meta = $this->retrieve_taxonomy_meta_keys( $taxonomy->name );
 

@@ -14,8 +14,8 @@
 	"scripts": {
 		"build": "yarn min && rm -rf build/* && rsync -av --mkpath --exclude-from .distignore --delete . build/wp-rest-api-controller/ && cd build/ && zip -r wp-rest-api-controller.zip wp-rest-api-controller/.",
 		"min": "yarn min:css && yarn min:js",
-		"min:js": "minify ./admin/js/wp-rest-api-controller-admin.js > ./admin/js/min/wp-rest-api-controller-admin.min.js",
-		"min:css": "minify ./admin/css/wp-rest-api-controller-admin.css > ./admin/css/min/wp-rest-api-controller-admin.min.css && minify ./admin/css/tipso.css > ./admin/css/min/tipso.min.css",
+		"min:js": "minify ./admin/js/wp-rest-api-controller-admin.js > ./admin/js/wp-rest-api-controller-admin.min.js",
+		"min:css": "minify ./admin/css/wp-rest-api-controller-admin.css > ./admin/css/wp-rest-api-controller-admin.min.css && minify ./admin/css/tipso.css > ./admin/css/tipso.min.css",
 		"install:tests": ".dev/scripts/install-wp-tests.sh wordpress_test root password 127.0.0.1 latest",
 		"test:php": "./vendor/bin/phpunit --coverage-text",
 		"test:php-coverage": "./vendor/bin/phpunit --coverage-html .dev/tests/php/coverage/",
@@ -24,11 +24,23 @@
 		"lint:js": "yarn eslint 'admin/js/*.js'",
 		"lint:css": "yarn stylelint admin/css/*.css",
 		"phpcs": "./vendor/bin/phpcs .",
-		"generate-pot": "wp i18n make-pot . languages/wp-rest-api-controller.pot --domain=wp-rest-api-controller --include=wp-rest-api-controller.php,admin/**/*.php,includes/**/*.php --subtract-and-merge",
+		"generate-pot": "wp i18n make-pot . languages/wp-rest-api-controller.pot --domain=wp-rest-api-controller --include=wp-rest-api-controller.php,admin/**/*.php --subtract-and-merge",
 		"watch": "npm-watch",
 		"prepare": "husky install",
 		"version": "grunt version && yarn generate-pot && git add -A .",
 		"postversion": "git push && git push --tags"
+	},
+	"watch": {
+		"min": {
+			"patterns": [
+				"admin/js",
+				"admin/css"
+			],
+			"extensions": "js,css",
+			"quiet": true,
+			"runOnChangeOnly": true,
+			"ignore": "*.min.*"
+		}
 	},
 	"devDependencies": {
 		"autoprefixer-core": "^5.2.1",
@@ -44,6 +56,7 @@
 		"js-yaml": ">=3.13.1",
 		"lodash": ">=4.17.13",
 		"minimatch": ">=3.0.2",
+		"npm-watch": "^0.11.0",
 		"qs": ">=1.0.0",
 		"underscore.string": ">=3.3.5",
 		"eslint": "^8.17.0",

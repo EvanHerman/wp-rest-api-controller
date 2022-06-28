@@ -20,6 +20,7 @@
 				<directory suffix=".php">./build</directory>
 				<directory suffix=".php">./node_modules</directory>
 				<directory suffix=".php">./vendor</directory>
+				<directory suffix=".php">./admin/partials/settings-page.php</directory>
 				<directory suffix=".php">./includes/class-wp-rest-api-controller-loader.php</directory>
 			</exclude>
 		</whitelist>

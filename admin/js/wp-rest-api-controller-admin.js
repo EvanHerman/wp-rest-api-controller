@@ -6,10 +6,12 @@
 
 		checkAllToggle();
 
+		$( '#clear-wp-rest-api-controller-cache' ).addClass( 'tipso' );
+
 		// Check for tooltips, and initialize if they are present
 		if ( $( '.tipso' ).length > 0 ) {
 			$( '.tipso' ).each( function() {
-				var title = $( this ).attr( 'tipso-title' );
+				var title = $( this ).data( 'tipso-title' );
 				$( this ).tipso( {
 					speed: 400,
 					background: '#222222',
