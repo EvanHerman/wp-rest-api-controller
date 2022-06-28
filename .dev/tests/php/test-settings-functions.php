@@ -49,6 +49,8 @@ class Test_WP_REST_API_Controller_Settings extends WP_UnitTestCase {
 
 		remove_filter( 'wp_redirect', 'wp_redirect_halt_redirect', 1 );
 
+		$_GET = [];
+
 	}
 
 	/**
@@ -476,7 +478,7 @@ class Test_WP_REST_API_Controller_Settings extends WP_UnitTestCase {
 	 */
 	function testSettingDeleteAPICacheNoRedirect() {
 
-		$_GET['api-cache-cleared'] = false;
+		$_GET['_wpnonce'] = false;
 
 		try {
 
@@ -500,7 +502,7 @@ class Test_WP_REST_API_Controller_Settings extends WP_UnitTestCase {
 	 */
 	function testSettingDeleteAPICacheRedirect() {
 
-		$_GET['api-cache-cleared'] = true;
+		$_GET['_wpnonce'] = wp_create_nonce( 'clear-api-cache' );
 
 		try {
 
