@@ -24,7 +24,7 @@
 
 		printf(
 			'<a href="%1$s" class="button tipso tipso_style" data-tipso-title="Delete REST API Cache" data-tipso="Clear the WP REST API Cache stored in this plugin. If you recently registered a new post type, or assigned new meta data to a post - click this to update the lists above.">%2$s</a>',
-			add_query_arg( 'api-cache-cleared', true, admin_url( 'tools.php?page=wp-rest-api-controller-settings' ) ),
+			esc_url( add_query_arg( '_wpnonce', wp_create_nonce( 'clear-api-cache' ), admin_url( 'tools.php?page=wp-rest-api-controller-settings' ) ) ),
 			esc_html__( 'Clear Cache', 'wp-rest-api-controller' )
 		);
 

@@ -5,7 +5,6 @@
  * @package WP REST API Controller
  */
 
-
 if ( ! class_exists( 'WP_REST_API_Controller_Settings' ) ) {
 
 	/**
@@ -539,13 +538,13 @@ if ( ! class_exists( 'WP_REST_API_Controller_Settings' ) ) {
 		public function wp_rest_api_controller_delete_api_cache() {
 
 			if (
-				! isset( $_GET['api-cache-cleared'] ) ||
-				! filter_var( $_GET['api-cache-cleared'], FILTER_VALIDATE_BOOLEAN )
+				! isset( $_GET['_wpnonce'] ) ||
+				! wp_verify_nonce( sanitize_text_field( $_GET['_wpnonce'] ), 'clear-api-cache' )
 			) {
 				return;
 			}
 
-			$post_types = ( new WP_REST_API_Controller )->get_stored_post_types();
+			$post_types = ( new WP_REST_API_Controller() )->get_stored_post_types();
 			$taxonomies = $this->get_registered_taxonomies();
 
 			$transient_keys = array_merge( $post_types, $taxonomies );
