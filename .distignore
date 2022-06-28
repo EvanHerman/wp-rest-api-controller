@@ -26,3 +26,4 @@ phpunit.xml
 .DS_Store
 .phpunit.result.cache
 .codeclimate.yml
+.svnignore
