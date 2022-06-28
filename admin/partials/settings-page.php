@@ -18,22 +18,14 @@
 
 		do_settings_sections( 'wp-rest-api-controller' );
 
-		wp_nonce_field( 'clear_wp_rest_api_controller_cache', 'clear_wp_rest_api_controller_cache', false );
-
 		echo wp_kses_post( '<div class="submit-buttons">' );
 
 		submit_button( __( 'Save Settings', 'wp-rest-api-controller' ), 'primary', 'save-wp-rest-api-controller-settings', false );
 
-		submit_button(
-			__( 'Clear Cache', 'wp-rest-api-controller' ),
-			'secondary',
-			'clear-wp-rest-api-controller-cache',
-			false,
-			array(
-				'class'            => 'button tipso',
-				'data-tipso-title' => esc_attr__( 'Delete REST API Cache', 'wp-rest-api-controller' ),
-				'data-tipso'       => esc_attr__( 'Clear the WP REST API Cache stored in this plugin. If you recently registered a new post type, or assigned new meta data to a post - click this to update the lists above.', 'wp-rest-api-controller' ),
-			)
+		printf(
+			'<a href="%1$s" class="button tipso tipso_style" data-tipso-title="Delete REST API Cache" data-tipso="Clear the WP REST API Cache stored in this plugin. If you recently registered a new post type, or assigned new meta data to a post - click this to update the lists above.">%2$s</a>',
+			add_query_arg( 'api-cache-cleared', true, admin_url( 'tools.php?page=wp-rest-api-controller-settings' ) ),
+			esc_html__( 'Clear Cache', 'wp-rest-api-controller' )
 		);
 
 		echo wp_kses_post( '</div>' );
