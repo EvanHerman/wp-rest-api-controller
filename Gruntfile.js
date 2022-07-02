@@ -1,9 +1,11 @@
-'use strict';
 module.exports = function( grunt ) {
+	'use strict';
+
+	const pkg = grunt.file.readJSON( 'package.json' );
 
 	grunt.initConfig( {
 
-		pkg: grunt.file.readJSON( 'package.json' ),
+		pkg,
 
 		replace: {
 			php: {
@@ -76,4 +78,5 @@ module.exports = function( grunt ) {
 	grunt.loadNpmTasks( 'grunt-text-replace' );
 
 	grunt.registerTask( 'version', [ 'replace' ] );
-};
+
+}
