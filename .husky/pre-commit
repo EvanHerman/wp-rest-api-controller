@@ -1,0 +1,22 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Stylelint Test
+echo
+echo "\033[0;32mRunning Stylelint...\033[0m"
+yarn lint:css
+
+# JSLint Test
+echo
+echo "\033[0;32mRunning JSLint...\033[0m"
+yarn lint:js
+
+# PHPCS Check
+echo
+echo "\033[0;32mRunning WPCS checks...\033[0m"
+yarn phpcs
+
+# PHPUnit Test
+echo
+echo "\033[0;32mRunning PHPUnit Tests...\033[0m"
+composer run test
