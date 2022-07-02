@@ -1,186 +1,151 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the wp-rest-api-controller package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# Copyright (C) 2022 Evan Herman
+# This file is distributed under the GPL-3.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: wp-rest-api-controller 2.0.0\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-12 11:06-0400\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Project-Id-Version: WP REST API Controller 2.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-rest-api-controller\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"POT-Creation-Date: 2022-07-02T14:08:21+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.6.0\n"
+"X-Domain: wp-rest-api-controller\n"
 
-#: admin/class-wp-rest-api-controller-admin.php:85
-msgid ""
-"This post type is disabled. Enable it and save the settings to access this "
-"link."
-msgstr ""
-
-#: admin/class-wp-rest-api-controller-admin.php:98
+#. Plugin Name of the plugin
 msgid "WP REST API Controller"
 msgstr ""
 
-#: admin/class-wp-rest-api-controller-admin.php:99
-msgid "REST API Controller"
+#. Description of the plugin
+msgid "WP REST API Controller enables a UI to toggle REST API endpoints on/off and customize key names."
 msgstr ""
 
-#: admin/class-wp-rest-api-controller-admin.php:128
-msgid "Settings have been successfully updated."
+#. Author of the plugin
+msgid "Evan Herman"
 msgstr ""
 
-#: admin/class-wp-rest-api-controller-admin.php:134
-msgid ""
-"The WP REST API Controller cache has been cleared, and the post type and "
-"meta data lists below have been updated."
+#. Author URI of the plugin
+msgid "https://www.evan-herman.com"
 msgstr ""
 
-#: admin/partials/settings-functions.php:157
+#: admin/partials/settings-functions.php:217
+msgid "Post Types"
+msgstr ""
+
+#: admin/partials/settings-functions.php:218
+msgid "Taxonomies"
+msgstr ""
+
+#: admin/partials/settings-functions.php:222
 msgid "Toggle visibility of post types and select meta data to the REST API."
 msgstr ""
 
-#: admin/partials/settings-functions.php:158
+#: admin/partials/settings-functions.php:223
 msgid "Toggle visibility of taxonomies and select meta data to the REST API."
 msgstr ""
 
-#: admin/partials/settings-functions.php:186
-#: admin/partials/settings-functions.php:295
+#: admin/partials/settings-functions.php:259
+#: admin/partials/settings-functions.php:372
 msgid "Enabled"
 msgstr ""
 
-#: admin/partials/settings-functions.php:186
-#: admin/partials/settings-functions.php:295
+#: admin/partials/settings-functions.php:259
+#: admin/partials/settings-functions.php:372
 msgid "Disabled"
 msgstr ""
 
-#: admin/partials/settings-functions.php:196
-#: admin/partials/settings-functions.php:305
+#: admin/partials/settings-functions.php:269
+#: admin/partials/settings-functions.php:382
 msgid "REST Endpoint"
 msgstr ""
 
-#: admin/partials/settings-functions.php:196
-#, php-format
+#. translators: %s is the post type singular name.
+#: admin/partials/settings-functions.php:269
 msgid "Access the %s post type via the REST API at the following URL."
 msgstr ""
 
-#: admin/partials/settings-functions.php:197
-#: admin/partials/settings-functions.php:306
+#. translators: %s is the post type singular name.
+#. translators: %s is the taxonomy label.
+#: admin/partials/settings-functions.php:270
+#: admin/partials/settings-functions.php:383
 msgid "Edit Endpoint"
 msgstr ""
 
-#: admin/partials/settings-functions.php:203
-#: admin/partials/settings-functions.php:312
+#: admin/partials/settings-functions.php:276
+#: admin/partials/settings-functions.php:389
 msgid "Save New Endpoint"
 msgstr ""
 
-#: admin/partials/settings-functions.php:209
-#: admin/partials/settings-functions.php:318
-msgid ""
-"This endpoint was updated. You need to re-save the settings to access this "
-"post type at the endpoint above."
+#: admin/partials/settings-functions.php:282
+#: admin/partials/settings-functions.php:395
+msgid "This endpoint was updated. You need to re-save the settings to access this post type at the endpoint above."
 msgstr ""
 
-#: admin/partials/settings-functions.php:233
-#: admin/partials/settings-functions.php:342
-msgid "Diable All"
+#: admin/partials/settings-functions.php:299
+#: admin/partials/settings-functions.php:412
+msgid "Disable All"
 msgstr ""
 
-#: admin/partials/settings-functions.php:233
-#: admin/partials/settings-functions.php:342
+#: admin/partials/settings-functions.php:299
+#: admin/partials/settings-functions.php:412
 msgid "Enable All"
 msgstr ""
 
-#: admin/partials/settings-functions.php:237
-#: admin/partials/settings-functions.php:346
+#: admin/partials/settings-functions.php:303
+#: admin/partials/settings-functions.php:416
 msgid "Meta Key"
 msgstr ""
 
-#: admin/partials/settings-functions.php:237
-#: admin/partials/settings-functions.php:346
+#: admin/partials/settings-functions.php:303
+#: admin/partials/settings-functions.php:416
 msgid "This is the default meta key stored by WordPress."
 msgstr ""
 
-#: admin/partials/settings-functions.php:238
-#: admin/partials/settings-functions.php:347
+#: admin/partials/settings-functions.php:304
+#: admin/partials/settings-functions.php:417
 msgid "Custom Meta Key"
 msgstr ""
 
-#: admin/partials/settings-functions.php:238
-#: admin/partials/settings-functions.php:347
+#: admin/partials/settings-functions.php:304
+#: admin/partials/settings-functions.php:417
 msgid "Specify a custom meta key to use instead of the default."
 msgstr ""
 
-#: admin/partials/settings-functions.php:252
-#: admin/partials/settings-functions.php:361
+#: admin/partials/settings-functions.php:318
+#: admin/partials/settings-functions.php:431
 msgid "On"
 msgstr ""
 
-#: admin/partials/settings-functions.php:252
-#: admin/partials/settings-functions.php:361
+#: admin/partials/settings-functions.php:318
+#: admin/partials/settings-functions.php:431
 msgid "Off"
 msgstr ""
 
-#: admin/partials/settings-functions.php:271
-#, php-format
+#. translators: %s is a post type label.
+#: admin/partials/settings-functions.php:337
 msgid "Expose the %s post type to the REST API."
 msgstr ""
 
-#: admin/partials/settings-functions.php:305
-#, php-format
+#. translators: %s is the taxonomy label.
+#: admin/partials/settings-functions.php:382
 msgid "Access the %s taxonomy via the REST API at the following URL."
 msgstr ""
 
-#: admin/partials/settings-functions.php:380
-#, php-format
+#. translators: %s The taxonomy label.
+#: admin/partials/settings-functions.php:450
 msgid "Expose the %s taxonomy to the REST API."
 msgstr ""
 
-#: admin/partials/settings-page.php:11
-msgid "Clear Cache"
-msgstr ""
-
 #: admin/partials/settings-page.php:12
-msgid "Save Settings"
-msgstr ""
-
-#: admin/partials/settings-page.php:15
 msgid "WP REST API Controller Settings"
 msgstr ""
 
-#: admin/partials/settings-page.php:30
-msgid "Delete REST API Cache"
+#: admin/partials/settings-page.php:23
+msgid "Save Settings"
 msgstr ""
 
-#: admin/partials/settings-page.php:30
-msgid ""
-"Clear the WP REST API Cache stored in this plugin. If you recently "
-"registered a new post type, or assigned new meta data to a post - click this "
-"to update the lists above."
-msgstr ""
-
-#: node_modules/grunt-pot/test/fixtures/some-file.php:3
-msgid "I'm a translatable string."
-msgstr ""
-
-#: node_modules/grunt-pot/test/fixtures/some-other-file.php:4
-msgid "Me too"
-msgstr ""
-
-#: node_modules/grunt-pot/test/fixtures/some-other-file.php:7
-#, php-format
-msgid "I have %d apple"
-msgid_plural "I have %d apples"
-msgstr[0] ""
-msgstr[1] ""
-
-#. / TRANSLATORS: This should be translated as a shorthand for YEAR-MONTH-DAY using 4, 2 and 2 digits.
-#: node_modules/grunt-pot/test/fixtures/some-other-file.php:16
-msgid "yyyy-mm-dd"
+#: admin/partials/settings-page.php:28
+msgid "Clear Cache"
 msgstr ""
