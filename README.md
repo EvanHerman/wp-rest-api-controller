@@ -56,12 +56,11 @@ All pull requests welcome!
 ##### Filters
 
 * `wp_rest_api_controller_rest_base`
-* `wp_rest_api_controller_post_types` (***Note: Revisions, Posts, Pages, and Nav Menu Items are not controllable with this plugin without using filters***)
+* `wp_rest_api_controller_post_types`
 * `wp_rest_api_controller_api_property_value`
 * `wp_rest_api_controller_always_enabled_post_types`
 * `wp_rest_api_controller_excluded_taxonomy_slugs`
 * `wp_rest_api_controller_taxonomies`
-* `wp_rest_api_controller_retrieve_meta_single`
 
 _________________
 
