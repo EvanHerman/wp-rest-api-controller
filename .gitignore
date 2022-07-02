@@ -2,7 +2,6 @@
 vendor/
 build/
 .dev/tests/php/coverage/
-.husky
 .DS_Store
 .phpunit.result.cache
 junit.xml
