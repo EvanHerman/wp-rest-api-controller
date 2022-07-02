@@ -4,7 +4,7 @@
 	</a>
 </h1>
 
-<h4 align="center">Control post type and associated meta data exposure to the REST API. Say goodbye to manually enabling/disabling rest API endpoints via code, now you can use our dashboard interface to control exposure of your post types to the WP REST API.</h4>
+<h4 align="center">Control post type and associated meta data exposure to the REST API. Say goodbye to manually enabling/disabling rest API endpoints via code, now you can use our dashboard interface to control exposure of your post types/taxonomies to the WP REST API.</h4>
 
 <p align="center">
 	<a href="https://github.com/EvanHerman/wp-rest-api-controller/actions/workflows/phpunit.yml?query=branch%3Amaster" target="_blank">
@@ -36,10 +36,14 @@
 <img src="https://ps.w.org/wp-rest-api-controller/assets/banner-772x250.png" width="100%" />
 
 **Features:**
-* Enable/Disable REST API endpoints for taxonomies and CPTs
-* Enable/Disable post type/taxonomy meta data (add or remove meta fields from API requests)
-* Rename post type/taxonomy base endpoints
-* Rename meta data names in API requests so they are more user friendly.
+* Enable/Disable REST API endpoints for post types and taxonomies.
+* Enable/Disable post type/taxonomy meta data (add or remove meta fields from API requests).
+* Rename post type/taxonomy base endpoints.
+* Rename post type/taxonomy meta data names in API requests so they are more user friendly.
+* Manipulate and control post types/taxonomies and their data created by third party plugins and themes.
+* Granular control of API responses without writing a single line of PHP code.
+* Filters included to alter and extend default functionality.
+* Localized and ready for translations.
 
 <em>This plugin has reached maturity and has been released to the [WordPress.org repository](https://wordpress.org/support/plugin/wp-rest-api-controller). Enjoy!</em>
 
