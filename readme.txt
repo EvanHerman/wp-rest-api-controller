@@ -11,21 +11,20 @@ Enable a UI to toggle visibility and customize properties in WP REST API request
 
 == Description ==
 
-WP REST API Controller allows admins to toggle the visibility of, and customize the endpoints for, all *custom* post types and all taxonomies within WordPress with an easy-to-use graphical interface. Additionally, you can tweak visibility and customize the meta data attached to the API response.
+WP REST API Controller allows admins to toggle the visibility of, and customize the endpoints for, all core and *custom* post types and taxonomies within WordPress with an easy-to-use graphical interface. Additionally, you can tweak visibility and customize the meta data attached to the API response.
 
 > **Note:** This plugin requires WordPress Version 4.7 or later to work.
 
 **Features:**
 
-* Enable/Disable REST API endpoints for custom post types and taxonomies.
-* Enable/Disable custom post type/taxonomy meta data (add or remove meta fields from API requests).
-* Rename custom post type/taxonomy base endpoints.
-* Rename custom post type/taxonomy meta data names in API requests so they are more user friendly.
+* Enable/Disable REST API endpoints for post types and taxonomies.
+* Enable/Disable post type/taxonomy meta data (add or remove meta fields from API requests).
+* Rename post type/taxonomy base endpoints.
+* Rename post type/taxonomy meta data names in API requests so they are more user friendly.
 * Manipulate and control post types/taxonomies and their data created by third party plugins and themes.
 * Granular control of API responses without writing a single line of PHP code.
 * Filters included to alter and extend default functionality.
-
-> **Note:** As of version 1.4.0, this plugin no longer controls default WordPress Posts or Pages.
+* Localized and ready for translations.
 
 == Installation ==
 
