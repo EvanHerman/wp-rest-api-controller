@@ -24,7 +24,7 @@
 		"lint:js": "yarn eslint 'admin/js/*.js'",
 		"lint:css": "yarn stylelint admin/css/*.css",
 		"phpcs": "./vendor/bin/phpcs .",
-		"generate-pot": "wp i18n make-pot . languages/wp-rest-api-controller.pot --domain=wp-rest-api-controller --include=wp-rest-api-controller.php,admin/**/*.php --subtract-and-merge",
+		"generate-pot": "wp i18n make-pot . languages/wp-rest-api-controller.pot --domain=wp-rest-api-controller --include=wp-rest-api-controller.php,admin/*.php,admin/partials/*.php --subtract-and-merge",
 		"watch": "npm-watch",
 		"prepare": "husky install",
 		"version": "grunt version && yarn generate-pot && git add -A .",
