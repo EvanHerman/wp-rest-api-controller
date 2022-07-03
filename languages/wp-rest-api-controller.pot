@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-07-02T14:08:21+00:00\n"
+"POT-Creation-Date: 2022-07-03T11:40:51+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: wp-rest-api-controller\n"
@@ -147,5 +147,13 @@ msgid "Save Settings"
 msgstr ""
 
 #: admin/partials/settings-page.php:28
+msgid "Delete REST API Cache"
+msgstr ""
+
+#: admin/partials/settings-page.php:29
+msgid "Clear the WP REST API Cache stored in this plugin. If you recently registered a new post type, or assigned new meta data to a post - click this to update the lists above."
+msgstr ""
+
+#: admin/partials/settings-page.php:30
 msgid "Clear Cache"
 msgstr ""

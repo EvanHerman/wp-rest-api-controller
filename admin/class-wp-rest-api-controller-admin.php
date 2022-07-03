@@ -116,6 +116,16 @@ if ( ! class_exists( 'WP_REST_API_Controller_Admin' ) ) {
 		 */
 		public function wp_rest_api_controller_admin_notices() {
 
+			if ( ! isset( $_GET['page'] ) ) {
+				return;
+			}
+
+			$page = filter_var( $_GET['page'], FILTER_SANITIZE_STRING );
+
+			if ( 'wp-rest-api-controller-settings' !== $page ) {
+				return;
+			}
+
 			if ( isset( $_GET['settings-updated'] ) ) {
 				$settings_updated = filter_var( $_GET['settings-updated'], FILTER_VALIDATE_BOOLEAN );
 

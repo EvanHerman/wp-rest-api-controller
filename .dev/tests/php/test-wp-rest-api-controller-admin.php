@@ -223,6 +223,7 @@ class Test_WP_REST_API_Controller_Admin extends WP_UnitTestCase {
 	 */
 	function testSettingsUpdatedAdminNotice() {
 
+		$_GET['page'] = 'wp-rest-api-controller-settings';
 		$_GET['settings-updated'] = true;
 
 		$this->expectOutputRegex( '/<div class="notice notice-success"><p>Settings have been successfully updated.<\/p><\/div>/' );
@@ -238,6 +239,7 @@ class Test_WP_REST_API_Controller_Admin extends WP_UnitTestCase {
 	 */
 	function testRESTAPICacheClearedAdminNotice() {
 
+		$_GET['page'] = 'wp-rest-api-controller-settings';
 		$_GET['wp-rest-api-cache-cleared'] = true;
 
 		$this->expectOutputRegex( '/<div class="notice notice-success"><p>The WP REST API Controller cache has been cleared, and the post type and meta data lists below have been updated.<\/p><\/div>/' );
