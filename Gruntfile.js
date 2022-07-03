@@ -51,6 +51,16 @@ module.exports = function( grunt ) {
 					},
 				],
 			},
+			readme_md: {
+				overwrite: true,
+				replacements: [
+					{
+						from: /pluginVersion=&message=v[\w.+-]+&/,
+						to: 'pluginVersion=&message=v<%= pkg.version %>&'
+					}
+				],
+				src: [ 'readme.md' ]
+			},
 			tests: {
 				src: '.dev/tests/phpunit/**/*.php',
 				overwrite: true,
