@@ -152,6 +152,7 @@ class Test_WP_REST_API_Controller extends WP_UnitTestCase {
 			'publicly_queryable'  => true,
 			'capability_type'     => 'page',
 			'show_in_rest'        => true,
+			'rest_base'           => 'custom_post_type',
 		);
 
 		register_post_type( 'custom_post_type', $args );
@@ -611,28 +612,16 @@ class Test_WP_REST_API_Controller extends WP_UnitTestCase {
 	 */
 	function testGetPostTypeRestBase() {
 
-		register_post_type(
-			'movies',
-			array(
-				'labels'       => array(
-					'name'          => 'Movies',
-					'singular_name' => 'Movie',
-				),
-				'public'       => true,
-				'show_in_rest' => true,
-			)
-		);
-
 		$this->assertEquals(
 			[
 				'post'             => 'posts',
 				'page'             => 'pages',
-				'custom_post_type' => 'movies'
+				'custom_post_type' => 'custom_post_type',
 			],
 			[
 				'post'             => get_post_type_object( 'post' )->rest_base,
 				'page'             => get_post_type_object( 'page' )->rest_base,
-				'custom_post_type' => get_post_type_object( 'movies' )->rest_base,
+				'custom_post_type' => get_post_type_object( 'custom_post_type' )->rest_base,
 			]
 		);
 
