@@ -68,8 +68,5 @@ Yes! Version 1.3 of this plugin is compatible with WordPress 4.7.
 
 == Changelog ==
 
-* Removed unnecessary `wp_rest_api_controller_retrieve_meta_single` filter.
-* Refactor much of the codebase.
-* Introduced PHPUnit tests at 100% coverage.
-* Allow for core posts/taxonomies to be enabled/disabled/customized.
-* PHPCS improvements.
+* Patched default `rest_base` values in default and exisitng post types.
+* Ensure all custom REST endpoints are lowercase before saving to the datbase.

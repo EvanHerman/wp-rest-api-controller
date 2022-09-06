@@ -1,3 +1,8 @@
+2.1.1 / July 2nd, 2022
+===================
+* Patched default `rest_base` values in default and exisitng post types.
+* Ensure all custom REST endpoints are lowercase before saving to the datbase.
+
 2.1.0 / July 2nd, 2022
 ===================
 * Removed unnecessary `wp_rest_api_controller_retrieve_meta_single` filter.
