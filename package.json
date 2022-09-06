@@ -2,7 +2,7 @@
 	"name": "wp-rest-api-controller",
 	"title": "WP REST API Controller",
 	"description": "This plugin offers a UI to enable/disable endpoints and meta data for CPTs and taxonomies using WordPress' REST API.",
-	"version": "2.1.0",
+	"version": "2.1.1",
 	"tested_up_to": "6.0",
 	"author": "Evan Herman",
 	"license": "GPL-2.0",

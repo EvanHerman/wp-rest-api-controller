@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WP REST API Controller
  * Description: WP REST API Controller enables a UI to toggle REST API endpoints on/off and customize key names.
- * Version: 2.1.0
+ * Version: 2.1.1
  * Author: Evan Herman
  * Author URI:  https://www.evan-herman.com
  * License: GPL-3.0+
@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'WP_REST_API_CONTROLLER_PATH', plugin_dir_path( __FILE__ ) );
 define( 'WP_REST_API_CONTROLLER_URL', plugin_dir_url( __FILE__ ) );
-define( 'WP_REST_API_CONTROLLER_VERSION', '2.1.0' );
+define( 'WP_REST_API_CONTROLLER_VERSION', '2.1.1' );
 
 // Only load class if it hasn't already been loaded.
 if ( ! class_exists( 'WP_REST_API_Controller' ) ) {
