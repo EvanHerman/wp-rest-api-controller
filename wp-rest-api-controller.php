@@ -283,29 +283,11 @@ if ( ! class_exists( 'WP_REST_API_Controller' ) ) {
 				)
 			);
 
-			switch ( $post_type_slug ) {
+			$post_type_obj = get_post_type_object( $post_type_slug );
 
-				case 'post':
-					$rest_base = 'posts';
-					break;
+			$rest_base = ( isset( $post_type_options['rest_base'] ) && ! empty( $post_type_options['rest_base'] ) ) ? $post_type_options['rest_base'] : $post_type_obj->rest_base;
 
-				case 'page':
-					$rest_base = 'pages';
-					break;
-
-				default:
-					$rest_base = $post_type_slug;
-					break;
-
-			}
-
-			if ( isset( $post_type_options['rest_base'] ) && ! empty( $post_type_options['rest_base'] ) ) {
-
-				$rest_base = $post_type_options['rest_base'];
-
-			}
-
-			return apply_filters( 'wp_rest_api_controller_rest_base', $rest_base, $post_type_slug, 0 );
+			return apply_filters( 'wp_rest_api_controller_rest_base', $rest_base, $post_type_slug );
 
 		}
 

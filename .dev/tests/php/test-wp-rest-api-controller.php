@@ -152,6 +152,7 @@ class Test_WP_REST_API_Controller extends WP_UnitTestCase {
 			'publicly_queryable'  => true,
 			'capability_type'     => 'page',
 			'show_in_rest'        => true,
+			'rest_base'           => 'custom_post_type',
 		);
 
 		register_post_type( 'custom_post_type', $args );
@@ -615,12 +616,12 @@ class Test_WP_REST_API_Controller extends WP_UnitTestCase {
 			[
 				'post'             => 'posts',
 				'page'             => 'pages',
-				'custom_post_type' => 'custom_post_type'
+				'custom_post_type' => 'custom_post_type',
 			],
 			[
-				'post'             => ( new WP_REST_API_Controller() )->get_post_type_rest_base( 'post' ),
-				'page'             => ( new WP_REST_API_Controller() )->get_post_type_rest_base( 'page' ),
-				'custom_post_type' => ( new WP_REST_API_Controller() )->get_post_type_rest_base( 'custom_post_type' ),
+				'post'             => get_post_type_object( 'post' )->rest_base,
+				'page'             => get_post_type_object( 'page' )->rest_base,
+				'custom_post_type' => get_post_type_object( 'custom_post_type' )->rest_base,
 			]
 		);
 

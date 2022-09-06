@@ -97,7 +97,7 @@ function toggleRestBaseVisbility( clicked_button, event ) {
 	var parent_container   = clicked_button_obj.parents( 'td' );
 
 	if ( clicked_button_obj.hasClass( 'save-endpoint' ) ) {
-		var endpoint  = clicked_button_obj.siblings( '.inline-input' ).val();
+		var endpoint  = clicked_button_obj.siblings( '.inline-input' ).val().toLowerCase();
 		var rest_base = clicked_button_obj.siblings( '.inline-input' ).data( 'rest-base' );
 		var href      = rest_base + endpoint;
 		parent_container.find( '.edit-post-type-rest-base-active' ).fadeTo( 'fast', 0, function() {
