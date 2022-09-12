@@ -1,6 +1,6 @@
-=== ===
-Contributors: yikesinc, eherman24, liljimmi, yikesitskevin, jpowersdev
-Tags: rest, api, endpoint, controller, meta, data, meta_data, toggle, endpoints, rest_base, rest_name, REST API, yikes, inc
+=== WP REST API Controller ===
+Contributors: yikesinc, eherman24, liljimmi, yikesitskevin, jpowersdev, codeparrots
+Tags: rest, api, endpoint, controller, meta, data, meta_data, toggle, endpoints, rest_base, rest_name, REST API, yikes, inc, codeparrots
 Requires at least: WordPress 4.7
 Tested up to: 6.0
 Stable tag: 2.1.1
@@ -68,5 +68,4 @@ Yes! Version 1.3 of this plugin is compatible with WordPress 4.7.
 
 == Changelog ==
 
-* Patched default `rest_base` values in default and exisitng post types.
-* Ensure all custom REST endpoints are lowercase before saving to the datbase.
+* Fixed the REST API endpoint when the `rest_base` value is empty when a post type is registered.

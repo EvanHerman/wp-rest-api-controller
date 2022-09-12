@@ -1,4 +1,8 @@
-2.1.1 / July 2nd, 2022
+2.1.2 / September 12th, 2022
+===================
+* Fixed the REST API endpoint when the `rest_base` value is empty when a post type is registered.
+
+2.1.1 / September 6th, 2022
 ===================
 * Patched default `rest_base` values in default and exisitng post types.
 * Ensure all custom REST endpoints are lowercase before saving to the datbase.
