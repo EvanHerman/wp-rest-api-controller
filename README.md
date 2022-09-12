@@ -1,6 +1,6 @@
 <h1 align="center">WP REST API Controller
 	<a href="https://github.com/EvanHerman/wp-rest-api-controller/releases/latest/">
-		<img src="https://img.shields.io/static/v1?pluginVersion=&message=v2.1.2&label=&color=999&style=flat-square">
+		<img src="https://img.shields.io/static/v1?pluginVersion=&message=v2.1.1&label=&color=999&style=flat-square">
 	</a>
 </h1>
 
