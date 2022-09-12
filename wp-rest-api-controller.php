@@ -285,7 +285,7 @@ if ( ! class_exists( 'WP_REST_API_Controller' ) ) {
 
 			$post_type_obj = get_post_type_object( $post_type_slug );
 
-			$rest_base = ( isset( $post_type_options['rest_base'] ) && ! empty( $post_type_options['rest_base'] ) ) ? $post_type_options['rest_base'] : $post_type_obj->rest_base;
+			$rest_base = ( isset( $post_type_options['rest_base'] ) && ! empty( $post_type_options['rest_base'] ) ) ? $post_type_options['rest_base'] : ( ( isset( $post_type_obj->rest_base ) && ! empty( $post_type_obj->rest_base ) ) ? $post_type_obj->rest_base : $post_type_slug );
 
 			return apply_filters( 'wp_rest_api_controller_rest_base', $rest_base, $post_type_slug );
 
